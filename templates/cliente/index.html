@@ -1,0 +1,71 @@
+<!--
+Claudinei de Oliveira - pt-BR - 19-06-2023
+Adaptado de Giridhar, 2016
+O arquivo index.html que estende base.html e  usa vários recursos do Jinja2, 
+incluindo herança de templates. 
+Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados dinâmicos
+--> 
+
+{% extends 'base.html' %} <!-- Este template se baseia no template 'base.html'. Todos os blocos definidos em 'base.html' podem ser preenchidos aqui -->
+
+{% block head %} <!-- Inicio do bloco 'head', onde podemos adicionar conteúdos específicos para o cabeçalho -->
+    <title> --- Listagem de Clientes --- </title> <!-- Define o título que será exibido na aba do navegador -->
+{% endblock %} <!-- Fim do bloco 'head' -->
+
+{% block body %} <!-- Inicio do bloco 'body', onde podemos adicionar conteúdos específicos para o corpo da página -->
+
+    {% if clientes %} <!-- Verifica se existe uma lista de clientes. Se existir, exibe a tabela de clientes -->
+
+        <h3> --- Clientes --- </h3> <!-- Cabeçalho da página -->
+
+        <table class="table"> <!-- Inicia a tabela. A classe 'table' é uma classe do Bootstrap para estilizar tabelas -->
+
+            <!-- Define os cabeçalhos da tabela -->
+            <tr> <!-- Inicia a linha de cabeçalho -->
+                <td>ID</td>
+                <td>Descrição</td>
+                <td>Preço</td>
+                <td>Status</td>
+                <td>Atualizar</td>
+                <td>Deletar</td>
+            </tr> <!-- Fim da linha de cabeçalho -->
+
+            {% for cliente in clientes %} <!-- Para cada cliente na lista de clientes, cria uma nova linha na tabela -->
+                <tr> <!-- Inicia a linha para um cliente -->
+                    <td>{{ cliente[0] }}</td> <!-- Exibe o ID do cliente -->
+                    <td>{{ cliente[1] }}</td> <!-- Exibe a descrição do cliente -->
+                    <td>{{ cliente[2] }}</td> <!-- Exibe o preço do cliente -->
+
+                    {% if cliente[3] %} <!-- Se o cliente está ativo -->
+                        <td>Ativo</td> <!-- Exibe "Ativo" -->
+                    {% else %} 
+                        <td>Inativo</td> <!-- Se não, exibe "Inativo" -->
+                    {% endif %}
+
+                    {% if cliente[3] %} <!-- Se o cliente está ativo -->
+                        <!-- Exibe um link para inativar o cliente -->
+                        <td><a class='btn btn-warning' href='{{ url_for('cliente.atualizar_cliente', id=cliente[0], status=0) }}'>Inativar</a></td>
+                    {% else %} <!-- Se o cliente está inativo -->
+                        <!-- Exibe um link para ativar o cliente -->
+                        <td><a class='btn btn-success' href='{{ url_for('cliente.atualizar_cliente', id=cliente[0], status=1) }}'>Ativar</a></td>
+                    {% endif %}
+
+                    <!-- Exibe um link para deletar o cliente -->
+                    <td><a class='btn btn-danger' href='{{ url_for('cliente.deletar_cliente', id=cliente[0]) }}'>Deletar</a></td>
+                </tr> <!-- Fim da linha para um cliente -->
+
+            {% endfor %} <!-- Fim do loop for -->
+
+        </table> <!-- Fim da tabela -->
+
+    {% else %} <!-- Se não existem clientes -->
+        <!-- Exibe uma mensagem indicando que não existem clientes cadastrados -->
+        <h3>Ainda não existem clientes cadastrados...</h3>
+    {% endif %}
+
+    <div>
+        <!-- Exibe um link para a página de criação de um novo cliente -->
+        <h3><a class='btn btn-primary' href='{{ url_for('cliente.novo_cliente') }}'>Adicionar Cliente</a></h3>
+    </div>
+
+{% endblock %} <!-- Fim do bloco 'body' -->
