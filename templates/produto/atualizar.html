@@ -1,5 +1,5 @@
 <!-- O arquivo atualizar.html estende (herda) o layout base definido no base.html -->
-{% extends 'produto/../base.html' %}
+{% extends 'base.html' %}
 
 <!-- Dentro do bloco 'head', nós definimos o título da página -->
 {% block head %}
@@ -19,7 +19,8 @@
             <!-- Rótulo para o campo de descrição -->
             <label for='descricao' class='form-label'>Descrição</label>
             <!-- Campo de entrada para a descrição com o valor inicial definido como a descrição do produto -->
-            <input class='form-control' type='text' name='descricao' id='descricao' value='{{ produto.descricao }}' required autofocus />
+            <input class='form-control' type='text' name='descricao' id='descricao' value='{{ produto.descricao }}'
+                   required autofocus/>
         </div>
         <!-- Fim do grupo de input para a descrição -->
 
@@ -28,7 +29,7 @@
             <!-- Rótulo para o campo de preço -->
             <label for='preco' class='form-label'>Preço</label><!--  -->
             <!-- Campo de entrada para o preço com o valor inicial definido como o preço do produto -->
-            <input class='form-control' type='text' name='preco' id='preco' value='{{ produto.preco }}' required />
+            <input class='form-control' type='text' name='preco' id='preco' value='{{ produto.preco }}' required/>
         </div>
         <!-- Fim do grupo de input para o preço -->
 

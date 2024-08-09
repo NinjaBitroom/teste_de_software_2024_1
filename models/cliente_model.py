@@ -3,6 +3,8 @@ Claudinei de Oliveira - utf-8 - pt-br
 cliente_model.py
 """
 
+from typing import Any
+
 import regex
 
 from database import db
@@ -10,7 +12,7 @@ from database import db
 
 class Validador:
     @staticmethod
-    def valida_nome(nome):
+    def valida_nome(nome: str) -> str:
         if not nome:
             raise ValueError('Nome inválido.')
         pattern = r'^[\p{L}\'\-\s]+$'
@@ -19,11 +21,12 @@ class Validador:
         nome = regex.sub(r'\s+', ' ', nome).strip()
         partes_do_nome = nome.split()
         preposicoes = ['da', 'de', 'do', 'das', 'dos']
-        nome_formatado = ' '.join([parte.capitalize() if parte.lower() not in preposicoes else parte.lower() for parte in partes_do_nome])
+        nome_formatado = ' '.join(
+            [parte.capitalize() if parte.lower() not in preposicoes else parte.lower() for parte in partes_do_nome])
         return nome_formatado
 
     @staticmethod
-    def valida_cpf(cpf):
+    def valida_cpf(cpf: str) -> str:
         # verifica se o CPF possui exatamente 11 dígitos e se todos são numéricos
         if len(cpf) != 11 or not cpf.isdigit():
             raise ValueError('CPF inválido. Deve ter 11 dígitos numéricos...')
@@ -60,22 +63,23 @@ class Validador:
         return cpf  # retorna True se o CPF for válido
 
     @staticmethod
-    def valida_email(email):
-        pass
+    def valida_email(email: str) -> Any:
         """
         # valida o email, garantindo que contenha um @
-        if '@' not in email:
-            raise ValueError('Email inválido.')
+
+        >>> if '@' not in email:
+        >>>     raise ValueError('Email inválido.')
         """
 
     @staticmethod
-    def formata_texto(texto):
+    def formata_texto(texto: str) -> str:
         # Capitaliza cada palavra corretamente, exceto preposições
-        return ' '.join(word.capitalize() if word.lower() not in ['da', 'de', 'do', 'das', 
-              'dos'] else word.lower() for word in regex.sub(r'\s+', ' ', texto).strip().split())
+        return ' '.join(word.capitalize() if word.lower() not in ['da', 'de', 'do', 'das',
+                                                                  'dos'] else word.lower() for word in
+                        regex.sub(r'\s+', ' ', texto).strip().split())
 
     @staticmethod
-    def valida_endereco(logradouro, numero, complemento, bairro, cep, cidade, uf):
+    def valida_endereco(logradouro: str, numero: Any, complemento: Any, bairro: str, cep: str, cidade: str, uf: str):
         # Aplica a formatação correta de texto
         logradouro = Validador.formata_texto(logradouro)
         bairro = Validador.formata_texto(bairro)
@@ -96,15 +100,17 @@ class Validador:
         return logradouro, numero, complemento, bairro, cep, cidade, uf
 
 
-class Pessoas:
+class Pessoa:
     def __init__(self, nome, cpf, logradouro, numero, complemento, bairro, cep, cidade, uf, telefone, email):
         self.nome = Validador.valida_nome(nome)
         self.__cpf = Validador.valida_cpf(cpf)
         self.email = Validador.valida_email(email)
         self.telefone = telefone
-        
-        logradouro, numero, complemento, bairro, cep, cidade, uf = Validador.valida_endereco(logradouro, numero, complemento, bairro, cep, cidade, uf)
-        
+
+        logradouro, numero, complemento, bairro, cep, cidade, uf = Validador.valida_endereco(logradouro, numero,
+                                                                                             complemento, bairro, cep,
+                                                                                             cidade, uf)
+
         self.endereco = {
             'logradouro': logradouro,
             'numero': numero,
@@ -120,7 +126,7 @@ class Pessoas:
         return self.__cpf
 
 
-class Clientes(Pessoas):
+class Cliente(Pessoa):
     def __init__(self, nome, cpf, logradouro, numero, complemento, bairro, cep, cidade, uf, telefone, email):
         super().__init__(nome, cpf, logradouro, numero, complemento, bairro, cep, cidade, uf, telefone, email)
 
@@ -140,9 +146,9 @@ class Clientes(Pessoas):
     @staticmethod
     def get_clientes():
         # Retorna todos os clientes
-        return db.session.query(Clientes).all()
+        return db.session.query(Cliente).all()
 
     @staticmethod
     def get_cliente(id):
         # Retorna um cliente específico pelo ID
-        return db.session.query(Clientes).get(id)
+        return db.session.query(Cliente).get(id)

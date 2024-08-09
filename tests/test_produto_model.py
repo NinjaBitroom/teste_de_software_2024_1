@@ -5,8 +5,11 @@ Manipulando o banco de dados sqlite3
 """
 
 from flask_testing import TestCase
-from app import create_app, db
+
+from app import create_app
+from database import db
 from models.produto_model import Produto
+
 
 class TestProdutoModel(TestCase):
 
@@ -62,7 +65,7 @@ class TestProdutoModel(TestCase):
         db.session.add(produto)
         db.session.commit()
         produto.deletar()
-        #produto_deletado = Produto.query.get(produto.id)
+        # produto_deletado = Produto.query.get(produto.id)
         produto_deletado = db.session.query(Produto).get(produto.id)
         self.assertIsNone(produto_deletado)
 
@@ -76,14 +79,11 @@ class TestProdutoModel(TestCase):
         todos_produtos = Produto.get_produtos()
         self.assertEqual(len(todos_produtos), 2)
 
+
 if __name__ == '__main__':
     import unittest
+
     unittest.main()
-
-
-
-
-
 
 """
 from flask_testing import TestCase
@@ -173,4 +173,3 @@ if __name__ == '__main__':
     import unittest
     unittest.main()
 """
-    

@@ -3,9 +3,9 @@ Claudinei de Oliveira - utf-8 - pt-br
 testeModel.py
 """
 
-from cliente_model import Clientes
+from models.cliente_model import Cliente
 
-# testando a classe Clientes
+# testando a classe Cliente
 while True:
     print('Digite as informações do cliente:')
     nome = input('Nome: ')
@@ -20,9 +20,9 @@ while True:
     telefone = input('Telefone: ')
     email = input('Email: ')
     try:
-        cliente = Clientes(nome=nome, cpf=cpf, logradouro=logradouro, numero=numero,
-                           complemento=complemento, bairro=bairro, cep=cep,
-                           cidade=cidade, uf=uf, telefone=telefone, email=email)
+        cliente = Cliente(nome=nome, cpf=cpf, logradouro=logradouro, numero=numero,
+                          complemento=complemento, bairro=bairro, cep=cep,
+                          cidade=cidade, uf=uf, telefone=telefone, email=email)
         print('\nCliente criado com sucesso!')
         endereco_formatado = f"{cliente.endereco['logradouro']}, {cliente.endereco['numero']} - {cliente.endereco['complemento']}, {cliente.endereco['bairro']} - {cliente.endereco['cep']}, {cliente.endereco['cidade']}/{cliente.endereco['uf']}"
         print(f'Nome: {cliente.nome}, CPF: {cliente.cpf}, Endereço: {endereco_formatado}, '
