@@ -65,8 +65,8 @@ class Validador:
     @staticmethod
     def valida_email(email: str) -> Any:
         """
-        # valida o email, garantindo que contenha um @
-
+        >>> # valida o email, garantindo que contenha um @
+        >>>
         >>> if '@' not in email:
         >>>     raise ValueError('Email inválido.')
         """

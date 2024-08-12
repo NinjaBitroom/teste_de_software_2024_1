@@ -1,4 +1,4 @@
-# database.py
+"""Arquivo database.py."""
 
 from flask_sqlalchemy import SQLAlchemy
 

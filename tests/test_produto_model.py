@@ -1,7 +1,7 @@
 """
 Claudinei de Oliveira - pt-BR, UTF-8 - 11-04-2024
 Manipulando o banco de dados sqlite3 
-# test_models.py
+test_models.py
 """
 
 from flask_testing import TestCase
@@ -13,41 +13,43 @@ from models.produto_model import Produto
 
 class TestProdutoModel(TestCase):
 
-    # Configurações do app para testes
     def create_app(self):
+        """Configurações do aplicativo para testes."""
         app = create_app()
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
         app.config['TESTING'] = True
         return app
 
-    # Será chamado antes de cada teste
     def setUp(self):
-        # Configura o banco de dados para testes
+        """Será chamado antes de cada teste.
+
+        Configura o banco de dados para testes."""
         db.create_all()
 
-    # Será chamado após cada teste
     def tearDown(self):
-        # Limpa o banco de dados após os testes
+        """Será chamado após cada teste.
+
+        Limpa o banco de dados após os testes."""
         db.session.remove()
         db.drop_all()
 
-    # Teste: criar produto
     def test_create_produto(self):
+        """Teste: criar produto."""
         produto = Produto(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         self.assertEqual(Produto.query.count(), 1)
 
-    # Teste: obter um produto
     def test_get_produto(self):
+        """Teste: obter um produto."""
         produto = Produto(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         produto_query = Produto.get_produto(produto.id)
         self.assertEqual(produto_query.id, produto.id)
 
-    # Teste: atualizar produto
     def test_update_produto(self):
+        """Teste: atualizar produto."""
         produto = Produto(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
@@ -59,8 +61,8 @@ class TestProdutoModel(TestCase):
         self.assertEqual(produto_atualizado.descricao, 'Teste Atualizado')
         self.assertEqual(produto_atualizado.preco, 20.0)
 
-    # Teste: deletar produto
     def test_delete_produto(self):
+        """Teste: deletar produto."""
         produto = Produto(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
@@ -69,8 +71,8 @@ class TestProdutoModel(TestCase):
         produto_deletado = db.session.query(Produto).get(produto.id)
         self.assertIsNone(produto_deletado)
 
-    # Teste: obter todos os produtos
     def test_get_all_produtos(self):
+        """Teste: obter todos os produtos."""
         produto1 = Produto(descricao='Teste 1', preco=10.0)
         produto2 = Produto(descricao='Teste 2', preco=20.0)
         db.session.add(produto1)
