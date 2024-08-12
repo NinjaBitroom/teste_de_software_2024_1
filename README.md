@@ -16,6 +16,8 @@ Atividade de Teste de Software do dia 08/08/2024.
 - [x] Baixar o código da aula 08/08/2024
 - [x] Baixar o código da aula 11/04/2024 (na aula de 18/04/2024)
 - [ ] Integrar ambos os códigos
+- [ ] Adicionar validação de e-mail no model dos clientes
+- [ ] Adicionar validação de telefone no model dos clientes
 - [ ] Adicionar testes de unidade para os models dos clientes
 
 ## Requisitos
