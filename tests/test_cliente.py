@@ -20,13 +20,17 @@ while True:
     telefone = input('Telefone: ')
     email = input('Email: ')
     try:
-        cliente = Cliente(nome=nome, cpf=cpf, logradouro=logradouro, numero=numero,
-                          complemento=complemento, bairro=bairro, cep=cep,
-                          cidade=cidade, uf=uf, telefone=telefone, email=email)
+        cliente = Cliente(
+            nome=nome, cpf=cpf, logradouro=logradouro, numero=numero,
+            complemento=complemento, bairro=bairro, cep=cep,
+            cidade=cidade, uf=uf, telefone=telefone, email=email
+        )
         print('\nCliente criado com sucesso!')
         endereco_formatado = f"{cliente.endereco['logradouro']}, {cliente.endereco['numero']} - {cliente.endereco['complemento']}, {cliente.endereco['bairro']} - {cliente.endereco['cep']}, {cliente.endereco['cidade']}/{cliente.endereco['uf']}"
-        print(f'Nome: {cliente.nome}, CPF: {cliente.cpf}, Endereço: {endereco_formatado}, '
-              f'Telefone: {cliente.telefone}, Email: {cliente.email}')
+        print(
+            f'Nome: {cliente.nome}, CPF: {cliente.cpf}, Endereço: {endereco_formatado}, '
+            f'Telefone: {cliente.telefone}, Email: {cliente.email}'
+        )
         # Se o cliente foi criado com sucesso, quebra o loop (se desejado)
         break  # Remova esta linha se desejar que o loop continue indefinidamente
     except ValueError as e:

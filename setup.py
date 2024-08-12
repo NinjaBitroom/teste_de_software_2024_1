@@ -5,7 +5,8 @@ from flask import Flask
 
 from controllers.cliente_controller import cliente_blueprint
 from controllers.produto_controller import produto_blueprint
-from database import db  # Importação da instância do SQLAlchemy criada em database.py
+# Importação da instância do SQLAlchemy criada em database.py
+from database import db
 
 
 def create_app() -> Flask:
@@ -21,9 +22,12 @@ def create_app() -> Flask:
     """Captura o diretório absoluto onde o script está sendo executado."""
 
     # Junta o caminho de forma portátil
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(base_dir, 'db.sqlite3')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(
+        base_dir, 'db.sqlite3'
+    )
 
-    app.secret_key = 'seu segredo'  # Adiciona uma chave secreta para permitir flash messages
+    # Adiciona uma chave secreta para permitir flash messages
+    app.secret_key = 'seu segredo'
     db.init_app(app)  # Inicializa o SQLAlchemy com o aplicativo Flask
     return app
 
