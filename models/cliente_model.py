@@ -17,22 +17,29 @@ class Validador:
             raise ValueError('Nome inválido.')
         pattern = r'^[\p{L}\'\-\s]+$'
         if not regex.match(pattern, nome):
-            raise ValueError('Nome inválido. Não use números ou caracteres especiais.')
+            raise ValueError(
+                'Nome inválido. Não use números ou caracteres especiais.'
+            )
         nome = regex.sub(r'\s+', ' ', nome).strip()
         partes_do_nome = nome.split()
         preposicoes = ['da', 'de', 'do', 'das', 'dos']
         nome_formatado = ' '.join(
-            [parte.capitalize() if parte.lower() not in preposicoes else parte.lower() for parte in partes_do_nome])
+            [
+                parte.capitalize() if parte.lower() not in preposicoes else parte.lower()
+                for parte in partes_do_nome]
+        )
         return nome_formatado
 
     @staticmethod
     def valida_cpf(cpf: str) -> str:
-        # verifica se o CPF possui exatamente 11 dígitos e se todos são numéricos
+        # verifica se o CPF possui exatamente 11 dígitos e se todos são
+        # numéricos
         if len(cpf) != 11 or not cpf.isdigit():
             raise ValueError('CPF inválido. Deve ter 11 dígitos numéricos...')
 
         # elimina CPFs invalidos conhecidos
-        if cpf in ['0' * 11, '1' * 11, '2' * 11, '3' * 11, '4' * 11, '5' * 11, '6' * 11, '7' * 11, '8' * 11, '9' * 11]:
+        if cpf in ['0' * 11, '1' * 11, '2' * 11, '3' * 11, '4' * 11, '5' * 11,
+            '6' * 11, '7' * 11, '8' * 11, '9' * 11]:
             raise ValueError('CPF inválido. Sequência repetida...')
 
         # Validação dos dígitos verificadores
@@ -46,7 +53,9 @@ class Validador:
             digito1 = 11 - resto
 
         if int(cpf[9]) != digito1:
-            raise ValueError('CPF inválido. Dígito verificador 1 não confere...')
+            raise ValueError(
+                'CPF inválido. Dígito verificador 1 não confere...'
+            )
 
         soma = 0
         for i in range(10):
@@ -58,7 +67,9 @@ class Validador:
             digito2 = 11 - resto
 
         if int(cpf[10]) != digito2:
-            raise ValueError('CPF inválido. Dígito verificador 2 não confere...')
+            raise ValueError(
+                'CPF inválido. Dígito verificador 2 não confere...'
+            )
 
         return cpf  # retorna True se o CPF for válido
 
@@ -74,12 +85,17 @@ class Validador:
     @staticmethod
     def formata_texto(texto: str) -> str:
         # Capitaliza cada palavra corretamente, exceto preposições
-        return ' '.join(word.capitalize() if word.lower() not in ['da', 'de', 'do', 'das',
-                                                                  'dos'] else word.lower() for word in
-                        regex.sub(r'\s+', ' ', texto).strip().split())
+        return ' '.join(
+            word.capitalize() if word.lower() not in ['da', 'de', 'do', 'das',
+                'dos'] else word.lower() for word in
+                regex.sub(r'\s+', ' ', texto).strip().split()
+        )
 
     @staticmethod
-    def valida_endereco(logradouro: str, numero: Any, complemento: Any, bairro: str, cep: str, cidade: str, uf: str):
+    def valida_endereco(
+        logradouro: str, numero: Any, complemento: Any, bairro: str, cep: str,
+        cidade: str, uf: str
+    ):
         # Aplica a formatação correta de texto
         logradouro = Validador.formata_texto(logradouro)
         bairro = Validador.formata_texto(bairro)
@@ -87,7 +103,9 @@ class Validador:
 
         # Verifica se os campos obrigatórios estão preenchidos
         if not all([logradouro, numero, bairro, cep, cidade, uf]):
-            raise ValueError('Todos os campos de endereço, exceto complemento, são obrigatórios.')
+            raise ValueError(
+                'Todos os campos de endereço, exceto complemento, são obrigatórios.'
+            )
 
         # Validação do CEP com formato específico (00000-000)
         if not regex.match(r'^\d{5}-\d{3}$', cep):
@@ -95,21 +113,28 @@ class Validador:
 
         # Validação do UF para garantir que sejam duas letras maiúsculas
         if not regex.match(r'^[A-Z]{2}$', uf):
-            raise ValueError('UF inválido. Deve ser composto por duas letras maiúsculas.')
+            raise ValueError(
+                'UF inválido. Deve ser composto por duas letras maiúsculas.'
+            )
 
         return logradouro, numero, complemento, bairro, cep, cidade, uf
 
 
 class Pessoa:
-    def __init__(self, nome, cpf, logradouro, numero, complemento, bairro, cep, cidade, uf, telefone, email):
+    def __init__(
+        self, nome, cpf, logradouro, numero, complemento, bairro, cep, cidade,
+        uf, telefone, email
+    ):
         self.nome = Validador.valida_nome(nome)
         self.__cpf = Validador.valida_cpf(cpf)
         self.email = Validador.valida_email(email)
         self.telefone = telefone
 
-        logradouro, numero, complemento, bairro, cep, cidade, uf = Validador.valida_endereco(logradouro, numero,
-                                                                                             complemento, bairro, cep,
-                                                                                             cidade, uf)
+        logradouro, numero, complemento, bairro, cep, cidade, uf = Validador.valida_endereco(
+            logradouro, numero,
+            complemento, bairro, cep,
+            cidade, uf
+        )
 
         self.endereco = {
             'logradouro': logradouro,
@@ -127,28 +152,34 @@ class Pessoa:
 
 
 class Cliente(Pessoa):
-    def __init__(self, nome, cpf, logradouro, numero, complemento, bairro, cep, cidade, uf, telefone, email):
-        super().__init__(nome, cpf, logradouro, numero, complemento, bairro, cep, cidade, uf, telefone, email)
+    def __init__(
+        self, nome, cpf, logradouro, numero, complemento, bairro, cep, cidade,
+        uf, telefone, email
+    ):
+        super().__init__(
+            nome, cpf, logradouro, numero, complemento, bairro, cep, cidade,
+            uf, telefone, email
+        )
 
     def salvar(self):
         db.session.add(self)  # Adicionando o cliente na sessão do SQLAlchemy
         db.session.commit()  # Salvando as alterações no banco de dados
 
-    # Método para atualizar um cliente no banco de dados
     def atualizar(self):
+        """Método para atualizar um cliente no banco de dados."""
         db.session.commit()  # Salvando as alterações no banco de dados
 
-    # Método para deletar um cliente no banco de dados
     def deletar(self):
+        """Método para deletar um cliente no banco de dados."""
         db.session.delete(self)  # Removendo o cliente da sessão do SQLAlchemy
         db.session.commit()  # Salvando as alterações no banco de dados
 
     @staticmethod
     def get_clientes():
-        # Retorna todos os clientes
+        """Retorna todos os clientes."""
         return db.session.query(Cliente).all()
 
     @staticmethod
     def get_cliente(id):
-        # Retorna um cliente específico pelo ID
+        """Retorna um cliente específico pelo ID"""
         return db.session.query(Cliente).get(id)

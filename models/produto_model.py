@@ -9,7 +9,8 @@ from database import db
 
 
 class Produto(db.Model):
-    """Definição da classe Produto, que representa a tabela 'produtos' no banco de dados."""
+    """Definição da classe Produto, que representa a tabela 'produtos'
+    no banco de dados."""
     __tablename__ = 'produtos'
     """Definindo o nome da tabela no banco de dados."""
 
@@ -26,7 +27,9 @@ class Produto(db.Model):
     status = db.Column(db.Integer, default=1)
     """Status do produto: ativo (1) ou inativo (0)."""
 
-    def __init__(self, descricao: str, preco: float, id_: int | None = None) -> None:
+    def __init__(
+        self, descricao: str, preco: float, id_: int | None = None
+    ) -> None:
         """Método construtor da classe."""
         self.id = id_
         self.descricao = descricao
