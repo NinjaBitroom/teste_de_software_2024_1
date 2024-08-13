@@ -7,7 +7,7 @@ from typing import Any
 
 import regex
 
-from database import db
+from services.database import db
 
 
 class Validador:

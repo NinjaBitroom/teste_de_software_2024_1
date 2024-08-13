@@ -13,7 +13,7 @@
 
     <!-- Início do formulário para atualizar um produto -->
     <!-- A ação do formulário é definida para apontar para a rota 'editar_produto', passando o 'id' do produto como parâmetro -->
-    <form action="{{ url_for('produto.editar_produto', id=produto.id) }}" method="POST">
+    <form action="{{ url_for('root.produto.editar_produto', id=produto.id) }}" method="POST">
         <!-- Início do grupo de input para a descrição -->
         <div class='mb-3'>
             <!-- Rótulo para o campo de descrição -->

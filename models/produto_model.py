@@ -5,7 +5,7 @@ Adaptado de Giridhar, 2016
 """
 
 # Importação da instância do SQLAlchemy criada no arquivo database.py
-from database import db
+from services.database import db
 
 
 class Produto(db.Model):
@@ -48,11 +48,6 @@ class Produto(db.Model):
         """Método para deletar um produto no banco de dados."""
         db.session.delete(self)  # Removendo o produto da sessão do SQLAlchemy
         db.session.commit()  # Salvando as alterações no banco de dados
-
-    @staticmethod
-    def get_produtos():
-        """Retorna todos os produtos."""
-        return db.session.query(Produto).all()
 
     @staticmethod
     def get_produto(id_):

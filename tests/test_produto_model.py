@@ -7,8 +7,8 @@ test_models.py
 from flask_testing import TestCase
 
 from app import create_app
-from database import db
 from models.produto_model import Produto
+from services.database import db
 
 
 class TestProdutoModel(TestCase):

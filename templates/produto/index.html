@@ -1,71 +1,105 @@
 <!--
 Claudinei de Oliveira - pt-BR - 19-06-2023
 Adaptado de Giridhar, 2016
-O arquivo index.html que estende base.html e  usa vários recursos do Jinja2, 
-incluindo herança de templates. 
-Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados dinâmicos
---> 
+O arquivo novo.html - todas as classes são do bootstrap -->
 
-{% extends 'produto/../base.html' %} <!-- Este template se baseia no template 'base.html'. Todos os blocos definidos em 'base.html' podem ser preenchidos aqui -->
+<!-- Estende o layout base.html -->
+{% extends 'base.html' %}
 
-{% block head %} <!-- Inicio do bloco 'head', onde podemos adicionar conteúdos específicos para o cabeçalho -->
-    <title> --- Listagem de Produtos --- </title> <!-- Define o título que será exibido na aba do navegador -->
-{% endblock %} <!-- Fim do bloco 'head' -->
+<!-- Início do bloco head, que substituirá o bloco head em base.html -->
+{% block head %}
+    <!-- Define o título da página -->
+    <title>Adicionar Novo Produto</title>
+{% endblock %}
 
-{% block body %} <!-- Inicio do bloco 'body', onde podemos adicionar conteúdos específicos para o corpo da página -->
+<!-- Início do bloco body, que substituirá o bloco body em base.html -->
+{% block body %}
+    <!-- Define o cabeçalho da página -->
+    <h3>Adicionar Novo Produto</h3>
 
-    {% if produtos %} <!-- Verifica se existe uma lista de produtos. Se existir, exibe a tabela de produtos -->
+    <!-- Começa o bloco para exibir mensagens flash, se houver -->
+    {% with messages = get_flashed_messages() %}
+        <!-- Verifica se há mensagens para mostrar -->
+        {% if messages %}
+            <!-- Define a estrutura da mensagem, incluindo um botão para fechar a mensagem -->
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <!-- Mostra a primeira mensagem flash -->
+                {{ messages[0] }}
+                <!-- Define o botão para fechar a mensagem -->
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <!-- Define um script para fechar a mensagem automaticamente após um certo tempo -->
+            <script>
+                $(".alert").delay(5000).slideUp(200, function () {
+                    $(this).alert('close');
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
 
-        <h3> --- Produtos --- </h3> <!-- Cabeçalho da página -->
+    <!-- Define o formulário para adicionar um novo produto -->
+    <form action="{{ url_for('root.produto.novo_produto') }}" method="POST" autocomplete='off'>
+        <!-- Define o campo para inserir a descrição do produto -->
+        <div class='mb-3'>
+            <label for='descricao' class='form-label'>Descrição</label>
+            <input class='form-control' type='text' name='descricao' id='descricao'
+                   placeholder='Informe a descricao do produto' required autofocus/>
+        </div>
 
-        <table class="table"> <!-- Inicia a tabela. A classe 'table' é uma classe do Bootstrap para estilizar tabelas -->
+        <!-- Define o campo para inserir o preço do produto -->
+        <div class='mb-3'>
+            <label for='preco' class='form-label'>Preço</label>
+            <input class='form-control' type='text' name='preco' id='preco' placeholder='Informe o preço do produto'
+                   required/>
+        </div>
 
-            <!-- Define os cabeçalhos da tabela -->
-            <tr> <!-- Inicia a linha de cabeçalho -->
-                <td>ID</td>
-                <td>Descrição</td>
-                <td>Preço</td>
-                <td>Status</td>
-                <td>Atualizar</td>
-                <td>Deletar</td>
-            </tr> <!-- Fim da linha de cabeçalho -->
+        <!-- Define o botão para enviar o formulário -->
+        <div class='mb-3'>
+            <button type='submit' class='btn btn-primary mb-3'>Cadastrar</button>
+        </div>
+    </form>
 
-            {% for produto in produtos %} <!-- Para cada produto na lista de produtos, cria uma nova linha na tabela -->
-                <tr> <!-- Inicia a linha para um produto -->
-                    <td>{{ produto[0] }}</td> <!-- Exibe o ID do produto -->
-                    <td>{{ produto[1] }}</td> <!-- Exibe a descrição do produto -->
-                    <td>{{ produto[2] }}</td> <!-- Exibe o preço do produto -->
+    <!-- Define o cabeçalho para a lista de produtos -->
+    <h3>Produtos Cadastrados</h3>
 
-                    {% if produto[3] %} <!-- Se o produto está ativo -->
-                        <td>Ativo</td> <!-- Exibe "Ativo" -->
-                    {% else %} 
-                        <td>Inativo</td> <!-- Se não, exibe "Inativo" -->
-                    {% endif %}
-
-                    {% if produto[3] %} <!-- Se o produto está ativo -->
-                        <!-- Exibe um link para inativar o produto -->
-                        <td><a class='btn btn-warning' href='{{ url_for('produto.atualizar_produto', id=produto[0], status=0) }}'>Inativar</a></td>
-                    {% else %} <!-- Se o produto está inativo -->
-                        <!-- Exibe um link para ativar o produto -->
-                        <td><a class='btn btn-success' href='{{ url_for('produto.atualizar_produto', id=produto[0], status=1) }}'>Ativar</a></td>
-                    {% endif %}
-
-                    <!-- Exibe um link para deletar o produto -->
-                    <td><a class='btn btn-danger' href='{{ url_for('produto.deletar_produto', id=produto[0]) }}'>Deletar</a></td>
-                </tr> <!-- Fim da linha para um produto -->
-
-            {% endfor %} <!-- Fim do loop for -->
-
-        </table> <!-- Fim da tabela -->
-
-    {% else %} <!-- Se não existem produtos -->
-        <!-- Exibe uma mensagem indicando que não existem produtos cadastrados -->
-        <h3>Ainda não existem produtos cadastrados...</h3>
-    {% endif %}
-
-    <div>
-        <!-- Exibe um link para a página de criação de um novo produto -->
-        <h3><a class='btn btn-primary' href='{{ url_for('produto.novo_produto') }}'>Adicionar Produto</a></h3>
-    </div>
-
-{% endblock %} <!-- Fim do bloco 'body' -->
+    <!-- Define a tabela para mostrar os produtos cadastrados -->
+    <table class="table">
+        <!-- Define o cabeçalho da tabela -->
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Descrição</th>
+            <th>Preço</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <!-- Define o corpo da tabela -->
+        <tbody>
+        <!-- Loop para cada produto na lista de produtos -->
+        {% for produto in produtos %}
+            <tr>
+                <td>{{ produto.id }}</td>
+                <td>{{ produto.descricao }}</td>
+                <td>{{ produto.preco }}</td>
+                <!-- Verifica se o status do produto é 1 (ativo), caso contrário, o status é 0 (inativo) -->
+                <td>{{ 'Ativo' if produto.status == 1 else 'Desativado' }}</td>
+                <td>
+                    <!-- Link para a rota atualizar_produto, passando o id e o status do produto -->
+                    <a href="{{ url_for('root.produto.atualizar_produto', id=produto.id, status=1 if produto.status==0 else 0) }}"
+                       class="btn btn-warning btn-sm">
+                        <!-- Verifica se o status do produto é 0 (inativo), caso contrário, o status é 1 (ativo) -->
+                        {{ 'Ativar' if produto.status==0 else 'Desativar' }}
+                    </a>
+                    <!-- Link para a rota editar_produto, passando o id do produto -->
+                    <a href="{{ url_for('root.produto.editar_produto', id=produto.id) }}"
+                       class="btn btn-primary btn-sm">Editar</a>
+                    <!-- Link para a rota deletar_produto, passando o id do produto -->
+                    <a href="{{ url_for('root.produto.deletar_produto', id=produto.id) }}"
+                       class="btn btn-danger btn-sm">Deletar</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
