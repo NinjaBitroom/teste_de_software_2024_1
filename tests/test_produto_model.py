@@ -6,11 +6,11 @@ test_models.py
 
 from flask_testing import TestCase
 
-from app import create_app
 from controllers.produto_controller import ProdutoController
 from dao.produto_dao import ProdutoDAO
 from models.produto_model import Produto
 from services.database import db
+from wsgi import create_app
 
 
 class TestProdutoModel(TestCase):
@@ -91,7 +91,7 @@ if __name__ == '__main__':
 """
 from flask_testing import TestCase
 from app import create_app, db  
-# importa create_app e db do seu arquivo app.py
+# importa create_app e db do seu arquivo wsgi.py
 from models.produto_model import Produto  
 # importa a classe Produto
 
