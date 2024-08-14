@@ -4,7 +4,7 @@ Adaptado de Giridhar, 2016
 O arquivo index.html que estende base.html e  usa vários recursos do Jinja2, 
 incluindo herança de templates. 
 Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados dinâmicos
---> 
+-->
 
 {% extends 'base.html' %} <!-- Este template se baseia no template 'base.html'. Todos os blocos definidos em 'base.html' podem ser preenchidos aqui -->
 
@@ -18,7 +18,8 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
 
         <h3> --- Clientes --- </h3> <!-- Cabeçalho da página -->
 
-        <table class="table"> <!-- Inicia a tabela. A classe 'table' é uma classe do Bootstrap para estilizar tabelas -->
+        <table class="table">
+            <!-- Inicia a tabela. A classe 'table' é uma classe do Bootstrap para estilizar tabelas -->
 
             <!-- Define os cabeçalhos da tabela -->
             <tr> <!-- Inicia a linha de cabeçalho -->
@@ -38,20 +39,20 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
 
                     {% if cliente[3] %} <!-- Se o cliente está ativo -->
                         <td>Ativo</td> <!-- Exibe "Ativo" -->
-                    {% else %} 
+                    {% else %}
                         <td>Inativo</td> <!-- Se não, exibe "Inativo" -->
                     {% endif %}
 
                     {% if cliente[3] %} <!-- Se o cliente está ativo -->
                         <!-- Exibe um link para inativar o cliente -->
-                        <td><a class='btn btn-warning' href='{{ url_for('cliente.atualizar_cliente', id=cliente[0], status=0) }}'>Inativar</a></td>
+                        <td><a class='btn btn-warning' href='#'>Inativar</a></td>
                     {% else %} <!-- Se o cliente está inativo -->
                         <!-- Exibe um link para ativar o cliente -->
-                        <td><a class='btn btn-success' href='{{ url_for('cliente.atualizar_cliente', id=cliente[0], status=1) }}'>Ativar</a></td>
+                        <td><a class='btn btn-success' href='#'>Ativar</a></td>
                     {% endif %}
 
                     <!-- Exibe um link para deletar o cliente -->
-                    <td><a class='btn btn-danger' href='{{ url_for('cliente.deletar_cliente', id=cliente[0]) }}'>Deletar</a></td>
+                    <td><a class='btn btn-danger' href='#'>Deletar</a></td>
                 </tr> <!-- Fim da linha para um cliente -->
 
             {% endfor %} <!-- Fim do loop for -->
@@ -65,7 +66,7 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
 
     <div>
         <!-- Exibe um link para a página de criação de um novo cliente -->
-        <h3><a class='btn btn-primary' href='{{ url_for('cliente.novo_cliente') }}'>Adicionar Cliente</a></h3>
+        <h3><a class='btn btn-primary' href='{{ url_for("root.cliente.novo_cliente") }}'>Adicionar Cliente</a></h3>
     </div>
 
 {% endblock %} <!-- Fim do bloco 'body' -->

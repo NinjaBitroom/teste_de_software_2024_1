@@ -6,8 +6,9 @@ Adaptado de Giridhar, 2016
 # Importando os módulos necessários do Flask
 from flask import Blueprint, render_template
 
+from controllers.cliente_controller import ClienteController
+
 # Importando a classe 'Cliente' do arquivo cliente_model.py
-from models.cliente_model import Cliente
 
 cliente_blueprint = Blueprint('cliente', __name__, url_prefix='/cliente')
 """ Criando um Blueprint.
@@ -21,8 +22,17 @@ relacionadas, funções de visualização e outros recursos de código.
 @cliente_blueprint.route('/')
 def index():
     """Rota principal do aplicativo que exibe todos os clientes."""
-    clientes = Cliente.get_clientes()
+
+    clientes = ClienteController.get_clientes()
     """Obtém todos os clientes do banco de dados."""
+
     return render_template(
-        'cliente/novo.html', clientes=clientes
-    )  # Renderiza o template novo.html com os clientes
+        'cliente/index.html', clientes=clientes
+    )
+
+
+@cliente_blueprint.route('/novo')
+def novo_cliente():
+    """Rota para adicionar um novo cliente."""
+
+    return render_template('cliente/novo.html')
