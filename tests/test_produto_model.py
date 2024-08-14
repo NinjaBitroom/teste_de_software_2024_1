@@ -6,9 +6,11 @@ test_models.py
 
 from flask_testing import TestCase
 
-from app import create_app
-from database import db
+from controllers.produto_controller import ProdutoController
+from dao.produto_dao import ProdutoDAO
 from models.produto_model import Produto
+from services.database import db
+from wsgi import create_app
 
 
 class TestProdutoModel(TestCase):
@@ -45,7 +47,7 @@ class TestProdutoModel(TestCase):
         produto = Produto(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
-        produto_query = Produto.get_produto(produto.id)
+        produto_query = ProdutoController.get_produto(produto.id)
         self.assertEqual(produto_query.id, produto.id)
 
     def test_update_produto(self):
@@ -55,7 +57,7 @@ class TestProdutoModel(TestCase):
         db.session.commit()
         produto.descricao = 'Teste Atualizado'
         produto.preco = 20.0
-        produto.atualizar()
+        ProdutoDAO.atualizar()
         produto_atualizado = db.session.query(Produto).get(produto.id)
 
         self.assertEqual(produto_atualizado.descricao, 'Teste Atualizado')
@@ -66,8 +68,7 @@ class TestProdutoModel(TestCase):
         produto = Produto(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
-        produto.deletar()
-        # produto_deletado = Produto.query.get(produto.id)
+        ProdutoDAO.deletar(produto)
         produto_deletado = db.session.query(Produto).get(produto.id)
         self.assertIsNone(produto_deletado)
 
@@ -78,7 +79,7 @@ class TestProdutoModel(TestCase):
         db.session.add(produto1)
         db.session.add(produto2)
         db.session.commit()
-        todos_produtos = Produto.get_produtos()
+        todos_produtos = ProdutoController.get_produtos()
         self.assertEqual(len(todos_produtos), 2)
 
 
@@ -90,7 +91,7 @@ if __name__ == '__main__':
 """
 from flask_testing import TestCase
 from app import create_app, db  
-# importa create_app e db do seu arquivo app.py
+# importa create_app e db do seu arquivo wsgi.py
 from models.produto_model import Produto  
 # importa a classe Produto
 
