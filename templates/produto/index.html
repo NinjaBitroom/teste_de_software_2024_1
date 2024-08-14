@@ -92,7 +92,7 @@ O arquivo novo.html - todas as classes são do bootstrap -->
                         {{ 'Ativar' if produto.status==0 else 'Desativar' }}
                     </a>
                     <!-- Link para a rota editar_produto, passando o id do produto -->
-                    <a href="{{ url_for('root.produto.editar_produto', id=produto.id) }}"
+                    <a href="{{ url_for('root.produto.editar_produto_get', id=produto.id) }}"
                        class="btn btn-primary btn-sm">Editar</a>
                     <!-- Link para a rota deletar_produto, passando o id do produto -->
                     <a href="{{ url_for('root.produto.deletar_produto', id=produto.id) }}"

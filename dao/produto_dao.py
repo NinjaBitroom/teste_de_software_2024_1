@@ -9,16 +9,22 @@ class ProdutoDAO:
         return db.session.query(Produto).all()
 
     @staticmethod
-    def get_produto(id):
-        pass
+    def get_produto(id_) -> Produto | None:
+        """Retorna um produto específico pelo ID."""
+        return db.session.query(Produto).get(id_)
+
+    @classmethod
+    def salvar(cls, produto: Produto) -> None:
+        """Método para salvar um produto no banco de dados."""
+        db.session.add(
+            produto
+        )  # Adicionando o produto na sessão do SQLAlchemy
+        cls.atualizar()  # Salvando as alterações no banco de dados
 
     @staticmethod
-    def salvar(produto):
-        pass
-
-    @staticmethod
-    def atualizar(produto):
-        pass
+    def atualizar() -> None:
+        """Método para atualizar um produto no banco de dados."""
+        db.session.commit()  # Salvando as alterações no banco de dados
 
     @staticmethod
     def deletar(id):

@@ -29,7 +29,7 @@ def index():
     return render_template('produto/index.html', produtos=produtos)
 
 
-@produto_blueprint.route('/novo', methods=['POST'])
+@produto_blueprint.post('/novo')
 def novo_produto():
     """Rota para adicionar um novo produto."""
 
@@ -39,57 +39,41 @@ def novo_produto():
     preco = request.form.get('preco')
     """Obtém o preço do produto do form."""
 
-    # Verifica se o preço é um número válido
-    try:
-        preco = float(preco)
-    except ValueError:
-        # Exibe uma mensagem de erro
-        flash('O preço deve ser um número válido.')
-        return redirect(url_for('root.produto.index'))
-
-    produto = Produto(descricao=descricao, preco=preco)
+    errors = ProdutoController.create_produto(
+        descricao=descricao, preco=preco
+    )
     """Cria uma nova instância do produto."""
 
-    produto.salvar()  # Salva o produto no banco de dados
+    for error in errors:
+        flash(error)
 
     return redirect(url_for('root.produto.index'))
 
 
-@produto_blueprint.route('/editar/<float:id>', methods=['GET', 'POST'])
-def editar_produto(id):
+@produto_blueprint.get('/editar/<int:id>')
+def editar_produto_get(id):
+    produto = ProdutoController.get_produto(id)
+    return render_template('produto/atualizar.html', produto=produto)
+
+
+@produto_blueprint.post('/editar/<int:id>')
+def editar_produto_post(id):
     """Rota para atualizar um produto."""
 
-    produto = Produto.get_produto(id)
-    """Obtém o produto pelo ID."""
+    descricao = request.form.get('descricao')
+    """Obtém a descrição do produto do form."""
 
-    if request.method == 'POST':  # Se o método da requisição é POST
-        descricao = request.form.get('descricao')
-        """Obtém a descrição do produto do form."""
+    preco = request.form.get('preco')
+    """Obtém o preço do produto do form."""
 
-        preco = request.form.get('preco')
-        """Obtém o preço do produto do form."""
+    produto = ProdutoController.update_produto(id, descricao, preco)
 
-        # Verifica se o preço é um número válido
-        try:
-            preco = float(preco)
-        except ValueError:
-            flash(
-                'O preço deve ser um número válido.'
-            )  # Exibe uma mensagem de erro
-            return render_template(
-                'produto/atualizar.html',
-                produto=produto
-            )  # Renderiza o template editar.html com o produto
+    if isinstance(produto, ValueError):
+        for msg in produto.args:
+            flash(msg)
+        return redirect(url_for('root.produto.editar_produto_get', id=id))
 
-        produto.descricao = descricao  # Atualiza a descrição do produto
-        produto.preco = preco  # Atualiza o preço do produto
-        produto.atualizar()  # Atualiza o produto no banco de dados
-        return redirect(
-            url_for('root.produto.index')
-        )  # Redireciona para a rota '/'
-    return render_template(
-        'produto/atualizar.html', produto=produto
-    )  # Renderiza o template editar.html com o produto
+    return redirect(url_for('root.produto.index'))
 
 
 @produto_blueprint.route(
