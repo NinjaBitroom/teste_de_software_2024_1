@@ -16,9 +16,7 @@ class ProdutoDAO:
     @classmethod
     def salvar(cls, produto: Produto) -> None:
         """Método para salvar um produto no banco de dados."""
-        db.session.add(
-            produto
-        )  # Adicionando o produto na sessão do SQLAlchemy
+        db.session.add(produto)
         cls.atualizar()  # Salvando as alterações no banco de dados
 
     @staticmethod
@@ -26,6 +24,8 @@ class ProdutoDAO:
         """Método para atualizar um produto no banco de dados."""
         db.session.commit()  # Salvando as alterações no banco de dados
 
-    @staticmethod
-    def deletar(id):
-        pass
+    @classmethod
+    def deletar(cls, produto: Produto) -> None:
+        """Método para deletar um produto no banco de dados."""
+        db.session.delete(produto)
+        cls.atualizar()

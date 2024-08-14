@@ -7,8 +7,6 @@ Adaptado de Giridhar, 2016
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 from controllers.produto_controller import ProdutoController
-# Importando a classe 'Produto' do arquivo produto_model.py
-from models.produto_model import Produto
 
 produto_blueprint = Blueprint('produto', __name__, url_prefix='/produto')
 """Criando um Blueprint.
@@ -42,7 +40,6 @@ def novo_produto():
     errors = ProdutoController.create_produto(
         descricao=descricao, preco=preco
     )
-    """Cria uma nova instância do produto."""
 
     for error in errors:
         flash(error)
@@ -51,13 +48,13 @@ def novo_produto():
 
 
 @produto_blueprint.get('/editar/<int:id>')
-def editar_produto_get(id):
+def editar_produto_get(id: int):
     produto = ProdutoController.get_produto(id)
     return render_template('produto/atualizar.html', produto=produto)
 
 
 @produto_blueprint.post('/editar/<int:id>')
-def editar_produto_post(id):
+def editar_produto_post(id: int):
     """Rota para atualizar um produto."""
 
     descricao = request.form.get('descricao')
@@ -66,7 +63,9 @@ def editar_produto_post(id):
     preco = request.form.get('preco')
     """Obtém o preço do produto do form."""
 
-    produto = ProdutoController.update_produto(id, descricao, preco)
+    status = request.form.get('status')
+
+    produto = ProdutoController.update_produto(id, descricao, preco, status)
 
     if isinstance(produto, ValueError):
         for msg in produto.args:
@@ -76,28 +75,8 @@ def editar_produto_post(id):
     return redirect(url_for('root.produto.index'))
 
 
-@produto_blueprint.route(
-    '/atualizar/<int:id>/<int:status>', methods=['GET', 'POST']
-)  # 'status' adicionado como parâmetro
-def atualizar_produto(
-    id, status
-):  # Alteração aqui, 'status' adicionado como parâmetro
-    """Rota para atualizar o status de um produto."""
-    produto = Produto.get_produto(id)
-    """Obtém o produto pelo ID."""
-    produto.status = status  # Atualiza o status do produto
-    produto.atualizar()  # Atualiza o produto no banco de dados
-    return redirect(
-        url_for('root.produto.index')
-    )  # Redireciona para a rota '/'
-
-
-@produto_blueprint.route('/deletar/<id>', methods=['GET'])
-def deletar_produto(id):
+@produto_blueprint.route('/deletar/<int:id>', methods=['GET'])
+def deletar_produto(id: int):
     """Rota para deletar um produto."""
-    produto = Produto.get_produto(id)
-    """Obtém o produto pelo ID."""
-    produto.deletar()  # Deleta o produto do banco de dados
-    return redirect(
-        url_for('root.produto.index')
-    )  # Redireciona para a rota '/'
+    ProdutoController.delete_produto(id)
+    return redirect(url_for('root.produto.index'))

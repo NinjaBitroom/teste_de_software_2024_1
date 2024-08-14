@@ -24,10 +24,5 @@ class Produto(db.Model):
     preco = db.Column(db.Float, nullable=False)
     """Preço do produto."""
 
-    status = db.Column(db.Integer, default=1)
+    status = db.Column(db.Boolean, default=True)
     """Status do produto: ativo (1) ou inativo (0)."""
-
-    def deletar(self):
-        """Método para deletar um produto no banco de dados."""
-        db.session.delete(self)  # Removendo o produto da sessão do SQLAlchemy
-        db.session.commit()  # Salvando as alterações no banco de dados

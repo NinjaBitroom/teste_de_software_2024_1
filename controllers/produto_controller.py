@@ -1,6 +1,6 @@
 from dao.produto_dao import ProdutoDAO
 from models.produto_model import Produto
-from utils.produto_converter import ProdutoConverter
+from utils.produto_validator import ProdutoValidator
 
 
 class ProdutoController:
@@ -18,7 +18,7 @@ class ProdutoController:
         cls, descricao: str | None, preco: str | None
     ) -> tuple[str, ...]:
         errors: list[str] = []
-        converted_preco = ProdutoConverter.convert_preco(preco)
+        converted_preco = ProdutoValidator.valida_preco(preco)
 
         if isinstance(converted_preco, ValueError):
             for msg in converted_preco.args:
@@ -31,12 +31,32 @@ class ProdutoController:
 
     @classmethod
     def update_produto(
-        cls, id_: int, descricao: str | None, preco: str | None
+        cls, id_: int, descricao: str | None, preco: str | None,
+        status: str | None
     ) -> Produto | ValueError:
         produto = ProdutoDAO.get_produto(id_)
-        converted_preco = ProdutoConverter.convert_preco(preco)
+        converted_preco: float | ValueError | None = None
+
+        if preco is not None:
+            converted_preco = ProdutoValidator.valida_preco(preco)
+
         if isinstance(converted_preco, ValueError):
             return converted_preco
-        produto.descricao = descricao or produto.descricao
-        produto.preco = preco or produto.preco
+
+        if descricao is not None:
+            produto.descricao = descricao
+
+        if converted_preco is not None:
+            produto.preco = converted_preco
+
+        if status is not None:
+            produto.status = True if status == 'True' else False
+
         ProdutoDAO.atualizar()
+
+        return produto
+
+    @classmethod
+    def delete_produto(cls, id_: int) -> None:
+        produto = ProdutoDAO.get_produto(id_)
+        ProdutoDAO.deletar(produto)

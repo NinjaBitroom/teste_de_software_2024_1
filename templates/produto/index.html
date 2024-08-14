@@ -25,15 +25,7 @@ O arquivo novo.html - todas as classes são do bootstrap -->
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <!-- Mostra a primeira mensagem flash -->
                 {{ messages[0] }}
-                <!-- Define o botão para fechar a mensagem -->
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <!-- Define um script para fechar a mensagem automaticamente após um certo tempo -->
-            <script>
-                $(".alert").delay(5000).slideUp(200, function () {
-                    $(this).alert('close');
-                });
-            </script>
         {% endif %}
     {% endwith %}
 
@@ -86,11 +78,12 @@ O arquivo novo.html - todas as classes são do bootstrap -->
                 <td>{{ 'Ativo' if produto.status == 1 else 'Desativado' }}</td>
                 <td>
                     <!-- Link para a rota atualizar_produto, passando o id e o status do produto -->
-                    <a href="{{ url_for('root.produto.atualizar_produto', id=produto.id, status=1 if produto.status==0 else 0) }}"
-                       class="btn btn-warning btn-sm">
-                        <!-- Verifica se o status do produto é 0 (inativo), caso contrário, o status é 1 (ativo) -->
-                        {{ 'Ativar' if produto.status==0 else 'Desativar' }}
-                    </a>
+                    <form method="post" action="{{ url_for('root.produto.editar_produto_post', id=produto.id) }}">
+                        <input type="hidden" name="status" value="{{ True if produto.status==False else False }}">
+                        <button type="submit" class="btn btn-warning btn-sm">
+                            {{ 'Ativar' if produto.status==False else 'Desativar' }}
+                        </button>
+                    </form>
                     <!-- Link para a rota editar_produto, passando o id do produto -->
                     <a href="{{ url_for('root.produto.editar_produto_get', id=produto.id) }}"
                        class="btn btn-primary btn-sm">Editar</a>

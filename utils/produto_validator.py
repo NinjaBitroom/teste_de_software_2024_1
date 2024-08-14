@@ -1,6 +1,6 @@
-class ProdutoConverter:
+class ProdutoValidator:
     @classmethod
-    def convert_preco(cls, preco: str) -> float | ValueError:
+    def valida_preco(cls, preco: str) -> float | ValueError:
         """Verifica se o preço é um número válido."""
         try:
             return float(preco)
