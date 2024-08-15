@@ -1,4 +1,4 @@
-<!-- O arquivo atualizar.html estende (herda) o layout base definido no base.html -->
+<!-- O arquivo editar.html estende (herda) o layout base definido no base.html -->
 {% extends 'base.html' %}
 
 <!-- Dentro do bloco 'head', nós definimos o título da página -->
@@ -18,7 +18,7 @@
             </div>
         {% endif %}
     {% endwith %}
-    
+
     <!-- Início do formulário para atualizar um produto -->
     <!-- A ação do formulário é definida para apontar para a rota 'editar_produto', passando o 'id' do produto como parâmetro -->
     <form action="{{ url_for('root.produto.editar_produto_post', id=produto.id) }}" method="POST">

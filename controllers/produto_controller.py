@@ -1,17 +1,18 @@
-from dao.produto_dao import ProdutoDAO
+from dao.produto_dao import SQLAlchemyDao
 from models.produto_model import Produto
 from utils.produto_validator import ProdutoValidator
 
 
 class ProdutoController:
+    __produto_dao = SQLAlchemyDao(Produto)
 
     @classmethod
     def get_produto(cls, id_) -> Produto | None:
-        return ProdutoDAO.get_produto(id_)
+        return cls.__produto_dao.get_one(id_)
 
     @classmethod
     def get_produtos(cls) -> list[Produto]:
-        return ProdutoDAO.get_produtos()
+        return cls.__produto_dao.get_all()
 
     @classmethod
     def create_produto(
@@ -25,7 +26,7 @@ class ProdutoController:
                 errors.append(str(msg))
         else:
             new_produto = Produto(descricao=descricao, preco=converted_preco)
-            ProdutoDAO.salvar(new_produto)
+            cls.__produto_dao.add_one(new_produto)
 
         return tuple(errors)
 
@@ -34,7 +35,7 @@ class ProdutoController:
         cls, id_: int, descricao: str | None, preco: str | None,
         status: str | None
     ) -> Produto | ValueError:
-        produto = ProdutoDAO.get_produto(id_)
+        produto = cls.__produto_dao.get_one(id_)
         converted_preco: float | ValueError | None = None
 
         if preco is not None:
@@ -52,11 +53,11 @@ class ProdutoController:
         if status is not None:
             produto.status = True if status == 'True' else False
 
-        ProdutoDAO.atualizar()
+        cls.__produto_dao.update()
 
         return produto
 
     @classmethod
     def delete_produto(cls, id_: int) -> None:
-        produto = ProdutoDAO.get_produto(id_)
-        ProdutoDAO.deletar(produto)
+        produto = cls.__produto_dao.get_one(id_)
+        cls.__produto_dao.delete_one(produto)

@@ -32,7 +32,7 @@ O arquivo novo.html - todas as classes são do bootstrap -->
     {% endwith %}
 
     <!-- Define o formulário para adicionar um novo cliente -->
-    <form action="#" method="POST" autocomplete='off'>
+    <form action="{{ url_for('root.cliente.novo_cliente_post') }}" method="POST" autocomplete='off'>
         <!-- Define o campo para inserir a descrição do cliente -->
         <div class='mb-3'>
             <label for='descricao' class='form-label'>Descrição</label>

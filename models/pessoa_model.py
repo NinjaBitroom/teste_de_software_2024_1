@@ -1,31 +1,15 @@
-from utils.cliente_validator import ClienteValidator
+from models.endereco_model import EnderecoModel
 
 
-class Pessoa:
+class PessoaModel:
     def __init__(
-        self, nome, cpf, logradouro, numero, complemento, bairro, cep, cidade,
-        uf, telefone, email
+        self, nome: str, cpf: str, email, telefone, endereco: EnderecoModel
     ):
-        self.nome = ClienteValidator.valida_nome(nome)
-        self.__cpf = ClienteValidator.valida_cpf(cpf)
-        self.email = ClienteValidator.valida_email(email)
+        self.nome = nome
+        self.__cpf = cpf
+        self.email = email
         self.telefone = telefone
-
-        logradouro, numero, complemento, bairro, cep, cidade, uf = ClienteValidator.valida_endereco(
-            logradouro, numero,
-            complemento, bairro, cep,
-            cidade, uf
-        )
-
-        self.endereco = {
-            'logradouro': logradouro,
-            'numero': numero,
-            'complemento': complemento,
-            'bairro': bairro,
-            'cep': cep,
-            'cidade': cidade,
-            'uf': uf
-        }
+        self.endereco = endereco
 
     @property
     def cpf(self):
