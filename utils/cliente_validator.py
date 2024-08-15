@@ -32,7 +32,7 @@ class ClienteValidator:
 
         # elimina CPFs invalidos conhecidos
         if cpf in ['0' * 11, '1' * 11, '2' * 11, '3' * 11, '4' * 11, '5' * 11,
-            '6' * 11, '7' * 11, '8' * 11, '9' * 11]:
+                   '6' * 11, '7' * 11, '8' * 11, '9' * 11]:
             raise ValueError('CPF inválido. Sequência repetida...')
 
         # Validação dos dígitos verificadores
@@ -69,25 +69,24 @@ class ClienteValidator:
     @staticmethod
     def valida_email(email: str) -> Any:
         """
-        >>> # valida o email, garantindo que contenha um @
-        >>>
-        >>> if '@' not in email:
-        >>>     raise ValueError('Email inválido.')
+        valida o email, garantindo que contenha um @
         """
+        if '@' not in email:
+            raise ValueError('Email inválido.')
 
     @staticmethod
     def formata_texto(texto: str) -> str:
         # Capitaliza cada palavra corretamente, exceto preposições
         return ' '.join(
             word.capitalize() if word.lower() not in ['da', 'de', 'do', 'das',
-                'dos'] else word.lower() for word in
-                regex.sub(r'\s+', ' ', texto).strip().split()
+                                                      'dos'] else word.lower() for word in
+            regex.sub(r'\s+', ' ', texto).strip().split()
         )
 
     @staticmethod
     def valida_endereco(
-        logradouro: str, numero: Any, complemento: Any, bairro: str, cep: str,
-        cidade: str, uf: str
+            logradouro: str, numero: Any, complemento: Any, bairro: str, cep: str,
+            cidade: str, uf: str
     ):
         # Aplica a formatação correta de texto
         logradouro = ClienteValidator.formata_texto(logradouro)

@@ -30,7 +30,8 @@ def index():
 @cliente_blueprint.get('/novo')
 def novo_cliente_get():
     """Rota para adicionar um novo cliente."""
-    return render_template('cliente/novo.html')
+    clientes = ClienteController.get_clientes()
+    return render_template('cliente/novo.html', clientes=clientes)
 
 
 @cliente_blueprint.post('/novo')
