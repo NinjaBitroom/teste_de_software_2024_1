@@ -3,7 +3,7 @@ Claudinei de Oliveira - utf-8 - pt-br
 testeModel.py
 """
 
-from models.cliente_model import Cliente
+from models.cliente_model import ClienteModel
 
 # testando a classe Cliente
 while True:
@@ -20,7 +20,7 @@ while True:
     telefone = input('Telefone: ')
     email = input('Email: ')
     try:
-        cliente = Cliente(
+        cliente = ClienteModel(
             nome=nome, cpf=cpf, logradouro=logradouro, numero=numero,
             complemento=complemento, bairro=bairro, cep=cep,
             cidade=cidade, uf=uf, telefone=telefone, email=email

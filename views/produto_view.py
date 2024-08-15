@@ -50,7 +50,7 @@ def novo_produto():
 @produto_blueprint.get('/editar/<int:id>')
 def editar_produto_get(id: int):
     produto = ProdutoController.get_produto(id)
-    return render_template('produto/atualizar.html', produto=produto)
+    return render_template('produto/editar.html', produto=produto)
 
 
 @produto_blueprint.post('/editar/<int:id>')

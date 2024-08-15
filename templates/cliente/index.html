@@ -33,9 +33,9 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
 
             {% for cliente in clientes %} <!-- Para cada cliente na lista de clientes, cria uma nova linha na tabela -->
                 <tr> <!-- Inicia a linha para um cliente -->
-                    <td>{{ cliente[0] }}</td> <!-- Exibe o ID do cliente -->
-                    <td>{{ cliente[1] }}</td> <!-- Exibe a descrição do cliente -->
-                    <td>{{ cliente[2] }}</td> <!-- Exibe o preço do cliente -->
+                    <td>{{ cliente.cpf }}</td> <!-- Exibe o ID do cliente -->
+                    <td>{{ cliente.nome }}</td> <!-- Exibe a descrição do cliente -->
+                    <td>{{ cliente.endereco }}</td> <!-- Exibe o preço do cliente -->
 
                     {% if cliente[3] %} <!-- Se o cliente está ativo -->
                         <td>Ativo</td> <!-- Exibe "Ativo" -->
@@ -66,7 +66,7 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
 
     <div>
         <!-- Exibe um link para a página de criação de um novo cliente -->
-        <h3><a class='btn btn-primary' href='{{ url_for("root.cliente.novo_cliente") }}'>Adicionar Cliente</a></h3>
+        <h3><a class='btn btn-primary' href='{{ url_for("root.cliente.novo_cliente_get") }}'>Adicionar Cliente</a></h3>
     </div>
 
 {% endblock %} <!-- Fim do bloco 'body' -->

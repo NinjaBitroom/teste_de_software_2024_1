@@ -1,28 +1,19 @@
-from models.cliente_model import Cliente
-from services.database import db
+class MemoryDAO[T]:
+    def __init__(self, model: type[T]) -> None:
+        self.__model = model
+        self.__data = []
 
+    def add_one(self, obj: T) -> None:
+        self.__data.append(obj)
 
-class ClienteDAO:
+    def delete_one(self, obj: T) -> None:
+        self.__data.remove(obj)
 
-    def salvar(self):
-        db.session.add(self)  # Adicionando o cliente na sessão do SQLAlchemy
-        db.session.commit()  # Salvando as alterações no banco de dados
+    def get_all(self) -> list[T]:
+        return self.__data
 
-    def atualizar(self):
-        """Método para atualizar um cliente no banco de dados."""
-        db.session.commit()  # Salvando as alterações no banco de dados
-
-    def deletar(self):
-        """Método para deletar um cliente no banco de dados."""
-        db.session.delete(self)  # Removendo o cliente da sessão do SQLAlchemy
-        db.session.commit()  # Salvando as alterações no banco de dados
-
-    @staticmethod
-    def get_clientes():
-        """Retorna todos os clientes."""
-        return db.session.query(Cliente).all()
-
-    @staticmethod
-    def get_cliente(id):
-        """Retorna um cliente específico pelo ID"""
-        return db.session.query(Cliente).get(id)
+    def get_one(self, id) -> T | None:
+        for obj in self.__data:
+            if obj.id == id:
+                return obj
+        return None
