@@ -21,10 +21,11 @@ while True:
     email = input('Email: ')
     try:
         cliente = ClienteModel(
-            nome=nome, cpf=cpf, logradouro=logradouro, numero=numero,
+            nome=nome, cpf=cpf, telefone=telefone, email=email,logradouro=logradouro, numero=numero,
             complemento=complemento, bairro=bairro, cep=cep,
-            cidade=cidade, uf=uf, telefone=telefone, email=email
+            cidade=cidade, uf=uf,
         )
+
         print('\nCliente criado com sucesso!')
         endereco_formatado = f"{cliente.endereco['logradouro']}, {cliente.endereco['numero']} - {cliente.endereco['complemento']}, {cliente.endereco['bairro']} - {cliente.endereco['cep']}, {cliente.endereco['cidade']}/{cliente.endereco['uf']}"
         print(
