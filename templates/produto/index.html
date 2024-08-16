@@ -76,7 +76,7 @@ O arquivo novo.html - todas as classes são do bootstrap -->
                 <td>{{ produto.preco }}</td>
                 <!-- Verifica se o status do produto é 1 (ativo), caso contrário, o status é 0 (inativo) -->
                 <td>{{ 'Ativo' if produto.status == 1 else 'Desativado' }}</td>
-                <td>
+                <td class="d-flex align-items-center">
                     <!-- Link para a rota atualizar_produto, passando o id e o status do produto -->
                     <form method="post" action="{{ url_for('root.produto.editar_produto_post', id=produto.id) }}">
                         <input type="hidden" name="status" value="{{ True if produto.status==False else False }}">
@@ -86,7 +86,7 @@ O arquivo novo.html - todas as classes são do bootstrap -->
                     </form>
                     <!-- Link para a rota editar_produto, passando o id do produto -->
                     <a href="{{ url_for('root.produto.editar_produto_get', id=produto.id) }}"
-                       class="btn btn-primary btn-sm">Editar</a>
+                       class="btn btn-primary btn-sm mx-2">Editar</a>
                     <!-- Link para a rota deletar_produto, passando o id do produto -->
                     <a href="{{ url_for('root.produto.deletar_produto', id=produto.id) }}"
                        class="btn btn-danger btn-sm">Deletar</a>
