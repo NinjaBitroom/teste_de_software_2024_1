@@ -42,3 +42,4 @@ class ClienteController:
     def get_cliente(cls, cpf_) -> ClienteModel | None:
         """Obtém cliente pelo cpf."""
         return cls.__cliente_dao.get_one(cpf_)
+
