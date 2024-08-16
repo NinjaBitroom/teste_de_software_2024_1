@@ -124,6 +124,7 @@ O arquivo novo.html - todas as classes são do bootstrap -->
             <th>Cidade</th>
             <th>UF</th>
             <th>Telefone</th>
+            <th>#</th>
         </tr>
         </thead>
         <!-- Define o corpo da tabela -->
@@ -142,14 +143,7 @@ O arquivo novo.html - todas as classes são do bootstrap -->
                 <td>{{ cliente.endereco.uf }}</td>
                 <td>{{ cliente.telefone }}</td>
 
-                <!-- Verifica se o status do cliente é 1 (ativo), caso contrário, o status é 0 (inativo) -->
-                <td>{{ 'Ativo' if cliente.status == 1 else 'Desativado' }}</td>
                 <td>
-                    <!-- Link para a rota atualizar_cliente, passando o id e o status do cliente -->
-                    <a href="#" class="btn btn-warning btn-sm">
-                        <!-- Verifica se o status do cliente é 0 (inativo), caso contrário, o status é 1 (ativo) -->
-                        {{ 'Ativar' if cliente.status==0 else 'Desativar' }}
-                    </a>
                     <!-- Link para a rota editar_cliente, passando o id do cliente -->
                     <a href="#" class="btn btn-primary btn-sm">Editar</a>
                     <!-- Link para a rota deletar_cliente, passando o id do cliente -->

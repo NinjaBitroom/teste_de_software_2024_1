@@ -14,29 +14,32 @@ class ClienteController:
 
     @classmethod
     def create_cliente(
-        cls, nome: str, cpf: str, logradouro: str, numero, complemento,
-        bairro: str, cep: str, cidade: str,
-        uf: str, telefone, email: str
-    ) -> Exception | None:
+            cls, nome: str, cpf: str, logradouro: str, numero, complemento,
+            bairro: str, cep: str, cidade: str,
+            uf: str, telefone, email: str
+    ) -> None:
         """Cria um novo cliente."""
-        try:
-            validated_nome = ClienteValidator.valida_nome(nome)
-            validated_cpf = ClienteValidator.valida_cpf(cpf)
-            validated_email = ClienteValidator.valida_email(email)
-            validated_telefone = telefone
-            validated_endereco = ClienteValidator.valida_endereco(
-                logradouro, numero,
-                complemento, bairro, cep,
-                cidade, uf
-            )
-            new_endereco = EnderecoModel(*validated_endereco)
-            new_cliente = ClienteModel(
-                validated_nome,
-                validated_cpf,
-                validated_email,
-                validated_telefone,
-                new_endereco,
-            )
-            cls.__cliente_dao.add_one(new_cliente)
-        except Exception as error:
-            return error
+        validated_nome = ClienteValidator.valida_nome(nome)
+        validated_cpf = ClienteValidator.valida_cpf(cpf)
+        validated_email = ClienteValidator.valida_email(email)
+        validated_telefone = telefone
+        validated_endereco = ClienteValidator.valida_endereco(
+            logradouro, numero,
+            complemento, bairro, cep,
+            cidade, uf
+        )
+        new_endereco = EnderecoModel(*validated_endereco)
+        new_cliente = ClienteModel(
+            validated_nome,
+            validated_cpf,
+            validated_email,
+            validated_telefone,
+            new_endereco,
+        )
+        cls.__cliente_dao.add_one(new_cliente)
+
+    @classmethod
+    def get_cliente(cls, cpf_) -> ClienteModel | None:
+        """Obtém cliente pelo cpf."""
+        return cls.__cliente_dao.get_one(cpf_)
+

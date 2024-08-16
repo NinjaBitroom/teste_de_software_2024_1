@@ -61,10 +61,15 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
                     <td>{{ cliente.endereco.cidade }}</td>
                     <td>{{ cliente.endereco.uf }}</td>
                     <td>{{ cliente.telefone }}</td>
-                    <td><a class='btn btn-success' href='#'>Editar</a></td>
+                    <td><a href="{{ url_for('root.cliente.editar_cliente_get', cpf=cliente.cpf) }}"
+                           class="btn btn-primary btn-sm">Editar</a>
+                    </td>
 
                     <!-- Exibe um link para deletar o cliente -->
-                    <td><a class='btn btn-danger' href='#'>Deletar</a></td>
+                    <td><!-- Link para a rota deletar_cliente, passando o id do cliente -->
+                        <a href="{{ url_for('root.cliente.deletar_cliente', cpf=cliente.cpf) }}"
+                           class="btn btn-danger btn-sm">Deletar</a>
+                    </td>
                 </tr> <!-- Fim da linha para um cliente -->
 
             {% endfor %} <!-- Fim do loop for -->

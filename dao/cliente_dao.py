@@ -12,8 +12,9 @@ class MemoryDAO[T]:
     def get_all(self) -> list[T]:
         return self.__data
 
-    def get_one(self, id) -> T | None:
+    def get_one(self, cpf) -> T | None:
         for obj in self.__data:
-            if obj.id == id:
+
+            if str(obj.cpf) == str(cpf):
                 return obj
         return None
