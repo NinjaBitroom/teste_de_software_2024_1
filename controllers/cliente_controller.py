@@ -14,9 +14,9 @@ class ClienteController:
 
     @classmethod
     def create_cliente(
-        cls, nome: str, cpf: str, logradouro: str, numero, complemento,
-        bairro: str, cep: str, cidade: str,
-        uf: str, telefone, email: str
+            cls, nome: str, cpf: str, logradouro: str, numero, complemento,
+            bairro: str, cep: str, cidade: str,
+            uf: str, telefone, email: str
     ) -> None:
         """Cria um novo cliente."""
         validated_nome = ClienteValidator.valida_nome(nome)
@@ -37,3 +37,8 @@ class ClienteController:
             new_endereco,
         )
         cls.__cliente_dao.add_one(new_cliente)
+
+    @classmethod
+    def get_cliente(cls, cpf_) -> ClienteModel | None:
+        """Obtém cliente pelo cpf."""
+        return cls.__cliente_dao.get_one(cpf_)

@@ -4,7 +4,7 @@ Manipulando o banco de dados sqlite3
 Adaptado de Giridhar, 2016
 """
 # Importando os módulos necessários do Flask
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, redirect, render_template, request, url_for, flash
 
 from controllers.cliente_controller import ClienteController
 
@@ -52,4 +52,39 @@ def novo_cliente_post():
         nome, cpf, logradouro, numero, complemento,
         bairro, cep, cidade, uf, telefone, email
     )
+    return redirect(url_for('root.cliente.index'))
+
+
+@cliente_blueprint.get('/editar/<int:cpf>')
+def editar_cliente_get(cpf: int):
+    cliente = ClienteController.get_cliente(cpf)
+    return render_template('cliente/editar.html', cliente=cliente)
+
+
+@cliente_blueprint.post('/editar/<int:cpf>')
+def editar_cliente_post(cpf: int):
+    """Rota para atualizar um cliente."""
+
+    descricao = request.form.get('descricao')
+    """Obtém a descrição do cliente do form."""
+
+    preco = request.form.get('preco')
+    """Obtém o preço do cliente do form."""
+
+    status = request.form.get('status')
+
+    cliente = ClienteController.update_cliente(id, descricao, preco, status)
+
+    if isinstance(cliente, ValueError):
+        for msg in cliente.args:
+            flash(msg)
+        return redirect(url_for('root.cliente.editar_cliente_get', id=id))
+
+    return redirect(url_for('root.cliente.index'))
+
+
+@cliente_blueprint.route('/deletar/<int:cpf>', methods=['GET'])
+def deletar_cliente(cpf: int):
+    """Rota para deletar um cliente."""
+    ClienteController.delete_cliente(cpf=cpf)
     return redirect(url_for('root.cliente.index'))
