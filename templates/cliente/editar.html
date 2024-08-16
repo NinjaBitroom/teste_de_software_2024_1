@@ -15,73 +15,73 @@
     <!-- A ação do formulário é definida para apontar para a rota 'editar_cliente', passando o 'id' do cliente como parâmetro -->
     <form action="{{ url_for('root.cliente.editar_cliente_get', id=cliente.id) }}" method="POST">
         <!-- Início do grupo de input para a descrição -->
-        <div class='mb-3'>
-            <div class='mb-3 d-flex align-items-center'>
-                <label for='nome' class='form-label me-2'>Nome:</label>
-                <input class='form-control' type='text' name='nome' id='nome' placeholder='Informe o Nome do cliente'
-                       required autofocus value="{{ cliente.nome }}"/>
-            </div>
-            <input class='form-control' type='hidden' name='cpf' id='cpf' placeholder='Informe o CPF do cliente'
-                   required value="{{ cliente.cpf }}"/>
+        <div class='mb-3 d-flex align-items-center'>
+            <label for='nome' class='me-2'>Nome:</label>
+            <input class='form-control' type='text' name='nome' id='nome' placeholder='Informe o Nome do cliente'
+                   value="{{ cliente.nome }}" required autofocus/>
+        </div>
 
-            <div class='mb-3 d-flex align-items-center'>
-                <label for='logradouro' class='form-label me-2'>Logradouro:</label>
-                <input class='form-control' type='text' name='logradouro' id='logradouro'
-                       placeholder='Informe o logradouro do cliente' required
-                       value="{{ cliente.logradouro }}"/>
-            </div>
+        <div class='mb-3 d-flex align-items-center'>
+            <label for='cpf' class='me-2'>CPF:</label>
+            <input class='form-control' type='text' name='cpf' id='cpf' placeholder='Informe o CPF do cliente'
+                   value="{{ cliente.cpf }}" required/>
+        </div>
 
-            <div class='mb-3 d-flex align-items-center'>
-                <label for='numero' class='form-label me-2'>Número:</label>
-                <input class='form-control' type='number' name='numero' id='numero' placeholder='Informe o número'
-                       required value="{{ cliente.numero }}"/>
-            </div>
+        <div class='mb-3 d-flex align-items-center'>
+            <label for='telefone' class='me-2'>Telefone:</label>
+            <input class='form-control' type='tel' name='telefone' id='telefone'
+                   placeholder='Informe o telefone do cliente' value="{{ cliente.telefone }}" required/>
+        </div>
 
-            <div class='mb-3 d-flex align-items-center'>
-                <label for='complemento' class='form-label me-2'>Complemento:</label>
-                <input class='form-control' type='text' name='complemento' id='complemento'
-                       placeholder='Informe o complemento' required value="{{ cliente.complemento }}"/>
-            </div>
+        <div class='mb-3 d-flex align-items-center'>
+            <label for='email' class='me-2'>Email:</label>
+            <input class='form-control' type='email' name='email' id='email' placeholder='Informe o e-mail do cliente'
+                   value="{{ cliente.email }}" required/>
+        </div>
 
-            <div class='mb-3 d-flex align-items-center'>
-                <label for='bairro' class='form-label me-2'>Bairro:</label>
-                <input class='form-control' type='text' name='bairro' id='bairro'
-                       placeholder='Informe o bairro do cliente' value="{{ cliente.bairro }}"
-                       required/>
-            </div>
+        <div class='mb-3 border-bottom border-dark'></div>
+        <h5>Endereço do Cliente</h5>
 
-            <div class='mb-3 d-flex align-items-center'>
-                <label for='cep' class='form-label me-2'>CEP:</label>
-                <input class='form-control' type='text' name='cep' id='cep' placeholder='Informe o CEP do cliente'
-                       required value="{{ cliente.cep }}"/>
-            </div>
+        <div class='my-3 d-flex align-items-center'>
+            <label for='cep' class='me-2'>CEP:</label>
+            <input class='form-control w-25 me-3' type='text' name='cep' id='cep' placeholder='Informe o CEP do cliente'
+                   maxlength="9" value="{{ cliente.cep }}" required/>
+            <button type="button" class='btn btn-secondary' id="buscaCepButton">Buscar CEP</button>
+        </div>
 
-            <div class='mb-3 d-flex align-items-center'>
-                <label for='cidade' class='form-label me-2'>Cidade:</label>
-                <input class='form-control' type='text' name='cidade' id='cidade'
-                       placeholder='Informe a cidade do cliente' value="{{ cliente.cidade }}"
-                       required/>
-            </div>
+        <div class='mb-3 d-flex align-items-center'>
+            <label for='logradouro' class='me-2'>Logradouro:</label>
+            <input class='form-control' type='text' name='logradouro' id='logradouro'
+                   placeholder='Informe o logradouro do cliente' value="{{ cliente.logradouro }}" required/>
+            <label for='numero' class='mx-2'>Número:</label>
+            <input class='form-control w-25' type='number' name='numero' id='numero'
+                   value="{{ cliente.numero }}" required/>
+        </div>
 
-            <div class='mb-3 d-flex align-items-center'>
-                <label for='uf' class='form-label me-2'>UF:</label>
-                <input class='form-control' type='text' name='uf' id='uf' placeholder='Informe a UF do estado'
-                       maxlength="2" value="{{ cliente.uf }}"
-                       required/>
-            </div>
+        <div class='mb-3 d-flex align-items-center'>
 
-            <div class='mb-3 d-flex align-items-center'>
-                <label for='telefone' class='form-label me-2'>Telefone:</label>
-                <input class='form-control' type='text' name='telefone' id='telefone'
-                       placeholder='Informe o telefone do cliente' required value="{{ cliente.telefone }}"/>
-            </div>
+        </div>
 
-            <div class='mb-3 d-flex align-items-center'>
-                <label for='email' class='form-label me-2'>Email:</label>
-                <input class='form-control' type='text' name='email' id='email'
-                       placeholder='Informe o e-mail do cliente' value="{{ cliente.email }}"
-                       required/>
-            </div>
+        <div class='mb-3 d-flex align-items-center'>
+            <label for='complemento' class='me-2'>Complemento:</label>
+            <input class='form-control' type='text' name='complemento' id='complemento'
+                   placeholder='Informe o complemento' value="{{ cliente.complemento }}" required/>
+        </div>
+
+        <div class='mb-3 d-flex align-items-center'>
+            <label for='bairro' class='me-2'>Bairro:</label>
+            <input class='form-control' type='text' name='bairro' id='bairro' placeholder='Informe o bairro do cliente'
+                   value="{{ cliente.bairro }}" required/>
+        </div>
+
+
+        <div class='mb-5 d-flex align-items-center'>
+            <label for='cidade' class='me-2'>Cidade:</label>
+            <input class='form-control' type='text' name='cidade' id='cidade' placeholder='Informe a cidade do cliente'
+                   value="{{ cliente.cidade }}" required/>
+            <label for='uf' class='mx-2'>UF:</label>
+            <input class='form-control' type='text' name='uf' id='uf' maxlength="2"
+                   style="width: 10%; text-transform:uppercase;" value="{{ cliente.uf }}" required/>
         </div>
         <!-- Início do grupo de input para o botão de atualizar -->
         <div class='mb-3'>
@@ -93,4 +93,6 @@
     <!--Fim do formulário para atualizar um cliente -->
 {% endblock %}
 
-<!-- Fim do bloco 'body' -->
+{% block script %}
+    <script src="{{ url_for('static', filename='js/clientes/clientes.js') }}"></script>
+{% endblock script %}
