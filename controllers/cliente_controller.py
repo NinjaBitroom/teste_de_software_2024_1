@@ -47,11 +47,23 @@ class ClienteController:
         return cls.__cliente_dao.get_one(cpf_)
 
     @classmethod
-    def update_cliente(cls, id, descricao, preco, status):
-        pass
-
-    @classmethod
     def delete_cliente(cls, cpf):
         cliente = cls.__cliente_dao.get_one(cpf)
         cls.__cliente_dao.delete_one(cliente)
 
+    @classmethod
+    def update_cliente(cls, cpf, nome, logradouro, numero, complemento, bairro, cep, cidade, uf, telefone,
+                       email):
+        cliente = cls.__cliente_dao.get_one(cpf)
+        cliente.nome = nome
+        cliente.logradouro = logradouro
+        cliente.numero = numero
+        cliente.complemento = complemento
+        cliente.bairro = bairro
+        cliente.cep = cep
+        cliente.cidade = cidade
+        cliente.uf = uf
+        cliente.telefone = telefone
+        cliente.email = email
+
+        return cliente

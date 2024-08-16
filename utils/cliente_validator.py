@@ -73,6 +73,7 @@ class ClienteValidator:
         """
         if '@' not in email:
             raise ValueError('Email inválido.')
+        return email
 
     @staticmethod
     def formata_texto(texto: str) -> str:

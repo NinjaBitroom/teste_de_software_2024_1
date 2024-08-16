@@ -69,15 +69,20 @@ def editar_cliente_get(cpf: int):
 def editar_cliente_post(cpf: int):
     """Rota para atualizar um cliente."""
 
-    descricao = request.form.get('descricao')
-    """Obtém a descrição do cliente do form."""
+    nome = request.form.get('nome')
+    cpf = request.form.get('cpf')
+    logradouro = request.form.get('logradouro')
+    numero = request.form.get('numero')
+    complemento = request.form.get('complemento')
+    bairro = request.form.get('bairro')
+    cep = request.form.get('cep')
+    cidade = request.form.get('cidade')
+    uf = request.form.get('uf')
+    telefone = request.form.get('telefone')
+    email = request.form.get('email')
 
-    preco = request.form.get('preco')
-    """Obtém o preço do cliente do form."""
-
-    status = request.form.get('status')
-
-    cliente = ClienteController.update_cliente(id, descricao, preco, status)
+    cliente = ClienteController.update_cliente(cpf, nome, logradouro, numero, complemento, bairro, cep, cidade, uf,
+                                               telefone, email, )
 
     if isinstance(cliente, ValueError):
         for msg in cliente.args:
