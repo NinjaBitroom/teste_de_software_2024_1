@@ -1,20 +1,9 @@
-from models.endereco_model import EnderecoModel
+from services.database import db
 
 
-class PessoaModel:
-    def __init__(
-            self, nome: str, cpf: str, email, telefone, endereco: EnderecoModel
-    ):
-        self.nome = nome
-        self.__cpf = cpf
-        self.email = email
-        self.telefone = telefone
-        self.endereco = endereco
-
-    @property
-    def cpf(self):
-        return self.__cpf
-
-    @cpf.getter
-    def cpf(self):
-        return self.__cpf
+class PessoaModel(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nome = db.Column(db.String(80), nullable=False)
+    cpf = db.Column(db.String(11), nullable=False)
+    email = db.Column(db.String(80), nullable=False)
+    telefone = db.Column(db.String(11), nullable=False)

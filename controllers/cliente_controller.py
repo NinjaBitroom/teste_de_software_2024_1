@@ -1,14 +1,13 @@
-from dao.cliente_dao import MemoryDAO
-from models.cliente_model import ClienteModel
-from models.endereco_model import EnderecoModel
+from dao.cliente_dao import ClienteDao
+from models.cliente_model import Cliente
 from utils.cliente_validator import ClienteValidator
 
 
 class ClienteController:
-    __cliente_dao = MemoryDAO(ClienteModel)
+    __cliente_dao = ClienteDao(Cliente)
 
     @classmethod
-    def get_clientes(cls) -> list[ClienteModel]:
+    def get_clientes(cls) -> list[Cliente]:
         """Obtém todos os clientes do banco de dados."""
         return cls.__cliente_dao.get_all()
 
@@ -24,38 +23,43 @@ class ClienteController:
             validated_cpf = ClienteValidator.valida_cpf(cpf)
             validated_email = ClienteValidator.valida_email(email)
             validated_telefone = telefone
-            validated_endereco = ClienteValidator.valida_endereco(
-                logradouro, numero,
-                complemento, bairro, cep,
-                cidade, uf
+
+            ClienteValidator.valida_endereco(logradouro, numero, complemento, bairro, cep, cidade, uf)
+
+            novo_cliente = Cliente(
+                nome=validated_nome,
+                cpf=validated_cpf,
+                email=validated_email,
+                telefone=validated_telefone,
+                logradouro=logradouro,
+                numero=numero,
+                complemento=complemento,
+                bairro=bairro,
+                cep=cep,
+                cidade=cidade,
+                uf=uf,
             )
-            new_endereco = EnderecoModel(*validated_endereco)
-            new_cliente = ClienteModel(
-                validated_nome,
-                validated_cpf,
-                validated_email,
-                validated_telefone,
-                new_endereco,
-            )
-            cls.__cliente_dao.add_one(new_cliente)
+
+            cls.__cliente_dao.add_one(novo_cliente)
         except Exception as error:
             return error
 
     @classmethod
-    def get_cliente(cls, cpf_) -> ClienteModel | None:
-        """Obtém cliente pelo cpf."""
-        return cls.__cliente_dao.get_one(cpf_)
+    def get_cliente(cls, id_) -> Cliente | None:
+        """Obtém cliente pelo id."""
+        return cls.__cliente_dao.get_one(id_)
 
     @classmethod
-    def delete_cliente(cls, cpf):
-        cliente = cls.__cliente_dao.get_one(cpf)
+    def delete_cliente(cls, id):
+        cliente = cls.__cliente_dao.get_one(id)
         cls.__cliente_dao.delete_one(cliente)
 
     @classmethod
-    def update_cliente(cls, cpf, nome, logradouro, numero, complemento, bairro, cep, cidade, uf, telefone,
-                       email):
-        cliente = cls.__cliente_dao.get_one(cpf)
+    def update_cliente(cls, id, cpf, nome, logradouro, numero, complemento, bairro, cep, cidade, uf, telefone, email):
+
+        cliente = cls.__cliente_dao.get_one(id)
         cliente.nome = nome
+        cliente.cpf = cpf
         cliente.logradouro = logradouro
         cliente.numero = numero
         cliente.complemento = complemento
@@ -65,5 +69,7 @@ class ClienteController:
         cliente.uf = uf
         cliente.telefone = telefone
         cliente.email = email
+
+        cls.__cliente_dao.update()
 
         return cliente

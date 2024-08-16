@@ -1,10 +1,10 @@
-from dao.produto_dao import SQLAlchemyDao
+from dao.produto_dao import ProdutoDao
 from models.produto_model import Produto
 from utils.produto_validator import ProdutoValidator
 
 
 class ProdutoController:
-    __produto_dao = SQLAlchemyDao(Produto)
+    __produto_dao = ProdutoDao(Produto)
 
     @classmethod
     def get_produto(cls, id_) -> Produto | None:
@@ -16,7 +16,7 @@ class ProdutoController:
 
     @classmethod
     def create_produto(
-        cls, descricao: str | None, preco: str | None
+            cls, descricao: str | None, preco: str | None
     ) -> tuple[str, ...]:
         errors: list[str] = []
         converted_preco = ProdutoValidator.valida_preco(preco)
@@ -32,8 +32,8 @@ class ProdutoController:
 
     @classmethod
     def update_produto(
-        cls, id_: int, descricao: str | None, preco: str | None,
-        status: str | None
+            cls, id_: int, descricao: str | None, preco: str | None,
+            status: str | None
     ) -> Produto | ValueError:
         produto = cls.__produto_dao.get_one(id_)
         converted_preco: float | ValueError | None = None

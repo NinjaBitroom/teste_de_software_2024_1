@@ -53,22 +53,22 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
                 <tr> <!-- Inicia a linha para um cliente -->
                     <td>{{ cliente.nome }}</td>
                     <td>{{ cliente.cpf }}</td>
-                    <td>{{ cliente.endereco.logradouro }}</td>
-                    <td>{{ cliente.endereco.numero }}</td>
-                    <td>{{ cliente.endereco.complemento }}</td>
-                    <td>{{ cliente.endereco.bairro }}</td>
-                    <td>{{ cliente.endereco.cep }}</td>
-                    <td>{{ cliente.endereco.cidade }}</td>
-                    <td>{{ cliente.endereco.uf }}</td>
+                    <td>{{ cliente.logradouro }}</td>
+                    <td>{{ cliente.numero }}</td>
+                    <td>{{ cliente.complemento }}</td>
+                    <td>{{ cliente.bairro }}</td>
+                    <td>{{ cliente.cep }}</td>
+                    <td>{{ cliente.cidade }}</td>
+                    <td>{{ cliente.uf }}</td>
                     <td>{{ cliente.telefone }}</td>
-                    <td><a href="{{ url_for('root.cliente.editar_cliente_get', cpf=cliente.cpf) }}"
+                    <td><a href_to_confirm_first="{{ url_for('root.cliente.editar_cliente_get', id=cliente.id) }}"
                            class="btn btn-primary btn-sm">Editar</a>
                     </td>
 
                     <!-- Exibe um link para deletar o cliente -->
                     <td><!-- Link para a rota deletar_cliente, passando o id do cliente -->
-                        <a href="{{ url_for('root.cliente.deletar_cliente', cpf=cliente.cpf) }}"
-                           class="btn btn-danger btn-sm">Deletar</a>
+                        <a href_to_confirm_first="{{ url_for('root.cliente.deletar_cliente', id=cliente.id) }}"
+                           class="btn btn-danger btn-sm removerCliente">Deletar</a>
                     </td>
                 </tr> <!-- Fim da linha para um cliente -->
 
@@ -86,4 +86,19 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
         <h3><a class='btn btn-primary' href='{{ url_for("root.cliente.novo_cliente_get") }}'>Adicionar Cliente</a></h3>
     </div>
 
-{% endblock %} <!-- Fim do bloco 'body' -->
+{% endblock %}
+<!-- Fim do bloco 'body' -->
+{% block script %}
+    <script>
+        let listaRemoveButton = document.querySelectorAll(".removerCliente");
+
+        listaRemoveButton.forEach(item => {
+            item.addEventListener("click", () => {
+                if (confirm("Tem certeza que deseja excluir esse cliente?")) {
+                    window.location.href = item.getAttribute("href_to_confirm_first");
+                }
+            })
+        })
+
+    </script>
+{% endblock script %}

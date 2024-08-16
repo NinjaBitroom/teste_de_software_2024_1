@@ -13,7 +13,7 @@
 
     <!-- Início do formulário para atualizar um cliente -->
     <!-- A ação do formulário é definida para apontar para a rota 'editar_cliente', passando o 'id' do cliente como parâmetro -->
-    <form action="{{ url_for('root.cliente.editar_cliente_get', cpf=cliente.cpf) }}" method="POST">
+    <form action="{{ url_for('root.cliente.editar_cliente_get', id=cliente.id) }}" method="POST">
         <!-- Início do grupo de input para a descrição -->
         <div class='mb-3'>
             <div class='mb-3 d-flex align-items-center'>
@@ -28,45 +28,45 @@
                 <label for='logradouro' class='form-label me-2'>Logradouro:</label>
                 <input class='form-control' type='text' name='logradouro' id='logradouro'
                        placeholder='Informe o logradouro do cliente' required
-                       value="{{ cliente.endereco.logradouro }}"/>
+                       value="{{ cliente.logradouro }}"/>
             </div>
 
             <div class='mb-3 d-flex align-items-center'>
                 <label for='numero' class='form-label me-2'>Número:</label>
                 <input class='form-control' type='number' name='numero' id='numero' placeholder='Informe o número'
-                       required value="{{ cliente.endereco.numero }}"/>
+                       required value="{{ cliente.numero }}"/>
             </div>
 
             <div class='mb-3 d-flex align-items-center'>
                 <label for='complemento' class='form-label me-2'>Complemento:</label>
                 <input class='form-control' type='text' name='complemento' id='complemento'
-                       placeholder='Informe o complemento' required value="{{ cliente.endereco.complemento }}"/>
+                       placeholder='Informe o complemento' required value="{{ cliente.complemento }}"/>
             </div>
 
             <div class='mb-3 d-flex align-items-center'>
                 <label for='bairro' class='form-label me-2'>Bairro:</label>
                 <input class='form-control' type='text' name='bairro' id='bairro'
-                       placeholder='Informe o bairro do cliente' value="{{ cliente.endereco.bairro }}"
+                       placeholder='Informe o bairro do cliente' value="{{ cliente.bairro }}"
                        required/>
             </div>
 
             <div class='mb-3 d-flex align-items-center'>
                 <label for='cep' class='form-label me-2'>CEP:</label>
                 <input class='form-control' type='text' name='cep' id='cep' placeholder='Informe o CEP do cliente'
-                       required value="{{ cliente.endereco.cep }}"/>
+                       required value="{{ cliente.cep }}"/>
             </div>
 
             <div class='mb-3 d-flex align-items-center'>
                 <label for='cidade' class='form-label me-2'>Cidade:</label>
                 <input class='form-control' type='text' name='cidade' id='cidade'
-                       placeholder='Informe a cidade do cliente' value="{{ cliente.endereco.cidade }}"
+                       placeholder='Informe a cidade do cliente' value="{{ cliente.cidade }}"
                        required/>
             </div>
 
             <div class='mb-3 d-flex align-items-center'>
                 <label for='uf' class='form-label me-2'>UF:</label>
                 <input class='form-control' type='text' name='uf' id='uf' placeholder='Informe a UF do estado'
-                       maxlength="2" value="{{ cliente.endereco.uf }}"
+                       maxlength="2" value="{{ cliente.uf }}"
                        required/>
             </div>
 
@@ -90,6 +90,7 @@
         </div>
         <!-- Fim do grupo de input para o botão de atualizar -->
     </form>
-    <!-- Fim do formulário para atualizar um cliente -->
+    <!--Fim do formulário para atualizar um cliente -->
 {% endblock %}
+
 <!-- Fim do bloco 'body' -->

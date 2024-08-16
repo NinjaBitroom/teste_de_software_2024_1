@@ -89,13 +89,13 @@ O arquivo novo.html - todas as classes são do bootstrap -->
 
         <div class='mb-3 d-flex align-items-center'>
             <label for='telefone' class='form-label me-2'>Telefone:</label>
-            <input class='form-control' type='text' name='telefone' id='telefone'
+            <input class='form-control' type='tel' name='telefone' id='telefone'
                    placeholder='Informe o telefone do cliente' required/>
         </div>
 
         <div class='mb-3 d-flex align-items-center'>
             <label for='email' class='form-label me-2'>Email:</label>
-            <input class='form-control' type='text' name='email' id='email' placeholder='Informe o e-mail do cliente'
+            <input class='form-control' type='email' name='email' id='email' placeholder='Informe o e-mail do cliente'
                    required/>
         </div>
 
@@ -134,13 +134,13 @@ O arquivo novo.html - todas as classes são do bootstrap -->
             <tr>
                 <td>{{ cliente.nome }}</td>
                 <td>{{ cliente.cpf }}</td>
-                <td>{{ cliente.endereco.logradouro }}</td>
-                <td>{{ cliente.endereco.numero }}</td>
-                <td>{{ cliente.endereco.complemento }}</td>
-                <td>{{ cliente.endereco.bairro }}</td>
-                <td>{{ cliente.endereco.cep }}</td>
-                <td>{{ cliente.endereco.cidade }}</td>
-                <td>{{ cliente.endereco.uf }}</td>
+                <td>{{ cliente.logradouro }}</td>
+                <td>{{ cliente.numero }}</td>
+                <td>{{ cliente.complemento }}</td>
+                <td>{{ cliente.bairro }}</td>
+                <td>{{ cliente.cep }}</td>
+                <td>{{ cliente.cidade }}</td>
+                <td>{{ cliente.uf }}</td>
                 <td>{{ cliente.telefone }}</td>
 
                 <td>

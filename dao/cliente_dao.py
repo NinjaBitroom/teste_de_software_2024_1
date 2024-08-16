@@ -1,20 +1,28 @@
-class MemoryDAO[T]:
-    def __init__(self, model: type[T]) -> None:
+from services.database import db
+
+
+class ClienteDao[T]:
+    def __init__(self, model: type[T]):
         self.__model = model
-        self.__data = []
-
-    def add_one(self, obj: T) -> None:
-        self.__data.append(obj)
-
-    def delete_one(self, obj: T) -> None:
-        self.__data.remove(obj)
 
     def get_all(self) -> list[T]:
-        return self.__data
+        """Retorna todos os objetos."""
+        return db.session.query(self.__model).all()
 
-    def get_one(self, cpf) -> T | None:
-        for obj in self.__data:
+    def get_one(self, id_) -> T | None:
+        """Retorna um cliente específico pelo ID."""
+        return db.session.query(self.__model).get(id_)
 
-            if str(obj.cpf) == str(cpf):
-                return obj
-        return None
+    def add_one(self, obj: T) -> None:
+        """Método para salvar um objeto no banco de dados."""
+        db.session.add(obj)
+        self.update()
+
+    def update(self) -> None:
+        """Método para atualizar o banco de dados."""
+        db.session.commit()  # Salvando as alterações no banco de dados
+
+    def delete_one(self, obj: T) -> None:
+        """Método para deletar um objeto no banco de dados."""
+        db.session.delete(obj)
+        self.update()

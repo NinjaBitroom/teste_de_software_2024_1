@@ -7,7 +7,7 @@ test_models.py
 from flask_testing import TestCase
 
 from controllers.produto_controller import ProdutoController
-from dao.produto_dao import SQLAlchemyDao
+from dao.produto_dao import ProdutoDao
 from models.produto_model import Produto
 from services.database import db
 from wsgi import create_app
@@ -57,7 +57,7 @@ class TestProdutoModel(TestCase):
         db.session.commit()
         produto.descricao = 'Teste Atualizado'
         produto.preco = 20.0
-        SQLAlchemyDao.update()
+        ProdutoDao.update()
         produto_atualizado = db.session.query(Produto).get(produto.id)
 
         self.assertEqual(produto_atualizado.descricao, 'Teste Atualizado')
@@ -68,7 +68,7 @@ class TestProdutoModel(TestCase):
         produto = Produto(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
-        SQLAlchemyDao.delete_one(produto)
+        ProdutoDao.delete_one(produto)
         produto_deletado = db.session.query(Produto).get(produto.id)
         self.assertIsNone(produto_deletado)
 

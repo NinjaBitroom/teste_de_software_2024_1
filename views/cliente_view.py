@@ -59,14 +59,14 @@ def novo_cliente_post():
     return redirect(url_for('root.cliente.index'))
 
 
-@cliente_blueprint.get('/editar/<int:cpf>')
-def editar_cliente_get(cpf: int):
-    cliente = ClienteController.get_cliente(cpf)
+@cliente_blueprint.get('/editar/<int:id>')
+def editar_cliente_get(id: int):
+    cliente = ClienteController.get_cliente(id)
     return render_template('cliente/editar.html', cliente=cliente)
 
 
-@cliente_blueprint.post('/editar/<int:cpf>')
-def editar_cliente_post(cpf: int):
+@cliente_blueprint.post('/editar/<int:id>')
+def editar_cliente_post(id: int):
     """Rota para atualizar um cliente."""
 
     nome = request.form.get('nome')
@@ -81,7 +81,7 @@ def editar_cliente_post(cpf: int):
     telefone = request.form.get('telefone')
     email = request.form.get('email')
 
-    cliente = ClienteController.update_cliente(cpf, nome, logradouro, numero, complemento, bairro, cep, cidade, uf,
+    cliente = ClienteController.update_cliente(id, cpf, nome, logradouro, numero, complemento, bairro, cep, cidade, uf,
                                                telefone, email, )
 
     if isinstance(cliente, ValueError):
@@ -92,8 +92,8 @@ def editar_cliente_post(cpf: int):
     return redirect(url_for('root.cliente.index'))
 
 
-@cliente_blueprint.route('/deletar/<int:cpf>', methods=['GET'])
-def deletar_cliente(cpf: int):
+@cliente_blueprint.route('/deletar/<int:id>', methods=['GET'])
+def deletar_cliente(id: int):
     """Rota para deletar um cliente."""
-    ClienteController.delete_cliente(cpf=cpf)
+    ClienteController.delete_cliente(id)
     return redirect(url_for('root.cliente.index'))
