@@ -143,14 +143,32 @@ O arquivo novo.html - todas as classes são do bootstrap -->
                 <td>{{ cliente.uf }}</td>
                 <td>{{ cliente.telefone }}</td>
 
-                <td>
-                    <!-- Link para a rota editar_cliente, passando o id do cliente -->
-                    <a href="#" class="btn btn-primary btn-sm">Editar</a>
-                    <!-- Link para a rota deletar_cliente, passando o id do cliente -->
-                    <a href="#" class="btn btn-danger btn-sm">Deletar</a>
+                <td><a href="{{ url_for('root.cliente.editar_cliente_get', id=cliente.id) }}"
+                       class="btn btn-primary btn-sm">Editar</a>
+                </td>
+
+                <!-- Exibe um link para deletar o cliente -->
+                <td><!-- Link para a rota deletar_cliente, passando o id do cliente -->
+                    <a href_to_confirm_first="{{ url_for('root.cliente.deletar_cliente', id=cliente.id) }}"
+                       class="btn btn-danger btn-sm removerCliente">Deletar</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 {% endblock %}
+
+{% block script %}
+    <script>
+        let listaRemoveButton = document.querySelectorAll(".removerCliente");
+
+        listaRemoveButton.forEach(item => {
+            item.addEventListener("click", () => {
+                if (confirm("Tem certeza que deseja excluir esse cliente?")) {
+                    window.location.href = item.getAttribute("href_to_confirm_first");
+                }
+            })
+        })
+
+    </script>
+{% endblock script %}

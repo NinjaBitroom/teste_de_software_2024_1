@@ -47,6 +47,7 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
                 <th>Cidade</th>
                 <th>UF</th>
                 <th>Telefone</th>
+                <th>#</th>
             </tr> <!-- Fim da linha de cabeçalho -->
 
             {% for cliente in clientes %} <!-- Para cada cliente na lista de clientes, cria uma nova linha na tabela -->
@@ -61,7 +62,7 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
                     <td>{{ cliente.cidade }}</td>
                     <td>{{ cliente.uf }}</td>
                     <td>{{ cliente.telefone }}</td>
-                    <td><a href_to_confirm_first="{{ url_for('root.cliente.editar_cliente_get', id=cliente.id) }}"
+                    <td><a href="{{ url_for('root.cliente.editar_cliente_get', id=cliente.id) }}"
                            class="btn btn-primary btn-sm">Editar</a>
                     </td>
 
