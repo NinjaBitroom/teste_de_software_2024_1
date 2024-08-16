@@ -4,7 +4,7 @@ Manipulando o banco de dados sqlite3
 Adaptado de Giridhar, 2016
 """
 # Importando os módulos necessários do Flask
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, redirect, render_template, request, url_for, flash
 
 from controllers.cliente_controller import ClienteController
 
@@ -48,8 +48,12 @@ def novo_cliente_post():
     uf = request.form.get('uf')
     telefone = request.form.get('telefone')
     email = request.form.get('email')
-    ClienteController.create_cliente(
+    error = ClienteController.create_cliente(
         nome, cpf, logradouro, numero, complemento,
         bairro, cep, cidade, uf, telefone, email
     )
+    if error is not None:
+        for msg in error.args:
+            flash(msg)
+        return redirect(url_for('root.cliente.novo_cliente_get'))
     return redirect(url_for('root.cliente.index'))

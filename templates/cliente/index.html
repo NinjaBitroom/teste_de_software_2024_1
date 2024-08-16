@@ -14,6 +14,20 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
 
 {% block body %} <!-- Inicio do bloco 'body', onde podemos adicionar conteúdos específicos para o corpo da página -->
 
+    <!-- Começa o bloco para exibir mensagens flash, se houver -->
+    {% with messages = get_flashed_messages() %}
+        <!-- Verifica se há mensagens para mostrar -->
+        {% if messages %}
+            <!-- Define a estrutura da mensagem, incluindo um botão para fechar a mensagem -->
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <!-- Mostra a primeira mensagem flash -->
+                {{ messages[0] }}
+                <!-- Define o botão para fechar a mensagem -->
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+    {% endwith %}
+
     {% if clientes %} <!-- Verifica se existe uma lista de clientes. Se existir, exibe a tabela de clientes -->
 
         <h3>Clientes</h3> <!-- Cabeçalho da página -->

@@ -17,23 +17,26 @@ class ClienteController:
         cls, nome: str, cpf: str, logradouro: str, numero, complemento,
         bairro: str, cep: str, cidade: str,
         uf: str, telefone, email: str
-    ) -> None:
+    ) -> Exception | None:
         """Cria um novo cliente."""
-        validated_nome = ClienteValidator.valida_nome(nome)
-        validated_cpf = ClienteValidator.valida_cpf(cpf)
-        validated_email = ClienteValidator.valida_email(email)
-        validated_telefone = telefone
-        validated_endereco = ClienteValidator.valida_endereco(
-            logradouro, numero,
-            complemento, bairro, cep,
-            cidade, uf
-        )
-        new_endereco = EnderecoModel(*validated_endereco)
-        new_cliente = ClienteModel(
-            validated_nome,
-            validated_cpf,
-            validated_email,
-            validated_telefone,
-            new_endereco,
-        )
-        cls.__cliente_dao.add_one(new_cliente)
+        try:
+            validated_nome = ClienteValidator.valida_nome(nome)
+            validated_cpf = ClienteValidator.valida_cpf(cpf)
+            validated_email = ClienteValidator.valida_email(email)
+            validated_telefone = telefone
+            validated_endereco = ClienteValidator.valida_endereco(
+                logradouro, numero,
+                complemento, bairro, cep,
+                cidade, uf
+            )
+            new_endereco = EnderecoModel(*validated_endereco)
+            new_cliente = ClienteModel(
+                validated_nome,
+                validated_cpf,
+                validated_email,
+                validated_telefone,
+                new_endereco,
+            )
+            cls.__cliente_dao.add_one(new_cliente)
+        except Exception as error:
+            return error
