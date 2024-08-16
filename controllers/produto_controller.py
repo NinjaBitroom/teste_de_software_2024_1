@@ -1,10 +1,10 @@
-from dao.produto_dao import ProdutoDao
+from dao.dao import Dao
 from models.produto_model import Produto
 from utils.produto_validator import ProdutoValidator
 
 
 class ProdutoController:
-    __produto_dao = ProdutoDao(Produto)
+    __produto_dao = Dao(Produto)
 
     @classmethod
     def get_produto(cls, id_) -> Produto | None:

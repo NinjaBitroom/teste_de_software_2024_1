@@ -1,7 +1,8 @@
 from services.database import db
 
 
-class ProdutoDao[T]:
+class Dao[T]:
+
     def __init__(self, model: type[T]):
         self.__model = model
 
@@ -10,7 +11,7 @@ class ProdutoDao[T]:
         return db.session.query(self.__model).all()
 
     def get_one(self, id_) -> T | None:
-        """Retorna um produto específico pelo ID."""
+        """Retorna um cliente específico pelo ID."""
         return db.session.query(self.__model).get(id_)
 
     def add_one(self, obj: T) -> None:

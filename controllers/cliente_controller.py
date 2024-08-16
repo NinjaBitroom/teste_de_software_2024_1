@@ -1,10 +1,10 @@
-from dao.cliente_dao import ClienteDao
+from dao.dao import Dao
 from models.cliente_model import Cliente
 from utils.cliente_validator import ClienteValidator
 
 
 class ClienteController:
-    __cliente_dao = ClienteDao(Cliente)
+    __cliente_dao = Dao(Cliente)
 
     @classmethod
     def get_clientes(cls) -> list[Cliente]:

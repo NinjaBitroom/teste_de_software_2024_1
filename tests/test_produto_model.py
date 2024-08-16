@@ -7,7 +7,6 @@ test_models.py
 from flask_testing import TestCase
 
 from controllers.produto_controller import ProdutoController
-from dao.produto_dao import ProdutoDao
 from models.produto_model import Produto
 from services.database import db
 from wsgi import create_app
