@@ -2,6 +2,7 @@ from typing import Any
 
 import phonenumbers
 import regex
+from email_validator import validate_email
 
 
 class ClienteValidator:
@@ -68,13 +69,13 @@ class ClienteValidator:
         return cpf  # retorna True se o CPF for válido
 
     @staticmethod
-    def valida_email(email: str) -> Any:
-        """
-        valida o email, garantindo que contenha um @
-        """
-        if '@' not in email:
+    def valida_email(email: str) -> str:
+        """Faz a validação e normalização do e-mail."""
+        try:
+            validated_email = validate_email(email, check_deliverability=False)
+            return validated_email.normalized
+        except ValueError:
             raise ValueError('Email inválido.')
-        return email
 
     @staticmethod
     def formata_texto(texto: str) -> str:
