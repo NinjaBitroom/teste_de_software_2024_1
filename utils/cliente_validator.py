@@ -1,5 +1,6 @@
 from typing import Any
 
+import phonenumbers
 import regex
 
 
@@ -32,7 +33,7 @@ class ClienteValidator:
 
         # elimina CPFs invalidos conhecidos
         if cpf in ['0' * 11, '1' * 11, '2' * 11, '3' * 11, '4' * 11, '5' * 11,
-                   '6' * 11, '7' * 11, '8' * 11, '9' * 11]:
+            '6' * 11, '7' * 11, '8' * 11, '9' * 11]:
             raise ValueError('CPF inválido. Sequência repetida...')
 
         # Validação dos dígitos verificadores
@@ -80,14 +81,14 @@ class ClienteValidator:
         # Capitaliza cada palavra corretamente, exceto preposições
         return ' '.join(
             word.capitalize() if word.lower() not in ['da', 'de', 'do', 'das',
-                                                      'dos'] else word.lower() for word in
-            regex.sub(r'\s+', ' ', texto).strip().split()
+                'dos'] else word.lower() for word in
+                regex.sub(r'\s+', ' ', texto).strip().split()
         )
 
     @staticmethod
     def valida_endereco(
-            logradouro: str, numero: Any, complemento: Any, bairro: str, cep: str,
-            cidade: str, uf: str
+        logradouro: str, numero: Any, complemento: Any, bairro: str, cep: str,
+        cidade: str, uf: str
     ):
         # Aplica a formatação correta de texto
         logradouro = ClienteValidator.formata_texto(logradouro)
@@ -111,3 +112,9 @@ class ClienteValidator:
             )
 
         return logradouro, numero, complemento, bairro, cep, cidade, uf
+
+    @classmethod
+    def valida_telefone(cls, telefone: str) -> str:
+        if not phonenumbers.is_possible_number_string(telefone, 'BR'):
+            raise ValueError('Telefone inválido.')
+        return telefone
