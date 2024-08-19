@@ -8,6 +8,19 @@
 
 <!-- No bloco 'body', nós colocamos o conteúdo principal da página -->
 {% block body %}
+    {% with messages = get_flashed_messages() %}
+        <!-- Verifica se há mensagens para mostrar -->
+        {% if messages %}
+            <!-- Define a estrutura da mensagem, incluindo um botão para fechar a mensagem -->
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <!-- Mostra a primeira mensagem flash -->
+                {{ messages[0] }}
+                <!-- Define o botão para fechar a mensagem -->
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <!-- Título da página -->
     <h3>Atualizar Cliente</h3>
 
