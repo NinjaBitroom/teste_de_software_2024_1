@@ -13,18 +13,20 @@ class ClienteController:
 
     @classmethod
     def create_cliente(
-            cls, nome: str, cpf: str, logradouro: str, numero, complemento,
-            bairro: str, cep: str, cidade: str,
-            uf: str, telefone, email: str
+        cls, nome: str, cpf: str, logradouro: str, numero, complemento,
+        bairro: str, cep: str, cidade: str,
+        uf: str, telefone, email: str
     ) -> None | Exception:
         """Cria um novo cliente."""
         try:
             validated_nome = ClienteValidator.valida_nome(nome)
             validated_cpf = ClienteValidator.valida_cpf(cpf)
             validated_email = ClienteValidator.valida_email(email)
-            validated_telefone = telefone
+            validated_telefone = ClienteValidator.valida_telefone(telefone)
 
-            ClienteValidator.valida_endereco(logradouro, numero, complemento, bairro, cep, cidade, uf)
+            ClienteValidator.valida_endereco(
+                logradouro, numero, complemento, bairro, cep, cidade, uf
+            )
 
             novo_cliente = Cliente(
                 nome=validated_nome,
@@ -55,7 +57,10 @@ class ClienteController:
         cls.__cliente_dao.delete_one(cliente)
 
     @classmethod
-    def update_cliente(cls, id, cpf, nome, logradouro, numero, complemento, bairro, cep, cidade, uf, telefone, email):
+    def update_cliente(
+        cls, id, cpf, nome, logradouro, numero, complemento, bairro, cep,
+        cidade, uf, telefone, email
+    ):
 
         cliente = cls.__cliente_dao.get_one(id)
         cliente.nome = nome
