@@ -60,21 +60,17 @@ class ClienteController:
     def update_cliente(
         cls, id, cpf, nome, logradouro, numero, complemento, bairro, cep,
         cidade, uf, telefone, email
-    ):
-
-        cliente = cls.__cliente_dao.get_one(id)
-        cliente.nome = nome
-        cliente.cpf = cpf
-        cliente.logradouro = logradouro
-        cliente.numero = numero
-        cliente.complemento = complemento
-        cliente.bairro = bairro
-        cliente.cep = cep
-        cliente.cidade = cidade
-        cliente.uf = uf
-        cliente.telefone = telefone
-        cliente.email = email
-
-        cls.__cliente_dao.update()
-
+    ) -> Cliente | Exception:
+        try:
+            cliente = cls.__cliente_dao.get_one(id)
+            cliente.nome = ClienteValidator.valida_nome(nome)
+            cliente.cpf = ClienteValidator.valida_cpf(cpf)
+            cliente.logradouro, cliente.numero, cliente.complemento, cliente.bairro, cliente.cep, cliente.cidade, cliente.uf = ClienteValidator.valida_endereco(
+                logradouro, numero, complemento, bairro, cep, cidade, uf
+            )
+            cliente.telefone = ClienteValidator.valida_telefone(telefone)
+            cliente.email = ClienteValidator.valida_email(email)
+            cls.__cliente_dao.update()
+        except Exception as error:
+            return error
         return cliente
