@@ -7,14 +7,14 @@ test_models.py
 from flask_testing import TestCase
 
 from controllers.produto_controller import ProdutoController
-from dao.dao import Dao
+from dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
 from models.produto_model import Produto
 from services.database import db
 from wsgi import create_app
 
 
 class TestProdutoModel(TestCase):
-    __produto_dao = Dao(Produto)
+    __produto_dao = FlaskSQLAlchemyDAO(Produto)
 
     def create_app(self):
         """Configurações do aplicativo para testes."""
