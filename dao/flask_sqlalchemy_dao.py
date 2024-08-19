@@ -1,7 +1,7 @@
 from services.database import db
 
 
-class Dao[T]:
+class FlaskSQLAlchemyDAO[T]:
 
     def __init__(self, model: type[T]):
         self.__model = model

@@ -1,10 +1,10 @@
-from dao.dao import Dao
+from dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
 from models.cliente_model import Cliente
 from utils.cliente_validator import ClienteValidator
 
 
 class ClienteController:
-    __cliente_dao = Dao(Cliente)
+    __cliente_dao = FlaskSQLAlchemyDAO(Cliente)
 
     @classmethod
     def get_clientes(cls) -> list[Cliente]:
