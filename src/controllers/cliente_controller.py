@@ -26,9 +26,7 @@ class ClienteController:
                 cliente_dict['telefone']
             )
 
-            (validated_logradouro, validated_numero, validated_complemento,
-            validated_bairro, validated_cep, validated_cidade,
-            validated_uf) = ClienteValidator.valida_endereco(
+            validated_endereco = ClienteValidator.valida_endereco(
                 cliente_dict['logradouro'], cliente_dict['numero'],
                 cliente_dict['complemento'], cliente_dict['bairro'],
                 cliente_dict['cep'], cliente_dict['cidade'], cliente_dict['uf']
@@ -39,13 +37,7 @@ class ClienteController:
                 cpf=validated_cpf,
                 email=validated_email,
                 telefone=validated_telefone,
-                logradouro=validated_logradouro,
-                numero=validated_numero,
-                complemento=validated_complemento,
-                bairro=validated_bairro,
-                cep=validated_cep,
-                cidade=validated_cidade,
-                uf=validated_uf,
+                **validated_endereco
             )
 
             cls.__cliente_dao.add_one(novo_cliente)

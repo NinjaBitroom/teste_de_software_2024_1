@@ -1,5 +1,3 @@
-from typing import Any
-
 import phonenumbers
 import regex
 from email_validator import validate_email
@@ -88,9 +86,9 @@ class ClienteValidator:
 
     @staticmethod
     def valida_endereco(
-        logradouro: str, numero: Any, complemento: Any, bairro: str, cep: str,
-        cidade: str, uf: str
-    ):
+        logradouro: str | None, numero: int | None, complemento: str | None,
+        bairro: str | None, cep: str | None, cidade: str | None, uf: str | None
+    ) -> dict[str, str | int | None]:
         # Aplica a formatação correta de texto
         logradouro = ClienteValidator.formata_texto(logradouro)
         bairro = ClienteValidator.formata_texto(bairro)
@@ -111,8 +109,11 @@ class ClienteValidator:
             raise ValueError(
                 'UF inválido. Deve ser composto por duas letras maiúsculas.'
             )
-
-        return logradouro, numero, complemento, bairro, cep, cidade, uf
+        return {
+            'logradouro': logradouro, 'numero': numero,
+            'complemento': complemento, 'bairro': bairro, 'cep': cep,
+            'cidade': cidade, 'uf': uf
+        }
 
     @classmethod
     def valida_telefone(cls, telefone: str) -> str:
