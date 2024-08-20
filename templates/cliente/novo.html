@@ -99,7 +99,8 @@ O arquivo novo.html - todas as classes são do bootstrap -->
                    required/>
             <label for='uf' class='mx-2'>UF:</label>
             <input class='form-control' type='text' name='uf' id='uf' maxlength="2"
-                   style="width: 10%; text-transform:uppercase;" required/>
+                   style="width: 10%; text-transform:uppercase;" oninput="this.value = this.value.toUpperCase()"
+                   required/>
         </div>
 
         <div class='mb-3'>
