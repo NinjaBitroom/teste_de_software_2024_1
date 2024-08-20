@@ -20,10 +20,8 @@ relacionadas, funções de visualização e outros recursos de código.
 @produto_blueprint.route('/')
 def index():
     """Rota principal do aplicativo que exibe todos os produtos."""
-
     produtos = ProdutoController.get_produtos()
     """Obtém todos os produtos do banco de dados."""
-
     return render_template('produto/index.html', produtos=produtos)
 
 
@@ -35,15 +33,14 @@ def novo_produto_get():
 @produto_blueprint.post('/novo')
 def novo_produto_post():
     """Rota para adicionar um novo produto."""
+    fields = ('descricao', 'preco')
+    produto = {}
 
-    descricao = request.form.get('descricao')
-    """Obtém a descrição do produto do form."""
-
-    preco = request.form.get('preco')
-    """Obtém o preço do produto do form."""
+    for field in fields:
+        produto[field] = request.form.get(field)
 
     errors = ProdutoController.create_produto(
-        descricao=descricao, preco=preco
+        descricao=produto['descricao'], preco=produto['preco']
     )
 
     if errors:
@@ -63,16 +60,16 @@ def editar_produto_get(id: int):
 @produto_blueprint.post('/editar/<int:id>')
 def editar_produto_post(id: int):
     """Rota para atualizar um produto."""
+    fields = ('descricao', 'preco', 'status')
+    produto_dict = {}
 
-    descricao = request.form.get('descricao')
-    """Obtém a descrição do produto do form."""
+    for field in fields:
+        produto_dict[field] = request.form.get(field)
 
-    preco = request.form.get('preco')
-    """Obtém o preço do produto do form."""
-
-    status = request.form.get('status')
-
-    produto = ProdutoController.update_produto(id, descricao, preco, status)
+    produto = ProdutoController.update_produto(
+        id, produto_dict['descricao'], produto_dict['preco'],
+        produto_dict['status']
+    )
 
     if isinstance(produto, ValueError):
         for msg in produto.args:
