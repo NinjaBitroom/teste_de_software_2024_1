@@ -25,13 +25,7 @@ class ClienteController:
             validated_telefone = ClienteValidator.valida_telefone(
                 cliente_dict['telefone']
             )
-
-            validated_endereco = ClienteValidator.valida_endereco(
-                cliente_dict['logradouro'], cliente_dict['numero'],
-                cliente_dict['complemento'], cliente_dict['bairro'],
-                cliente_dict['cep'], cliente_dict['cidade'], cliente_dict['uf']
-            )
-
+            validated_endereco = ClienteValidator.valida_endereco(cliente_dict)
             novo_cliente = ClienteModel(
                 nome=validated_nome,
                 cpf=validated_cpf,
@@ -39,7 +33,6 @@ class ClienteController:
                 telefone=validated_telefone,
                 **validated_endereco
             )
-
             cls.__cliente_dao.add_one(novo_cliente)
         except Exception as error:
             return error
