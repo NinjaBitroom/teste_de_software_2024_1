@@ -19,11 +19,11 @@ class ProdutoModel(db.Model):
     id: Mapped[int] = mapped_column(init=False, primary_key=True)
     """Identificador único do produto."""
 
-    descricao: Mapped[str] = mapped_column(nullable=False)
+    descricao: Mapped[str]
     """Descrição do produto."""
 
-    preco: Mapped[float] = mapped_column(nullable=False)
+    preco: Mapped[float]
     """Preço do produto."""
 
-    status: Mapped[bool] = mapped_column(default=True, nullable=False)
+    status: Mapped[bool] = mapped_column(default=True)
     """Status do produto: ativo (1) ou inativo (0)."""
