@@ -25,5 +25,5 @@ class ProdutoModel(db.Model):
     preco: Mapped[float] = mapped_column(nullable=False)
     """Preço do produto."""
 
-    status: Mapped[str] = mapped_column(default=True)
+    status: Mapped[bool] = mapped_column(default=True, nullable=False)
     """Status do produto: ativo (1) ou inativo (0)."""

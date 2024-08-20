@@ -27,8 +27,13 @@ def index():
     return render_template('produto/index.html', produtos=produtos)
 
 
+@produto_blueprint.get('/novo')
+def novo_produto_get():
+    return render_template('produto/novo.html')
+
+
 @produto_blueprint.post('/novo')
-def novo_produto():
+def novo_produto_post():
     """Rota para adicionar um novo produto."""
 
     descricao = request.form.get('descricao')
