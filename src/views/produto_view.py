@@ -46,8 +46,10 @@ def novo_produto_post():
         descricao=descricao, preco=preco
     )
 
-    for error in errors:
-        flash(error)
+    if errors:
+        for error in errors:
+            flash(error)
+        return redirect(url_for('root.produto.novo_produto_get'))
 
     return redirect(url_for('root.produto.index'))
 
