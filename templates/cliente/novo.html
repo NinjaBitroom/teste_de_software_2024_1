@@ -106,44 +106,6 @@ O arquivo novo.html - todas as classes são do bootstrap -->
             <button type='submit' class='btn btn-primary mb-3'>Cadastrar</button>
         </div>
     </form>
-
-    <!-- Define o cabeçalho para a lista de clientes -->
-    <h3>Clientes Cadastrados</h3>
-
-    <!-- Define a tabela para mostrar os clientes cadastrados -->
-    <table class="table">
-        <!-- Define o cabeçalho da tabela -->
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>CEP</th>
-            <th>Telefone</th>
-            <th>Email</th>
-            <th>#</th>
-        </tr>
-        </thead>
-        <!-- Define o corpo da tabela -->
-        <tbody>
-        <!-- Loop para cada cliente na lista de clientes -->
-        {% for cliente in clientes %}
-            <tr>
-                <td>{{ cliente.nome }}</td>
-                <td>{{ cliente.cpf }}</td>
-                <td>{{ cliente.cep }}</td>
-                <td>{{ cliente.telefone }}</td>
-                <td>{{ cliente.email }}</td>
-
-                <td>
-                    <a href="{{ url_for('root.cliente.editar_cliente_get', id=cliente.id) }}"
-                       class="btn btn-primary btn-sm">Editar</a>
-                    <a href_to_confirm_first="{{ url_for('root.cliente.deletar_cliente', id=cliente.id) }}"
-                       class="btn btn-danger btn-sm removerCliente">Deletar</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 {% endblock %}
 
 {% block script %}
