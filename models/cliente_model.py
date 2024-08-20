@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from models.pessoa_model import PessoaModel
 
 
-class Cliente(PessoaModel):
+class ClienteModel(PessoaModel):
     """
     Definição da classe Cliente, que representa a tabela 'clientes' no banco de dados.
     """

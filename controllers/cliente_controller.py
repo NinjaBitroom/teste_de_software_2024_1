@@ -1,13 +1,13 @@
 from dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
-from models.cliente_model import Cliente
+from models.cliente_model import ClienteModel
 from utils.cliente_validator import ClienteValidator
 
 
 class ClienteController:
-    __cliente_dao = FlaskSQLAlchemyDAO(Cliente)
+    __cliente_dao = FlaskSQLAlchemyDAO(ClienteModel)
 
     @classmethod
-    def get_clientes(cls) -> list[Cliente]:
+    def get_clientes(cls) -> list[ClienteModel]:
         """Obtém todos os clientes do banco de dados."""
         return cls.__cliente_dao.get_all()
 
@@ -28,7 +28,7 @@ class ClienteController:
                 logradouro, numero, complemento, bairro, cep, cidade, uf
             )
 
-            novo_cliente = Cliente(
+            novo_cliente = ClienteModel(
                 nome=validated_nome,
                 cpf=validated_cpf,
                 email=validated_email,
@@ -47,7 +47,7 @@ class ClienteController:
             return error
 
     @classmethod
-    def get_cliente(cls, id_) -> Cliente | None:
+    def get_cliente(cls, id_) -> ClienteModel | None:
         """Obtém cliente pelo id."""
         return cls.__cliente_dao.get_one(id_)
 
@@ -60,7 +60,7 @@ class ClienteController:
     def update_cliente(
         cls, id, cpf, nome, logradouro, numero, complemento, bairro, cep,
         cidade, uf, telefone, email
-    ) -> Cliente | Exception:
+    ) -> ClienteModel | Exception:
         try:
             cliente = cls.__cliente_dao.get_one(id)
             cliente.nome = ClienteValidator.valida_nome(nome)

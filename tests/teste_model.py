@@ -4,9 +4,11 @@ Manipulando o banco de dados sqlite3
 # test_models.py
 """
 
-from flask_testing import TestCase
 from app import create_app, db
-from models.produto_model import Produto
+from flask_testing import TestCase
+
+from models.produto_model import ProdutoModel
+
 
 class TestProdutoModel(TestCase):
 
@@ -30,60 +32,57 @@ class TestProdutoModel(TestCase):
 
     # Teste: criar produto
     def test_create_produto(self):
-        produto = Produto(descricao='Teste', preco=10.0)
+        produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
-        self.assertEqual(Produto.query.count(), 1)
+        self.assertEqual(ProdutoModel.query.count(), 1)
 
     # Teste: obter um produto
     def test_get_produto(self):
-        produto = Produto(descricao='Teste', preco=10.0)
+        produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
-        produto_query = Produto.get_produto(produto.id)
+        produto_query = ProdutoModel.get_produto(produto.id)
         self.assertEqual(produto_query.id, produto.id)
 
     # Teste: atualizar produto
     def test_update_produto(self):
-        produto = Produto(descricao='Teste', preco=10.0)
+        produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         produto.descricao = 'Teste Atualizado'
         produto.preco = 20.0
         produto.atualizar()
-        produto_atualizado = db.session.query(Produto).get(produto.id)
+        produto_atualizado = db.session.query(ProdutoModel).get(produto.id)
 
         self.assertEqual(produto_atualizado.descricao, 'Teste Atualizado')
         self.assertEqual(produto_atualizado.preco, 20.0)
 
     # Teste: deletar produto
     def test_delete_produto(self):
-        produto = Produto(descricao='Teste', preco=10.0)
+        produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         produto.deletar()
-        #produto_deletado = Produto.query.get(produto.id)
-        produto_deletado = db.session.query(Produto).get(produto.id)
+        # produto_deletado = Produto.query.get(produto.id)
+        produto_deletado = db.session.query(ProdutoModel).get(produto.id)
         self.assertIsNone(produto_deletado)
 
     # Teste: obter todos os produtos
     def test_get_all_produtos(self):
-        produto1 = Produto(descricao='Teste 1', preco=10.0)
-        produto2 = Produto(descricao='Teste 2', preco=20.0)
+        produto1 = ProdutoModel(descricao='Teste 1', preco=10.0)
+        produto2 = ProdutoModel(descricao='Teste 2', preco=20.0)
         db.session.add(produto1)
         db.session.add(produto2)
         db.session.commit()
-        todos_produtos = Produto.get_produtos()
+        todos_produtos = ProdutoModel.get_produtos()
         self.assertEqual(len(todos_produtos), 2)
+
 
 if __name__ == '__main__':
     import unittest
+
     unittest.main()
-
-
-
-
-
 
 """
 from flask_testing import TestCase
@@ -173,4 +172,3 @@ if __name__ == '__main__':
     import unittest
     unittest.main()
 """
-    

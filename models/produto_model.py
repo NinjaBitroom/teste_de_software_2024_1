@@ -9,7 +9,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from services.database import db
 
 
-class Produto(db.Model):
+class ProdutoModel(db.Model):
     """Definição da classe Produto, que representa a tabela 'produtos'
     no banco de dados."""
     __tablename__ = 'produtos'

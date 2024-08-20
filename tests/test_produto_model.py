@@ -8,13 +8,13 @@ from flask_testing import TestCase
 
 from controllers.produto_controller import ProdutoController
 from dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
-from models.produto_model import Produto
+from models.produto_model import ProdutoModel
 from services.database import db
 from wsgi import create_app
 
 
 class TestProdutoModel(TestCase):
-    __produto_dao = FlaskSQLAlchemyDAO(Produto)
+    __produto_dao = FlaskSQLAlchemyDAO(ProdutoModel)
 
     def create_app(self):
         """Configurações do aplicativo para testes."""
@@ -38,14 +38,14 @@ class TestProdutoModel(TestCase):
 
     def test_create_produto(self):
         """Teste: criar produto."""
-        produto = Produto(descricao='Teste', preco=10.0)
+        produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
-        self.assertEqual(Produto.query.count(), 1)
+        self.assertEqual(ProdutoModel.query.count(), 1)
 
     def test_get_produto(self):
         """Teste: obter um produto."""
-        produto = Produto(descricao='Teste', preco=10.0)
+        produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         produto_query = ProdutoController.get_produto(produto.id)
@@ -53,30 +53,30 @@ class TestProdutoModel(TestCase):
 
     def test_update_produto(self):
         """Teste: atualizar produto."""
-        produto = Produto(descricao='Teste', preco=10.0)
+        produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         produto.descricao = 'Teste Atualizado'
         produto.preco = 20.0
         self.__produto_dao.update()
-        produto_atualizado = db.session.query(Produto).get(produto.id)
+        produto_atualizado = db.session.query(ProdutoModel).get(produto.id)
 
         self.assertEqual(produto_atualizado.descricao, 'Teste Atualizado')
         self.assertEqual(produto_atualizado.preco, 20.0)
 
     def test_delete_produto(self):
         """Teste: deletar produto."""
-        produto = Produto(descricao='Teste', preco=10.0)
+        produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         self.__produto_dao.delete_one(produto)
-        produto_deletado = db.session.query(Produto).get(produto.id)
+        produto_deletado = db.session.query(ProdutoModel).get(produto.id)
         self.assertIsNone(produto_deletado)
 
     def test_get_all_produtos(self):
         """Teste: obter todos os produtos."""
-        produto1 = Produto(descricao='Teste 1', preco=10.0)
-        produto2 = Produto(descricao='Teste 2', preco=20.0)
+        produto1 = ProdutoModel(descricao='Teste 1', preco=10.0)
+        produto2 = ProdutoModel(descricao='Teste 2', preco=20.0)
         db.session.add(produto1)
         db.session.add(produto2)
         db.session.commit()
