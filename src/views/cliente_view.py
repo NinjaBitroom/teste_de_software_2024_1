@@ -37,21 +37,12 @@ def novo_cliente_get():
 @cliente_blueprint.post('/novo')
 def novo_cliente_post():
     """Rota para adicionar um novo cliente."""
-    nome = request.form.get('nome')
-    cpf = request.form.get('cpf')
-    logradouro = request.form.get('logradouro')
-    numero = request.form.get('numero')
-    complemento = request.form.get('complemento')
-    bairro = request.form.get('bairro')
-    cep = request.form.get('cep')
-    cidade = request.form.get('cidade')
-    uf = request.form.get('uf')
-    telefone = request.form.get('telefone')
-    email = request.form.get('email')
-    error = ClienteController.create_cliente(
-        nome, cpf, logradouro, numero, complemento,
-        bairro, cep, cidade, uf, telefone, email
+    fields = (
+        'nome', 'cpf', 'logradouro', 'numero', 'complemento', 'bairro', 'cep',
+        'cidade', 'uf', 'telefone', 'email'
     )
+    cliente_dict = {field: request.form.get(field) for field in fields}
+    error = ClienteController.create_cliente(**cliente_dict)
     if error is not None:
         for msg in error.args:
             flash(msg)
