@@ -94,7 +94,7 @@ def editar_cliente_post(id: int):
     return redirect(url_for('root.cliente.index'))
 
 
-@cliente_blueprint.route('/deletar/<int:id>', methods=['GET'])
+@cliente_blueprint.post('/deletar/<int:id>')
 def deletar_cliente(id: int):
     """Rota para deletar um cliente."""
     ClienteController.delete_cliente(id)

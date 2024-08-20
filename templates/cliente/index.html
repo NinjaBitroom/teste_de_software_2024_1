@@ -58,8 +58,10 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
                     <td>
                         <a href="{{ url_for('root.cliente.editar_cliente_get', id=cliente.id) }}"
                            class="btn btn-primary btn-sm">Editar</a>
-                        <a href_to_confirm_first="{{ url_for('root.cliente.deletar_cliente', id=cliente.id) }}"
-                           class="btn btn-danger btn-sm removerCliente">Deletar</a>
+                        <form action="{{ url_for('root.cliente.deletar_cliente', id=cliente.id) }}"
+                              method="post" id="delete_cliente_form">
+                            <button class="btn btn-danger btn-sm removerCliente" type="submit">Deletar</button>
+                        </form>
                     </td>
                 </tr>
             {% endfor %}
@@ -75,20 +77,12 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
         <!-- Exibe um link para a página de criação de um novo cliente -->
         <h3><a class='btn btn-primary' href='{{ url_for("root.cliente.novo_cliente_get") }}'>Adicionar Cliente</a></h3>
     </div>
-
 {% endblock %}
 <!-- Fim do bloco 'body' -->
+
 {% block script %}
     <script>
-        let listaRemoveButton = document.querySelectorAll(".removerCliente");
-
-        listaRemoveButton.forEach(item => {
-            item.addEventListener("click", () => {
-                if (confirm("Tem certeza que deseja excluir esse cliente?")) {
-                    window.location.href = item.getAttribute("href_to_confirm_first");
-                }
-            })
-        })
-
+        let listaRemoveButton = document.getElementById("delete_cliente_form");
+        listaRemoveButton.onsubmit = () => confirm("Tem certeza que deseja excluir esse cliente?")
     </script>
 {% endblock script %}
