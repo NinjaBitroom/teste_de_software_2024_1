@@ -39,9 +39,7 @@ def novo_produto_post():
     for field in fields:
         produto_dict[field] = request.form.get(field)
 
-    produto = ProdutoController.create_produto(
-        descricao=produto_dict['descricao'], preco=produto_dict['preco']
-    )
+    produto = ProdutoController.create_produto(produto_dict)
 
     if isinstance(produto, ValueError):
         for error in produto.args:

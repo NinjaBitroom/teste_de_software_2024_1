@@ -16,12 +16,17 @@ class ProdutoController:
 
     @classmethod
     def create_produto(
-        cls, descricao: str | None, preco: str | None
+        cls, produto_dict: dict[str, str | None]
     ) -> ProdutoModel | ValueError:
-        converted_preco = ProdutoValidator.valida_preco(preco)
+
+        converted_preco = ProdutoValidator.valida_preco(produto_dict['preco'])
         if isinstance(converted_preco, ValueError):
             return converted_preco
-        new_produto = ProdutoModel(descricao=descricao, preco=converted_preco)
+
+        new_produto = ProdutoModel(
+            descricao=produto_dict['descricao'], preco=converted_preco
+        )
+
         cls.__produto_dao.add_one(new_produto)
         return new_produto
 
