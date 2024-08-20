@@ -17,20 +17,13 @@ class ProdutoController:
     @classmethod
     def create_produto(
         cls, descricao: str | None, preco: str | None
-    ) -> tuple[str, ...]:
-        errors: list[str] = []
+    ) -> ProdutoModel | ValueError:
         converted_preco = ProdutoValidator.valida_preco(preco)
-
         if isinstance(converted_preco, ValueError):
-            for msg in converted_preco.args:
-                errors.append(str(msg))
-        else:
-            new_produto = ProdutoModel(
-                descricao=descricao, preco=converted_preco
-            )
-            cls.__produto_dao.add_one(new_produto)
-
-        return tuple(errors)
+            return converted_preco
+        new_produto = ProdutoModel(descricao=descricao, preco=converted_preco)
+        cls.__produto_dao.add_one(new_produto)
+        return new_produto
 
     @classmethod
     def update_produto(

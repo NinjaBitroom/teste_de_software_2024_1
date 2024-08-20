@@ -34,17 +34,17 @@ def novo_produto_get():
 def novo_produto_post():
     """Rota para adicionar um novo produto."""
     fields = ('descricao', 'preco')
-    produto = {}
+    produto_dict = {}
 
     for field in fields:
-        produto[field] = request.form.get(field)
+        produto_dict[field] = request.form.get(field)
 
-    errors = ProdutoController.create_produto(
-        descricao=produto['descricao'], preco=produto['preco']
+    produto = ProdutoController.create_produto(
+        descricao=produto_dict['descricao'], preco=produto_dict['preco']
     )
 
-    if errors:
-        for error in errors:
+    if isinstance(produto, ValueError):
+        for error in produto.args:
             flash(error)
         return redirect(url_for('root.produto.novo_produto_get'))
 
