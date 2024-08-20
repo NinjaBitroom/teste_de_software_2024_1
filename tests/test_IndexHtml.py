@@ -7,8 +7,8 @@ test_IndexHtml.py
 from app import create_app, db
 from flask_testing import TestCase
 
-from controllers.produto_controller import produto_blueprint
-from models.produto_model import ProdutoModel
+from src.controllers.produto_controller import produto_blueprint
+from src.models.produto_model import ProdutoModel
 
 
 class TestIntegration(TestCase):

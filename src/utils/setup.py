@@ -4,8 +4,8 @@ import os
 from flask import Flask
 
 # Importação da instância do SQLAlchemy criada em database.py
-from services.database import db
-from views.root_view import root_blueprint
+from src.services.database import db
+from src.views.root_view import root_blueprint
 
 
 def create_tables(app: Flask) -> None:

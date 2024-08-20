@@ -6,10 +6,10 @@ test_models.py
 
 from flask_testing import TestCase
 
-from controllers.produto_controller import ProdutoController
-from dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
-from models.produto_model import ProdutoModel
-from services.database import db
+from src.controllers.produto_controller import ProdutoController
+from src.dao import FlaskSQLAlchemyDAO
+from src.models.produto_model import ProdutoModel
+from src.services import db
 from wsgi import create_app
 
 

@@ -7,7 +7,7 @@ Manipulando o banco de dados sqlite3
 from app import create_app, db
 from flask_testing import TestCase
 
-from models.produto_model import ProdutoModel
+from src.models.produto_model import ProdutoModel
 
 
 class TestProdutoModel(TestCase):

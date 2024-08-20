@@ -1,6 +1,6 @@
-from dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
-from models.cliente_model import ClienteModel
-from utils.cliente_validator import ClienteValidator
+from src.dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
+from src.models.cliente_model import ClienteModel
+from src.utils.cliente_validator import ClienteValidator
 
 
 class ClienteController:

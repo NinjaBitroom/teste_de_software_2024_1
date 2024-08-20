@@ -3,7 +3,7 @@ Claudinei de Oliveira - utf-8 - pt-br
 testeModel.py
 """
 
-from models.cliente_model import ClienteModel
+from src.models.cliente_model import ClienteModel
 
 # testando a classe Cliente
 while True:
