@@ -4,10 +4,12 @@ Manipulando o banco de dados sqlite3
 # test_produto_controller.py
 """
 
-from flask_testing import TestCase
 from app import create_app, db
-from models.produto_model import Produto
+from flask_testing import TestCase
+
 from controllers.produto_controller import produto_blueprint
+from models.produto_model import ProdutoModel
+
 
 class TestProdutoController(TestCase):
 
@@ -34,25 +36,35 @@ class TestProdutoController(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_novo_post(self):
-        response = self.client.post('/novo', data={'descricao': 'Produto Teste', 'preco': 10.0})
-        self.assertEqual(response.status_code, 302)  # Esperando redirecionamento após POST
+        response = self.client.post(
+            '/novo', data={'descricao': 'Produto Teste', 'preco': 10.0}
+        )
+        self.assertEqual(
+            response.status_code, 302
+        )  # Esperando redirecionamento após POST
 
     def test_atualiza_route(self):
         # Primeiro adicionamos um produto para depois tentar atualizar
-        produto = Produto(descricao='Produto Teste', preco=10.0)
+        produto = ProdutoModel(descricao='Produto Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         response = self.client.get(f'/atualiza/{produto.id}/0')
-        self.assertEqual(response.status_code, 302)  # Redirecionamento após atualizar
+        self.assertEqual(
+            response.status_code, 302
+        )  # Redirecionamento após atualizar
 
     def test_deleta_route(self):
         # Primeiro adicionamos um produto para depois tentar deletar
-        produto = Produto(descricao='Produto Teste', preco=10.0)
+        produto = ProdutoModel(descricao='Produto Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         response = self.client.get(f'/deleta/{produto.id}')
-        self.assertEqual(response.status_code, 302)  # Redirecionamento após deletar
+        self.assertEqual(
+            response.status_code, 302
+        )  # Redirecionamento após deletar
+
 
 if __name__ == '__main__':
     import unittest
+
     unittest.main()

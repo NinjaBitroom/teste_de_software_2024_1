@@ -1,17 +1,17 @@
 from dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
-from models.produto_model import Produto
+from models.produto_model import ProdutoModel
 from utils.produto_validator import ProdutoValidator
 
 
 class ProdutoController:
-    __produto_dao = FlaskSQLAlchemyDAO(Produto)
+    __produto_dao = FlaskSQLAlchemyDAO(ProdutoModel)
 
     @classmethod
-    def get_produto(cls, id_) -> Produto | None:
+    def get_produto(cls, id_) -> ProdutoModel | None:
         return cls.__produto_dao.get_one(id_)
 
     @classmethod
-    def get_produtos(cls) -> list[Produto]:
+    def get_produtos(cls) -> list[ProdutoModel]:
         return cls.__produto_dao.get_all()
 
     @classmethod
@@ -25,7 +25,9 @@ class ProdutoController:
             for msg in converted_preco.args:
                 errors.append(str(msg))
         else:
-            new_produto = Produto(descricao=descricao, preco=converted_preco)
+            new_produto = ProdutoModel(
+                descricao=descricao, preco=converted_preco
+            )
             cls.__produto_dao.add_one(new_produto)
 
         return tuple(errors)
@@ -34,7 +36,7 @@ class ProdutoController:
     def update_produto(
         cls, id_: int, descricao: str | None, preco: str | None,
         status: str | None
-    ) -> Produto | ValueError:
+    ) -> ProdutoModel | ValueError:
         produto = cls.__produto_dao.get_one(id_)
         converted_preco: float | ValueError | None = None
 

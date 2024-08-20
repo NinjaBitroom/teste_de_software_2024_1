@@ -4,10 +4,12 @@ Manipulando o banco de dados sqlite3
 test_IndexHtml.py
 """
 
-from flask_testing import TestCase
 from app import create_app, db
-from models.produto_model import Produto
+from flask_testing import TestCase
+
 from controllers.produto_controller import produto_blueprint
+from models.produto_model import ProdutoModel
+
 
 class TestIntegration(TestCase):
 
@@ -27,8 +29,10 @@ class TestIntegration(TestCase):
 
     def test_index_page_with_products(self):
         # Criando produtos de teste
-        produto1 = Produto(descricao='Produto A', preco=50.0, status=True)
-        produto2 = Produto(descricao='Produto B', preco=100.0, status=False)
+        produto1 = ProdutoModel(descricao='Produto A', preco=50.0, status=True)
+        produto2 = ProdutoModel(
+            descricao='Produto B', preco=100.0, status=False
+        )
         db.session.add(produto1)
         db.session.add(produto2)
         db.session.commit()
@@ -43,9 +47,12 @@ class TestIntegration(TestCase):
     def test_index_page_without_products(self):
         response = self.client.get(url_for('produto.index'))
         self.assert200(response)
-        self.assertIn('Ainda não existem produtos cadastrados...', response.data)
+        self.assertIn(
+            'Ainda não existem produtos cadastrados...', response.data
+        )
+
 
 if __name__ == '__main__':
     import unittest
-    unittest.main()
 
+    unittest.main()
