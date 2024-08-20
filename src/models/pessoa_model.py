@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column
 
-from models.endereco_model import EnderecoModel
-from services.database import db
+from src.models.endereco_model import EnderecoModel
+from src.services.database import db
 
 
 class PessoaModel(EnderecoModel):

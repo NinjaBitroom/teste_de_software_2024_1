@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column
 
-from services.database import db
+from src.services.database import db
 
 
 class EnderecoModel(db.Model):

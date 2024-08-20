@@ -4,7 +4,7 @@ cliente_model.py
 """
 from sqlalchemy.orm import Mapped, mapped_column
 
-from models.pessoa_model import PessoaModel
+from src.models.pessoa_model import PessoaModel
 
 
 class ClienteModel(PessoaModel):

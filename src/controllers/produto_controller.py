@@ -1,6 +1,6 @@
-from dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
-from models.produto_model import ProdutoModel
-from utils.produto_validator import ProdutoValidator
+from src.dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
+from src.models.produto_model import ProdutoModel
+from src.utils.produto_validator import ProdutoValidator
 
 
 class ProdutoController:

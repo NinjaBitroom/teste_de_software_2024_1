@@ -6,7 +6,7 @@ Adaptado de Giridhar, 2016
 from sqlalchemy.orm import Mapped, mapped_column
 
 # Importação da instância do SQLAlchemy criada no arquivo database.py
-from services.database import db
+from src.services.database import db
 
 
 class ProdutoModel(db.Model):

@@ -6,7 +6,7 @@ Adaptado de Giridhar, 2016
 # Importando os módulos necessários do Flask
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 
-from controllers.produto_controller import ProdutoController
+from src.controllers.produto_controller import ProdutoController
 
 produto_blueprint = Blueprint('produto', __name__, url_prefix='/produto')
 """Criando um Blueprint.

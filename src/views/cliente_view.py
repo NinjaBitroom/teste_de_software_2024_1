@@ -4,9 +4,9 @@ Manipulando o banco de dados sqlite3
 Adaptado de Giridhar, 2016
 """
 # Importando os módulos necessários do Flask
-from flask import Blueprint, redirect, render_template, request, url_for, flash
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 
-from controllers.cliente_controller import ClienteController
+from src.controllers.cliente_controller import ClienteController
 
 cliente_blueprint = Blueprint('cliente', __name__, url_prefix='/cliente')
 """Criando um Blueprint.
@@ -81,8 +81,10 @@ def editar_cliente_post(id: int):
     telefone = request.form.get('telefone')
     email = request.form.get('email')
 
-    cliente = ClienteController.update_cliente(id, cpf, nome, logradouro, numero, complemento, bairro, cep, cidade, uf,
-                                               telefone, email, )
+    cliente = ClienteController.update_cliente(
+        id, cpf, nome, logradouro, numero, complemento, bairro, cep, cidade,
+        uf,
+        telefone, email, )
 
     if isinstance(cliente, ValueError):
         for msg in cliente.args:

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 
-from views.cliente_view import cliente_blueprint
-from views.produto_view import produto_blueprint
+from src.views.cliente_view import cliente_blueprint
+from src.views.produto_view import produto_blueprint
 
 root_blueprint = Blueprint('root', __name__)
 
