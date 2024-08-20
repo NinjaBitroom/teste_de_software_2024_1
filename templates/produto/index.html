@@ -9,14 +9,11 @@ O arquivo novo.html - todas as classes são do bootstrap -->
 <!-- Início do bloco head, que substituirá o bloco head em base.html -->
 {% block head %}
     <!-- Define o título da página -->
-    <title>Adicionar Novo Produto</title>
+    <title>Produtos</title>
 {% endblock %}
 
 <!-- Início do bloco body, que substituirá o bloco body em base.html -->
 {% block body %}
-    <!-- Define o cabeçalho da página -->
-    <h3>Adicionar Novo Produto</h3>
-
     <!-- Começa o bloco para exibir mensagens flash, se houver -->
     {% with messages = get_flashed_messages() %}
         <!-- Verifica se há mensagens para mostrar -->
@@ -28,28 +25,6 @@ O arquivo novo.html - todas as classes são do bootstrap -->
             </div>
         {% endif %}
     {% endwith %}
-
-    <!-- Define o formulário para adicionar um novo produto -->
-    <form action="{{ url_for('root.produto.novo_produto') }}" method="POST" autocomplete='off'>
-        <!-- Define o campo para inserir a descrição do produto -->
-        <div class='mb-3'>
-            <label for='descricao' class='form-label'>Descrição</label>
-            <input class='form-control' type='text' name='descricao' id='descricao'
-                   placeholder='Informe a descricao do produto' required autofocus/>
-        </div>
-
-        <!-- Define o campo para inserir o preço do produto -->
-        <div class='mb-3'>
-            <label for='preco' class='form-label'>Preço</label>
-            <input class='form-control' type='text' name='preco' id='preco' placeholder='Informe o preço do produto'
-                   required/>
-        </div>
-
-        <!-- Define o botão para enviar o formulário -->
-        <div class='mb-3'>
-            <button type='submit' class='btn btn-primary mb-3'>Cadastrar</button>
-        </div>
-    </form>
 
     <!-- Define o cabeçalho para a lista de produtos -->
     <h3>Produtos Cadastrados</h3>
@@ -75,11 +50,11 @@ O arquivo novo.html - todas as classes são do bootstrap -->
                 <td>{{ produto.descricao }}</td>
                 <td>{{ produto.preco }}</td>
                 <!-- Verifica se o status do produto é 1 (ativo), caso contrário, o status é 0 (inativo) -->
-                <td>{{ 'Ativo' if produto.status == 1 else 'Desativado' }}</td>
+                <td>{{ 'Ativo' if produto.status==True else 'Desativado' }}</td>
                 <td class="d-flex align-items-center">
                     <!-- Link para a rota atualizar_produto, passando o id e o status do produto -->
                     <form method="post" action="{{ url_for('root.produto.editar_produto_post', id=produto.id) }}">
-                        <input type="hidden" name="status" value="{{ True if produto.status==False else False }}">
+                        <input type="hidden" name="status" value="{{ not produto.status }}">
                         <button type="submit" class="btn btn-warning btn-sm">
                             {{ 'Ativar' if produto.status==False else 'Desativar' }}
                         </button>
@@ -88,11 +63,18 @@ O arquivo novo.html - todas as classes são do bootstrap -->
                     <a href="{{ url_for('root.produto.editar_produto_get', id=produto.id) }}"
                        class="btn btn-primary btn-sm mx-2">Editar</a>
                     <!-- Link para a rota deletar_produto, passando o id do produto -->
-                    <a href="{{ url_for('root.produto.deletar_produto', id=produto.id) }}"
-                       class="btn btn-danger btn-sm">Deletar</a>
+                    <form method="post" action="{{ url_for('root.produto.deletar_produto', id=produto.id) }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Deletar</button>
+                    </form>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
+    <div>
+        <!-- Exibe um link para a página de criação de um novo cliente -->
+        <h3><a class='btn btn-primary' href='{{ url_for("root.produto.novo_produto_get") }}'>Adicionar Produto</a></h3>
+    </div>
+
 {% endblock %}

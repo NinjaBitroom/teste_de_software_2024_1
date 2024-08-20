@@ -20,29 +20,31 @@ relacionadas, funções de visualização e outros recursos de código.
 @produto_blueprint.route('/')
 def index():
     """Rota principal do aplicativo que exibe todos os produtos."""
-
     produtos = ProdutoController.get_produtos()
     """Obtém todos os produtos do banco de dados."""
-
     return render_template('produto/index.html', produtos=produtos)
 
 
+@produto_blueprint.get('/novo')
+def novo_produto_get():
+    return render_template('produto/novo.html')
+
+
 @produto_blueprint.post('/novo')
-def novo_produto():
+def novo_produto_post():
     """Rota para adicionar um novo produto."""
+    fields = ('descricao', 'preco')
+    produto_dict = {}
 
-    descricao = request.form.get('descricao')
-    """Obtém a descrição do produto do form."""
+    for field in fields:
+        produto_dict[field] = request.form.get(field)
 
-    preco = request.form.get('preco')
-    """Obtém o preço do produto do form."""
+    produto = ProdutoController.create_produto(produto_dict)
 
-    errors = ProdutoController.create_produto(
-        descricao=descricao, preco=preco
-    )
-
-    for error in errors:
-        flash(error)
+    if isinstance(produto, ValueError):
+        for error in produto.args:
+            flash(error)
+        return redirect(url_for('root.produto.novo_produto_get'))
 
     return redirect(url_for('root.produto.index'))
 
@@ -56,16 +58,14 @@ def editar_produto_get(id: int):
 @produto_blueprint.post('/editar/<int:id>')
 def editar_produto_post(id: int):
     """Rota para atualizar um produto."""
+    
+    fields = ('descricao', 'preco', 'status')
+    produto_dict = {'id': id}
 
-    descricao = request.form.get('descricao')
-    """Obtém a descrição do produto do form."""
+    for field in fields:
+        produto_dict[field] = request.form.get(field)
 
-    preco = request.form.get('preco')
-    """Obtém o preço do produto do form."""
-
-    status = request.form.get('status')
-
-    produto = ProdutoController.update_produto(id, descricao, preco, status)
+    produto = ProdutoController.update_produto(produto_dict)
 
     if isinstance(produto, ValueError):
         for msg in produto.args:
@@ -75,7 +75,7 @@ def editar_produto_post(id: int):
     return redirect(url_for('root.produto.index'))
 
 
-@produto_blueprint.route('/deletar/<int:id>', methods=['GET'])
+@produto_blueprint.post('/deletar/<int:id>')
 def deletar_produto(id: int):
     """Rota para deletar um produto."""
     ProdutoController.delete_produto(id)
