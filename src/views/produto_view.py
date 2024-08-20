@@ -82,7 +82,7 @@ def editar_produto_post(id: int):
     return redirect(url_for('root.produto.index'))
 
 
-@produto_blueprint.route('/deletar/<int:id>', methods=['GET'])
+@produto_blueprint.post('/deletar/<int:id>')
 def deletar_produto(id: int):
     """Rota para deletar um produto."""
     ProdutoController.delete_produto(id)

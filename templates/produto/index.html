@@ -63,8 +63,9 @@ O arquivo novo.html - todas as classes são do bootstrap -->
                     <a href="{{ url_for('root.produto.editar_produto_get', id=produto.id) }}"
                        class="btn btn-primary btn-sm mx-2">Editar</a>
                     <!-- Link para a rota deletar_produto, passando o id do produto -->
-                    <a href="{{ url_for('root.produto.deletar_produto', id=produto.id) }}"
-                       class="btn btn-danger btn-sm">Deletar</a>
+                    <form method="post" action="{{ url_for('root.produto.deletar_produto', id=produto.id) }}">
+                        <button type="submit" class="btn btn-danger btn-sm">Deletar</button>
+                    </form>
                 </td>
             </tr>
         {% endfor %}
