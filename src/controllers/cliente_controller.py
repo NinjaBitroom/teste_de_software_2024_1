@@ -13,19 +13,25 @@ class ClienteController:
 
     @classmethod
     def create_cliente(
-        cls, nome: str, cpf: str, logradouro: str, numero, complemento,
-        bairro: str, cep: str, cidade: str,
-        uf: str, telefone, email: str
+        cls, cliente_dict: dict[str, str | None]
     ) -> None | Exception:
         """Cria um novo cliente."""
         try:
-            validated_nome = ClienteValidator.valida_nome(nome)
-            validated_cpf = ClienteValidator.valida_cpf(cpf)
-            validated_email = ClienteValidator.valida_email(email)
-            validated_telefone = ClienteValidator.valida_telefone(telefone)
+            validated_nome = ClienteValidator.valida_nome(cliente_dict['nome'])
+            validated_cpf = ClienteValidator.valida_cpf(cliente_dict['cpf'])
+            validated_email = ClienteValidator.valida_email(
+                cliente_dict['email']
+            )
+            validated_telefone = ClienteValidator.valida_telefone(
+                cliente_dict['telefone']
+            )
 
-            ClienteValidator.valida_endereco(
-                logradouro, numero, complemento, bairro, cep, cidade, uf
+            (validated_logradouro, validated_numero, validated_complemento,
+            validated_bairro, validated_cep, validated_cidade,
+            validated_uf) = ClienteValidator.valida_endereco(
+                cliente_dict['logradouro'], cliente_dict['numero'],
+                cliente_dict['complemento'], cliente_dict['bairro'],
+                cliente_dict['cep'], cliente_dict['cidade'], cliente_dict['uf']
             )
 
             novo_cliente = ClienteModel(
@@ -33,13 +39,13 @@ class ClienteController:
                 cpf=validated_cpf,
                 email=validated_email,
                 telefone=validated_telefone,
-                logradouro=logradouro,
-                numero=numero,
-                complemento=complemento,
-                bairro=bairro,
-                cep=cep,
-                cidade=cidade,
-                uf=uf,
+                logradouro=validated_logradouro,
+                numero=validated_numero,
+                complemento=validated_complemento,
+                bairro=validated_bairro,
+                cep=validated_cep,
+                cidade=validated_cidade,
+                uf=validated_uf,
             )
 
             cls.__cliente_dao.add_one(novo_cliente)

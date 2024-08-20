@@ -42,7 +42,7 @@ def novo_cliente_post():
         'cidade', 'uf', 'telefone', 'email'
     )
     cliente_dict = {field: request.form.get(field) for field in fields}
-    error = ClienteController.create_cliente(**cliente_dict)
+    error = ClienteController.create_cliente(cliente_dict)
     if error is not None:
         for msg in error.args:
             flash(msg)
