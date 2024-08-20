@@ -58,16 +58,14 @@ def editar_produto_get(id: int):
 @produto_blueprint.post('/editar/<int:id>')
 def editar_produto_post(id: int):
     """Rota para atualizar um produto."""
+    
     fields = ('descricao', 'preco', 'status')
-    produto_dict = {}
+    produto_dict = {'id': id}
 
     for field in fields:
         produto_dict[field] = request.form.get(field)
 
-    produto = ProdutoController.update_produto(
-        id, produto_dict['descricao'], produto_dict['preco'],
-        produto_dict['status']
-    )
+    produto = ProdutoController.update_produto(produto_dict)
 
     if isinstance(produto, ValueError):
         for msg in produto.args:

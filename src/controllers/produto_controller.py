@@ -32,26 +32,29 @@ class ProdutoController:
 
     @classmethod
     def update_produto(
-        cls, id_: int, descricao: str | None, preco: str | None,
-        status: str | None
+        cls, produto_dict: dict[str, str | int | None]
     ) -> ProdutoModel | ValueError:
-        produto = cls.__produto_dao.get_one(id_)
+        produto = cls.__produto_dao.get_one(produto_dict['id'])
         converted_preco: float | ValueError | None = None
 
-        if preco is not None:
-            converted_preco = ProdutoValidator.valida_preco(preco)
+        if produto_dict['preco'] is not None:
+            converted_preco = ProdutoValidator.valida_preco(
+                produto_dict['preco']
+            )
 
         if isinstance(converted_preco, ValueError):
             return converted_preco
 
-        if descricao is not None:
-            produto.descricao = descricao
+        if produto_dict['descricao'] is not None:
+            produto.descricao = produto_dict['descricao']
 
         if converted_preco is not None:
             produto.preco = converted_preco
 
-        if status is not None:
-            produto.status = True if status == 'True' else False
+        if produto_dict['status'] is not None:
+            produto.status = (
+                True if produto_dict['status'] == 'True' else False
+            )
 
         cls.__produto_dao.update()
 
