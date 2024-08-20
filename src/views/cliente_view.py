@@ -74,8 +74,8 @@ def editar_cliente_post(id: int):
 
     cliente = ClienteController.update_cliente(
         id, cpf, nome, logradouro, numero, complemento, bairro, cep, cidade,
-        uf,
-        telefone, email, )
+        uf, telefone, email
+    )
 
     if isinstance(cliente, ValueError):
         for msg in cliente.args:

@@ -113,9 +113,12 @@ class ClienteValidator:
                 'UF inválido. Deve ser composto por duas letras maiúsculas.'
             )
         return {
-            'logradouro': logradouro, 'numero': endereco_dict['numero'],
-            'complemento': endereco_dict['complemento'], 'bairro': bairro,
-            'cep': endereco_dict['cep'], 'cidade': cidade,
+            'logradouro': logradouro,
+            'numero': endereco_dict['numero'],
+            'complemento': endereco_dict['complemento'],
+            'bairro': bairro,
+            'cep': endereco_dict['cep'],
+            'cidade': cidade,
             'uf': endereco_dict['uf']
         }
 
