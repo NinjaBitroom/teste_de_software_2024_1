@@ -85,8 +85,9 @@ class ClienteValidator:
         )
 
     @staticmethod
-    def valida_endereco(endereco_dict: dict[str, str | int | None]) -> dict[
-        str, str | int | None]:
+    def valida_endereco(
+        endereco_dict: dict[str, str | None]
+    ) -> dict[str, str | int | None]:
         # Aplica a formatação correta de texto
         logradouro = ClienteValidator.formata_texto(
             endereco_dict['logradouro']
@@ -112,9 +113,15 @@ class ClienteValidator:
             raise ValueError(
                 'UF inválido. Deve ser composto por duas letras maiúsculas.'
             )
+
+        try:
+            numero = int(endereco_dict['numero'])
+        except ValueError:
+            raise ValueError('O número deve ser um número inteiro válido.')
+
         return {
             'logradouro': logradouro,
-            'numero': endereco_dict['numero'],
+            'numero': numero,
             'complemento': endereco_dict['complemento'],
             'bairro': bairro,
             'cep': endereco_dict['cep'],
