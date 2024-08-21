@@ -15,8 +15,6 @@
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
                 <!-- Mostra a primeira mensagem flash -->
                 {{ messages[0] }}
-                <!-- Define o botão para fechar a mensagem -->
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         {% endif %}
     {% endwith %}
@@ -94,7 +92,8 @@
                    value="{{ cliente.cidade }}" required/>
             <label for='uf' class='mx-2'>UF:</label>
             <input class='form-control' type='text' name='uf' id='uf' maxlength="2"
-                   style="width: 10%; text-transform:uppercase;" value="{{ cliente.uf }}" required/>
+                   style="width: 10%; text-transform:uppercase;" value="{{ cliente.uf }}"
+                   oninput="this.value = this.value.toUpperCase()" required/>
         </div>
         <!-- Início do grupo de input para o botão de atualizar -->
         <div class='mb-3'>
