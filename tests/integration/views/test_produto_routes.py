@@ -3,25 +3,36 @@ Claudinei de Oliveira - pt-BR, UTF-8 - 15-08-2024
 Manipulando o banco de dados sqlite3 
 # test_produto_controller.py
 """
+import os
 
-from app import create_app, db
+from flask import Flask
 from flask_testing import TestCase
 
-from src.controllers.produto_controller import produto_blueprint
 from src.models.produto_model import ProdutoModel
+from src.services.database import db
+from src.utils.setup import create_tables
+from src.views.root_view import root_blueprint
 
 
-class TestProdutoController(TestCase):
+class TestProdutoRoutes(TestCase):
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
+    TESTING = True
 
     def create_app(self):
-        app = create_app()
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-        app.config['TESTING'] = True
-        app.register_blueprint(produto_blueprint)
+        app = Flask(
+            __name__,
+            template_folder=os.path.abspath('templates'),
+            static_folder=os.path.abspath('static')
+        )
+        app.config['SQLALCHEMY_DATABASE_URI'] = self.SQLALCHEMY_DATABASE_URI
+        app.config['TESTING'] = self.TESTING
+        app.register_blueprint(root_blueprint)
+        app.secret_key = 'test'
+        db.init_app(app)
         return app
 
     def setUp(self):
-        db.create_all()
+        create_tables(self.app)
 
     def tearDown(self):
         db.session.remove()
@@ -32,12 +43,12 @@ class TestProdutoController(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_novo_get(self):
-        response = self.client.get('/novo')
+        response = self.client.get('/produto/novo')
         self.assertEqual(response.status_code, 200)
 
     def test_novo_post(self):
         response = self.client.post(
-            '/novo', data={'descricao': 'Produto Teste', 'preco': 10.0}
+            '/produto/novo', data={'descricao': 'Produto Teste', 'preco': 10.0}
         )
         self.assertEqual(
             response.status_code, 302
@@ -48,7 +59,7 @@ class TestProdutoController(TestCase):
         produto = ProdutoModel(descricao='Produto Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
-        response = self.client.get(f'/atualiza/{produto.id}/0')
+        response = self.client.post(f'/produto/editar/{produto.id}')
         self.assertEqual(
             response.status_code, 302
         )  # Redirecionamento após atualizar
@@ -58,13 +69,7 @@ class TestProdutoController(TestCase):
         produto = ProdutoModel(descricao='Produto Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
-        response = self.client.get(f'/deleta/{produto.id}')
+        response = self.client.post(f'/produto/deletar/{produto.id}')
         self.assertEqual(
             response.status_code, 302
         )  # Redirecionamento após deletar
-
-
-if __name__ == '__main__':
-    import unittest
-
-    unittest.main()
