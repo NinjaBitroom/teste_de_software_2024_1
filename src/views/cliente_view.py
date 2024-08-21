@@ -67,7 +67,7 @@ def editar_cliente_post(id: int):
         field: request.form.get(field) for field in fields
     }
     cliente_dict['id'] = id
-    cliente = ClienteController.update_cliente(**cliente_dict)
+    cliente = ClienteController.update_cliente(cliente_dict)
     if isinstance(cliente, ValueError):
         for msg in cliente.args:
             flash(msg)

@@ -49,22 +49,21 @@ class ClienteController:
 
     @classmethod
     def update_cliente(
-        cls, id, cpf, nome, logradouro, numero, complemento, bairro, cep,
-        cidade, uf, telefone, email
+        cls, cliente_dict: dict[str, str | None | int]
     ) -> ClienteModel | Exception:
         try:
-            cliente = cls.__cliente_dao.get_one(id)
-            cliente.nome = ClienteValidator.valida_nome(nome)
-            cliente.cpf = ClienteValidator.valida_cpf(cpf)
+            cliente = cls.__cliente_dao.get_one(cliente_dict['id'])
+            cliente.nome = ClienteValidator.valida_nome(cliente_dict['nome'])
+            cliente.cpf = ClienteValidator.valida_cpf(cliente_dict['cpf'])
             validated_endereco = ClienteValidator.valida_endereco(
                 {
-                    'logradouro': logradouro,
-                    'numero': numero,
-                    'complemento': complemento,
-                    'bairro': bairro,
-                    'cep': cep,
-                    'cidade': cidade,
-                    'uf': uf
+                    'logradouro': cliente_dict['logradouro'],
+                    'numero': cliente_dict['numero'],
+                    'complemento': cliente_dict['complemento'],
+                    'bairro': cliente_dict['bairro'],
+                    'cep': cliente_dict['cep'],
+                    'cidade': cliente_dict['cidade'],
+                    'uf': cliente_dict['uf']
                 }
             )
             cliente.logradouro = validated_endereco['logradouro']
@@ -74,8 +73,12 @@ class ClienteController:
             cliente.cep = validated_endereco['cep']
             cliente.cidade = validated_endereco['cidade']
             cliente.uf = validated_endereco['uf']
-            cliente.telefone = ClienteValidator.valida_telefone(telefone)
-            cliente.email = ClienteValidator.valida_email(email)
+            cliente.telefone = ClienteValidator.valida_telefone(
+                cliente_dict['telefone']
+            )
+            cliente.email = ClienteValidator.valida_email(
+                cliente_dict['email']
+            )
             cls.__cliente_dao.update()
         except Exception as error:
             return error
