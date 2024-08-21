@@ -1,5 +1,3 @@
-from typing import Any
-
 import phonenumbers
 import regex
 from email_validator import validate_email
@@ -88,31 +86,48 @@ class ClienteValidator:
 
     @staticmethod
     def valida_endereco(
-        logradouro: str, numero: Any, complemento: Any, bairro: str, cep: str,
-        cidade: str, uf: str
-    ):
+        endereco_dict: dict[str, str | None]
+    ) -> dict[str, str | int | None]:
         # Aplica a formatação correta de texto
-        logradouro = ClienteValidator.formata_texto(logradouro)
-        bairro = ClienteValidator.formata_texto(bairro)
-        cidade = ClienteValidator.formata_texto(cidade)
+        logradouro = ClienteValidator.formata_texto(
+            endereco_dict['logradouro']
+        )
+        bairro = ClienteValidator.formata_texto(endereco_dict['bairro'])
+        cidade = ClienteValidator.formata_texto(endereco_dict['cidade'])
 
         # Verifica se os campos obrigatórios estão preenchidos
-        if not all([logradouro, numero, bairro, cep, cidade, uf]):
+        if not all(
+            [logradouro, endereco_dict['numero'], bairro, endereco_dict['cep'],
+                cidade, endereco_dict['uf']]
+        ):
             raise ValueError(
                 'Todos os campos de endereço, exceto complemento, são obrigatórios.'
             )
 
         # Validação do CEP com formato específico (00000-000)
-        if not regex.match(r'^\d{5}-\d{3}$', cep):
+        if not regex.match(r'^\d{5}-\d{3}$', endereco_dict['cep']):
             raise ValueError('CEP inválido. Deve seguir o formato 00000-000.')
 
         # Validação do UF para garantir que sejam duas letras maiúsculas
-        if not regex.match(r'^[A-Z]{2}$', uf):
+        if not regex.match(r'^[A-Z]{2}$', endereco_dict['uf']):
             raise ValueError(
                 'UF inválido. Deve ser composto por duas letras maiúsculas.'
             )
 
-        return logradouro, numero, complemento, bairro, cep, cidade, uf
+        try:
+            numero = int(endereco_dict['numero'])
+        except ValueError:
+            raise ValueError('O número deve ser um número inteiro válido.')
+
+        return {
+            'logradouro': logradouro,
+            'numero': numero,
+            'complemento': endereco_dict['complemento'],
+            'bairro': bairro,
+            'cep': endereco_dict['cep'],
+            'cidade': cidade,
+            'uf': endereco_dict['uf']
+        }
 
     @classmethod
     def valida_telefone(cls, telefone: str) -> str:

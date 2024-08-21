@@ -13,35 +13,26 @@ class ClienteController:
 
     @classmethod
     def create_cliente(
-        cls, nome: str, cpf: str, logradouro: str, numero, complemento,
-        bairro: str, cep: str, cidade: str,
-        uf: str, telefone, email: str
+        cls, cliente_dict: dict[str, str | None]
     ) -> None | Exception:
         """Cria um novo cliente."""
         try:
-            validated_nome = ClienteValidator.valida_nome(nome)
-            validated_cpf = ClienteValidator.valida_cpf(cpf)
-            validated_email = ClienteValidator.valida_email(email)
-            validated_telefone = ClienteValidator.valida_telefone(telefone)
-
-            ClienteValidator.valida_endereco(
-                logradouro, numero, complemento, bairro, cep, cidade, uf
+            validated_nome = ClienteValidator.valida_nome(cliente_dict['nome'])
+            validated_cpf = ClienteValidator.valida_cpf(cliente_dict['cpf'])
+            validated_email = ClienteValidator.valida_email(
+                cliente_dict['email']
             )
-
+            validated_telefone = ClienteValidator.valida_telefone(
+                cliente_dict['telefone']
+            )
+            validated_endereco = ClienteValidator.valida_endereco(cliente_dict)
             novo_cliente = ClienteModel(
                 nome=validated_nome,
                 cpf=validated_cpf,
                 email=validated_email,
                 telefone=validated_telefone,
-                logradouro=logradouro,
-                numero=numero,
-                complemento=complemento,
-                bairro=bairro,
-                cep=cep,
-                cidade=cidade,
-                uf=uf,
+                **validated_endereco
             )
-
             cls.__cliente_dao.add_one(novo_cliente)
         except Exception as error:
             return error
@@ -52,24 +43,37 @@ class ClienteController:
         return cls.__cliente_dao.get_one(id_)
 
     @classmethod
-    def delete_cliente(cls, id):
-        cliente = cls.__cliente_dao.get_one(id)
+    def delete_cliente(cls, id_):
+        cliente = cls.__cliente_dao.get_one(id_)
         cls.__cliente_dao.delete_one(cliente)
 
     @classmethod
     def update_cliente(
-        cls, id, cpf, nome, logradouro, numero, complemento, bairro, cep,
-        cidade, uf, telefone, email
+        cls, cliente_dict: dict[str, str | None | int]
     ) -> ClienteModel | Exception:
         try:
-            cliente = cls.__cliente_dao.get_one(id)
-            cliente.nome = ClienteValidator.valida_nome(nome)
-            cliente.cpf = ClienteValidator.valida_cpf(cpf)
-            cliente.logradouro, cliente.numero, cliente.complemento, cliente.bairro, cliente.cep, cliente.cidade, cliente.uf = ClienteValidator.valida_endereco(
-                logradouro, numero, complemento, bairro, cep, cidade, uf
+            cliente = cls.__cliente_dao.get_one(cliente_dict['id'])
+            cliente.nome = ClienteValidator.valida_nome(cliente_dict['nome'])
+            cliente.cpf = ClienteValidator.valida_cpf(cliente_dict['cpf'])
+            validated_endereco = ClienteValidator.valida_endereco(
+                {
+                    'logradouro': cliente_dict['logradouro'],
+                    'numero': cliente_dict['numero'],
+                    'complemento': cliente_dict['complemento'],
+                    'bairro': cliente_dict['bairro'],
+                    'cep': cliente_dict['cep'],
+                    'cidade': cliente_dict['cidade'],
+                    'uf': cliente_dict['uf']
+                }
             )
-            cliente.telefone = ClienteValidator.valida_telefone(telefone)
-            cliente.email = ClienteValidator.valida_email(email)
+            for key, value in validated_endereco.items():
+                setattr(cliente, key, value)
+            cliente.telefone = ClienteValidator.valida_telefone(
+                cliente_dict['telefone']
+            )
+            cliente.email = ClienteValidator.valida_email(
+                cliente_dict['email']
+            )
             cls.__cliente_dao.update()
         except Exception as error:
             return error
