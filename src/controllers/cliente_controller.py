@@ -66,13 +66,8 @@ class ClienteController:
                     'uf': cliente_dict['uf']
                 }
             )
-            cliente.logradouro = validated_endereco['logradouro']
-            cliente.numero = validated_endereco['numero']
-            cliente.complemento = validated_endereco['complemento']
-            cliente.bairro = validated_endereco['bairro']
-            cliente.cep = validated_endereco['cep']
-            cliente.cidade = validated_endereco['cidade']
-            cliente.uf = validated_endereco['uf']
+            for key, value in validated_endereco.items():
+                setattr(cliente, key, value)
             cliente.telefone = ClienteValidator.valida_telefone(
                 cliente_dict['telefone']
             )
