@@ -28,50 +28,52 @@ O arquivo novo.html - todas as classes são do bootstrap -->
 
     <!-- Define o cabeçalho para a lista de produtos -->
     <h3>Produtos Cadastrados</h3>
-
-    <!-- Define a tabela para mostrar os produtos cadastrados -->
-    <table class="table">
-        <!-- Define o cabeçalho da tabela -->
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Descrição</th>
-            <th>Preço</th>
-            <th>Status</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <!-- Define o corpo da tabela -->
-        <tbody>
-        <!-- Loop para cada produto na lista de produtos -->
-        {% for produto in produtos %}
+    {% if produtos %}
+        <!-- Define a tabela para mostrar os produtos cadastrados -->
+        <table class="table">
+            <!-- Define o cabeçalho da tabela -->
+            <thead>
             <tr>
-                <td>{{ produto.id }}</td>
-                <td>{{ produto.descricao }}</td>
-                <td>{{ produto.preco }}</td>
-                <!-- Verifica se o status do produto é 1 (ativo), caso contrário, o status é 0 (inativo) -->
-                <td>{{ 'Ativo' if produto.status==True else 'Desativado' }}</td>
-                <td class="d-flex align-items-center">
-                    <!-- Link para a rota atualizar_produto, passando o id e o status do produto -->
-                    <form method="post" action="{{ url_for('root.produto.editar_produto_post', id=produto.id) }}">
-                        <input type="hidden" name="status" value="{{ not produto.status }}">
-                        <button type="submit" class="btn btn-warning btn-sm">
-                            {{ 'Ativar' if produto.status==False else 'Desativar' }}
-                        </button>
-                    </form>
-                    <!-- Link para a rota editar_produto, passando o id do produto -->
-                    <a href="{{ url_for('root.produto.editar_produto_get', id=produto.id) }}"
-                       class="btn btn-primary btn-sm mx-2">Editar</a>
-                    <!-- Link para a rota deletar_produto, passando o id do produto -->
-                    <form method="post" action="{{ url_for('root.produto.deletar_produto', id=produto.id) }}">
-                        <button type="submit" class="btn btn-danger btn-sm">Deletar</button>
-                    </form>
-                </td>
+                <th>ID</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Status</th>
+                <th>Ações</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+            </thead>
+            <!-- Define o corpo da tabela -->
+            <tbody>
+            <!-- Loop para cada produto na lista de produtos -->
+            {% for produto in produtos %}
+                <tr>
+                    <td>{{ produto.id }}</td>
+                    <td>{{ produto.descricao }}</td>
+                    <td>{{ produto.preco }}</td>
+                    <!-- Verifica se o status do produto é 1 (ativo), caso contrário, o status é 0 (inativo) -->
+                    <td>{{ 'Ativo' if produto.status==True else 'Desativado' }}</td>
+                    <td class="d-flex align-items-center">
+                        <!-- Link para a rota atualizar_produto, passando o id e o status do produto -->
+                        <form method="post" action="{{ url_for('root.produto.editar_produto_post', id=produto.id) }}">
+                            <input type="hidden" name="status" value="{{ not produto.status }}">
+                            <button type="submit" class="btn btn-warning btn-sm">
+                                {{ 'Ativar' if produto.status==False else 'Desativar' }}
+                            </button>
+                        </form>
+                        <!-- Link para a rota editar_produto, passando o id do produto -->
+                        <a href="{{ url_for('root.produto.editar_produto_get', id=produto.id) }}"
+                           class="btn btn-primary btn-sm mx-2">Editar</a>
+                        <!-- Link para a rota deletar_produto, passando o id do produto -->
+                        <form method="post" action="{{ url_for('root.produto.deletar_produto', id=produto.id) }}">
+                            <button type="submit" class="btn btn-danger btn-sm">Deletar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h3>Ainda não existem produtos cadastrados...</h3>
+    {% endif %}
     <div>
         <!-- Exibe um link para a página de criação de um novo cliente -->
         <h3><a class='btn btn-primary' href='{{ url_for("root.produto.novo_produto_get") }}'>Adicionar Produto</a></h3>
