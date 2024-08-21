@@ -59,29 +59,19 @@ def editar_cliente_get(id: int):
 @cliente_blueprint.post('/editar/<int:id>')
 def editar_cliente_post(id: int):
     """Rota para atualizar um cliente."""
-
-    nome = request.form.get('nome')
-    cpf = request.form.get('cpf')
-    logradouro = request.form.get('logradouro')
-    numero = request.form.get('numero')
-    complemento = request.form.get('complemento')
-    bairro = request.form.get('bairro')
-    cep = request.form.get('cep')
-    cidade = request.form.get('cidade')
-    uf = request.form.get('uf')
-    telefone = request.form.get('telefone')
-    email = request.form.get('email')
-
-    cliente = ClienteController.update_cliente(
-        id, cpf, nome, logradouro, numero, complemento, bairro, cep, cidade,
-        uf, telefone, email
+    fields = (
+        'nome', 'cpf', 'logradouro', 'numero', 'complemento', 'bairro', 'cep',
+        'cidade', 'uf', 'telefone', 'email'
     )
-
+    cliente_dict: dict[str, str | None | int] = {
+        field: request.form.get(field) for field in fields
+    }
+    cliente_dict['id'] = id
+    cliente = ClienteController.update_cliente(**cliente_dict)
     if isinstance(cliente, ValueError):
         for msg in cliente.args:
             flash(msg)
         return redirect(url_for('root.cliente.editar_cliente_get', id=id))
-
     return redirect(url_for('root.cliente.index'))
 
 

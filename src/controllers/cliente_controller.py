@@ -56,9 +56,24 @@ class ClienteController:
             cliente = cls.__cliente_dao.get_one(id)
             cliente.nome = ClienteValidator.valida_nome(nome)
             cliente.cpf = ClienteValidator.valida_cpf(cpf)
-            cliente.logradouro, cliente.numero, cliente.complemento, cliente.bairro, cliente.cep, cliente.cidade, cliente.uf = ClienteValidator.valida_endereco(
-                logradouro, numero, complemento, bairro, cep, cidade, uf
+            validated_endereco = ClienteValidator.valida_endereco(
+                {
+                    'logradouro': logradouro,
+                    'numero': numero,
+                    'complemento': complemento,
+                    'bairro': bairro,
+                    'cep': cep,
+                    'cidade': cidade,
+                    'uf': uf
+                }
             )
+            cliente.logradouro = validated_endereco['logradouro']
+            cliente.numero = validated_endereco['numero']
+            cliente.complemento = validated_endereco['complemento']
+            cliente.bairro = validated_endereco['bairro']
+            cliente.cep = validated_endereco['cep']
+            cliente.cidade = validated_endereco['cidade']
+            cliente.uf = validated_endereco['uf']
             cliente.telefone = ClienteValidator.valida_telefone(telefone)
             cliente.email = ClienteValidator.valida_email(email)
             cls.__cliente_dao.update()
