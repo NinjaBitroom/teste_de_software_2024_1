@@ -43,8 +43,8 @@ class ClienteController:
         return cls.__cliente_dao.get_one(id_)
 
     @classmethod
-    def delete_cliente(cls, id):
-        cliente = cls.__cliente_dao.get_one(id)
+    def delete_cliente(cls, id_):
+        cliente = cls.__cliente_dao.get_one(id_)
         cls.__cliente_dao.delete_one(cliente)
 
     @classmethod
