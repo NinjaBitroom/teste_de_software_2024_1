@@ -1,93 +1,103 @@
 """
-Claudinei de Oliveira - pt-BR, UTF-8 - 15-08-2024
+Claudinei de Oliveira - pt-BR, UTF-8 - 11-04-2024
 Manipulando o banco de dados sqlite3 
-# test_models.py
+test_models.py
 """
+import os
 
-from app import create_app, db
+from flask import Flask
 from flask_testing import TestCase
 
+from src.controllers.produto_controller import ProdutoController
+from src.dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
 from src.models.produto_model import ProdutoModel
+from src.services.database import db
+from src.utils.setup import create_tables
 
 
 class TestProdutoModel(TestCase):
+    __produto_dao = FlaskSQLAlchemyDAO(ProdutoModel)
+    SQLALCHEMY_DATABASE_URI = "sqlite://"
+    TESTING = True
 
-    # Configurações do app para testes
     def create_app(self):
-        app = create_app()
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-        app.config['TESTING'] = True
+        """Configurações do aplicativo para testes."""
+        app = Flask(
+            __name__,
+            template_folder=os.path.abspath('templates'),
+            static_folder=os.path.abspath('static')
+        )
+        app.config['SQLALCHEMY_DATABASE_URI'] = self.SQLALCHEMY_DATABASE_URI
+        app.config['TESTING'] = self.TESTING
+        app.secret_key = 'test'
+        db.init_app(app)
         return app
 
-    # Será chamado antes de cada teste
     def setUp(self):
-        # Configura o banco de dados para testes
-        db.create_all()
+        """Será chamado antes de cada teste.
 
-    # Será chamado após cada teste
+        Configura o banco de dados para testes."""
+        create_tables(self.app)
+
     def tearDown(self):
-        # Limpa o banco de dados após os testes
+        """Será chamado após cada teste.
+
+        Limpa o banco de dados após os testes."""
         db.session.remove()
         db.drop_all()
 
-    # Teste: criar produto
     def test_create_produto(self):
+        """Teste: criar produto."""
         produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         self.assertEqual(ProdutoModel.query.count(), 1)
 
-    # Teste: obter um produto
     def test_get_produto(self):
+        """Teste: obter um produto."""
         produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
-        produto_query = ProdutoModel.get_produto(produto.id)
+        produto_query = ProdutoController.get_produto(produto.id)
         self.assertEqual(produto_query.id, produto.id)
 
-    # Teste: atualizar produto
     def test_update_produto(self):
+        """Teste: atualizar produto."""
         produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
         produto.descricao = 'Teste Atualizado'
         produto.preco = 20.0
-        produto.atualizar()
+        self.__produto_dao.update()
         produto_atualizado = db.session.query(ProdutoModel).get(produto.id)
 
         self.assertEqual(produto_atualizado.descricao, 'Teste Atualizado')
         self.assertEqual(produto_atualizado.preco, 20.0)
 
-    # Teste: deletar produto
     def test_delete_produto(self):
+        """Teste: deletar produto."""
         produto = ProdutoModel(descricao='Teste', preco=10.0)
         db.session.add(produto)
         db.session.commit()
-        produto.deletar()
-        # produto_deletado = Produto.query.get(produto.id)
+        self.__produto_dao.delete_one(produto)
         produto_deletado = db.session.query(ProdutoModel).get(produto.id)
         self.assertIsNone(produto_deletado)
 
-    # Teste: obter todos os produtos
     def test_get_all_produtos(self):
+        """Teste: obter todos os produtos."""
         produto1 = ProdutoModel(descricao='Teste 1', preco=10.0)
         produto2 = ProdutoModel(descricao='Teste 2', preco=20.0)
         db.session.add(produto1)
         db.session.add(produto2)
         db.session.commit()
-        todos_produtos = ProdutoModel.get_produtos()
+        todos_produtos = ProdutoController.get_produtos()
         self.assertEqual(len(todos_produtos), 2)
 
-
-if __name__ == '__main__':
-    import unittest
-
-    unittest.main()
 
 """
 from flask_testing import TestCase
 from app import create_app, db  
-# importa create_app e db do seu arquivo app.py
+# importa create_app e db do seu arquivo wsgi.py
 from models.produto_model import Produto  
 # importa a classe Produto
 
