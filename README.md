@@ -45,7 +45,22 @@ flask run
 
 ### Execução dos testes
 
+Para rodar todos os testes:
+
 ```powershell
-python -m tests.test_cliente
-python -m tests.test_produto_model
+python -m unittest
 ```
+
+Caso queira rodar um teste específico, utilize a seguinte sintaxe:
+
+```powershell
+python -m unittest tests.pasta.subpasta.arquivo.Classe.metodo
+```
+
+Exemplo:
+
+```powershell
+python -m unittest tests.unit.models.test_cliente_model.TestClienteModel.test_valid_values
+```
+
+Os testes podem ser feitos no nível de arquivo, classe ou método.
