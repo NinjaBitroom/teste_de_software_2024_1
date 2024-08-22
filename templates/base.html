@@ -8,6 +8,7 @@
          O valor 'width=device-width' define a largura da viewport para a largura do dispositivo.
          O valor 'initial-scale=1' define o nível de zoom inicial quando a página é carregada pelo navegador. -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
     <!-- Importa o arquivo CSS do Bootstrap, a partir da pasta estática do projeto.
          O método url_for gera uma URL para uma rota estática, neste caso o arquivo de estilo CSS do Bootstrap -->
     <!-- Importa a biblioteca jQuery, necessária para o funcionamento de vários componentes do Bootstrap e também para a lógica de exibição das mensagens -->
@@ -33,5 +34,6 @@
 </div> <!-- Fim da div container -->
 {% block script %}
 {% endblock script %}
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 </body> <!-- Fim da tag body -->
 </html> <!-- Fim da tag html -->

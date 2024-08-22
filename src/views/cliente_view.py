@@ -31,7 +31,7 @@ def index():
 def novo_cliente_get():
     """Rota para adicionar um novo cliente."""
     clientes = ClienteController.get_clientes()
-    return render_template('cliente/novo.html', clientes=clientes)
+    return render_template('cliente/novo.html', clientes=clientes, form_data={})
 
 
 @cliente_blueprint.post('/novo')
@@ -45,8 +45,9 @@ def novo_cliente_post():
     error = ClienteController.create_cliente(cliente_dict)
     if error is not None:
         for msg in error.args:
-            flash(msg)
-        return redirect(url_for('root.cliente.novo_cliente_get'))
+            flash(msg, 'danger')
+        return render_template('cliente/novo.html', form_data=cliente_dict)
+    flash(f'Cliente com CPF: {cliente_dict['cpf']} criado!!!', 'success')
     return redirect(url_for('root.cliente.index'))
 
 
@@ -68,10 +69,11 @@ def editar_cliente_post(id: int):
     }
     cliente_dict['id'] = id
     cliente = ClienteController.update_cliente(cliente_dict)
-    if isinstance(cliente, ValueError):
+    if isinstance(cliente, Exception):
         for msg in cliente.args:
-            flash(msg)
+            flash(msg, 'danger')
         return redirect(url_for('root.cliente.editar_cliente_get', id=id))
+    flash(f'Cliente com CPF: {cliente_dict['cpf']} atualizado!!!', 'success')
     return redirect(url_for('root.cliente.index'))
 
 

@@ -13,7 +13,7 @@ class ClienteController:
 
     @classmethod
     def create_cliente(
-        cls, cliente_dict: dict[str, str | None]
+            cls, cliente_dict: dict[str, str | None]
     ) -> None | Exception:
         """Cria um novo cliente."""
         try:
@@ -49,7 +49,7 @@ class ClienteController:
 
     @classmethod
     def update_cliente(
-        cls, cliente_dict: dict[str, str | None | int]
+            cls, cliente_dict: dict[str, str | None | int]
     ) -> ClienteModel | Exception:
         try:
             cliente = cls.__cliente_dao.get_one(cliente_dict['id'])
@@ -74,7 +74,11 @@ class ClienteController:
             cliente.email = ClienteValidator.valida_email(
                 cliente_dict['email']
             )
+
             cls.__cliente_dao.update()
         except Exception as error:
+            if str(error.__cause__) == 'UNIQUE constraint failed: clientes.cpf':
+                error = Exception("CPF já utilizado por outro usuário")
             return error
+
         return cliente

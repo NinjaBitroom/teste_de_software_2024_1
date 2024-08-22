@@ -8,19 +8,10 @@
 
 <!-- No bloco 'body', nós colocamos o conteúdo principal da página -->
 {% block body %}
-    {% with messages = get_flashed_messages() %}
-        <!-- Verifica se há mensagens para mostrar -->
-        {% if messages %}
-            <!-- Define a estrutura da mensagem, incluindo um botão para fechar a mensagem -->
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <!-- Mostra a primeira mensagem flash -->
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-    {% endwith %}
+    {% include '_flash_messages.html' %}
 
     <!-- Título da página -->
-    <h3>Atualizar Cliente</h3>
+    <h3 class="my-5">Atualizar Cliente</h3>
 
     <!-- Início do formulário para atualizar um cliente -->
     <!-- A ação do formulário é definida para apontar para a rota 'editar_cliente', passando o 'id' do cliente como parâmetro -->

@@ -15,46 +15,35 @@ O arquivo novo.html - todas as classes são do bootstrap -->
 <!-- Início do bloco body, que substituirá o bloco body em base.html -->
 {% block body %}
     <!-- Define o cabeçalho da página -->
-    <h3>Adicionar Novo Cliente</h3>
+    <h3 class="my-5">Adicionar Novo Cliente</h3>
 
     <!-- Começa o bloco para exibir mensagens flash, se houver -->
-    {% with messages = get_flashed_messages() %}
-        <!-- Verifica se há mensagens para mostrar -->
-        {% if messages %}
-            <!-- Define a estrutura da mensagem, incluindo um botão para fechar a mensagem -->
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <!-- Mostra a primeira mensagem flash -->
-                {{ messages[0] }}
-                <!-- Define o botão para fechar a mensagem -->
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endif %}
-    {% endwith %}
+    {% include '_flash_messages.html' %}
 
     <!-- Define o formulário para adicionar um novo cliente -->
     <form action="{{ url_for('root.cliente.novo_cliente_post') }}" method="POST" autocomplete='off'>
         <div class='mb-3 d-flex align-items-center'>
             <label for='nome' class='me-2'>Nome:</label>
             <input class='form-control' type='text' name='nome' id='nome' placeholder='Informe o Nome do cliente'
-                   required autofocus/>
+                   value="{{ form_data.nome }}" required autofocus/>
         </div>
 
         <div class='mb-3 d-flex align-items-center'>
             <label for='cpf' class='me-2'>CPF:</label>
             <input class='form-control' type='text' name='cpf' id='cpf' placeholder='Informe o CPF do cliente'
-                   required/>
+                   value="{{ form_data.cpf }}" required/>
         </div>
 
         <div class='mb-3 d-flex align-items-center'>
             <label for='telefone' class='me-2'>Telefone:</label>
             <input class='form-control' type='tel' name='telefone' id='telefone'
-                   placeholder='Informe o telefone do cliente' required/>
+                   placeholder='Informe o telefone do cliente' value="{{ form_data.telefone }}" required/>
         </div>
 
         <div class='mb-3 d-flex align-items-center'>
             <label for='email' class='me-2'>Email:</label>
             <input class='form-control' type='email' name='email' id='email' placeholder='Informe o e-mail do cliente'
-                   required/>
+                   value="{{ form_data.email }}" required/>
         </div>
 
         <div class='mb-3 border-bottom border-dark'></div>
@@ -63,17 +52,17 @@ O arquivo novo.html - todas as classes são do bootstrap -->
         <div class='my-3 d-flex align-items-center'>
             <label for='cep' class='me-2'>CEP:</label>
             <input class='form-control w-25 me-3' type='text' name='cep' id='cep' placeholder='Informe o CEP do cliente'
-                   maxlength="9" required/>
+                   maxlength="9" value="{{ form_data.cep }}" required/>
             <button type="button" class='btn btn-secondary' id="buscaCepButton">Buscar CEP</button>
         </div>
 
         <div class='mb-3 d-flex align-items-center'>
             <label for='logradouro' class='me-2'>Logradouro:</label>
             <input class='form-control' type='text' name='logradouro' id='logradouro'
-                   placeholder='Informe o logradouro do cliente' required/>
+                   placeholder='Informe o logradouro do cliente' value="{{ form_data.logradouro }}" required/>
             <label for='numero' class='mx-2'>Número:</label>
             <input class='form-control w-25' type='number' name='numero' id='numero'
-                   required/>
+                   value="{{ form_data.numero }}" required/>
         </div>
 
         <div class='mb-3 d-flex align-items-center'>
@@ -83,24 +72,24 @@ O arquivo novo.html - todas as classes são do bootstrap -->
         <div class='mb-3 d-flex align-items-center'>
             <label for='complemento' class='me-2'>Complemento:</label>
             <input class='form-control' type='text' name='complemento' id='complemento'
-                   placeholder='Informe o complemento (Opcional)'/>
+                   value="{{ form_data.complemento }}" placeholder='Informe o complemento (Opcional)'/>
         </div>
 
         <div class='mb-3 d-flex align-items-center'>
             <label for='bairro' class='me-2'>Bairro:</label>
             <input class='form-control' type='text' name='bairro' id='bairro' placeholder='Informe o bairro do cliente'
-                   required/>
+                   value="{{ form_data.bairro }}" required/>
         </div>
 
 
         <div class='mb-5 d-flex align-items-center'>
             <label for='cidade' class='me-2'>Cidade:</label>
             <input class='form-control' type='text' name='cidade' id='cidade' placeholder='Informe a cidade do cliente'
-                   required/>
+                   value="{{ form_data.cidade }}" required/>
             <label for='uf' class='mx-2'>UF:</label>
             <input class='form-control' type='text' name='uf' id='uf' maxlength="2"
                    style="width: 10%; text-transform:uppercase;" oninput="this.value = this.value.toUpperCase()"
-                   required/>
+                   value="{{ form_data.uf }}" required/>
         </div>
 
         <div class='mb-3'>
