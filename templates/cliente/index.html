@@ -15,18 +15,7 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
 {% block body %} <!-- Inicio do bloco 'body', onde podemos adicionar conteúdos específicos para o corpo da página -->
 
     <!-- Começa o bloco para exibir mensagens flash, se houver -->
-    {% with messages = get_flashed_messages() %}
-        <!-- Verifica se há mensagens para mostrar -->
-        {% if messages %}
-            <!-- Define a estrutura da mensagem, incluindo um botão para fechar a mensagem -->
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <!-- Mostra a primeira mensagem flash -->
-                {{ messages[0] }}
-                <!-- Define o botão para fechar a mensagem -->
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endif %}
-    {% endwith %}
+    {% include '_flash_messages.html' %}
 
     {% if clientes %} <!-- Verifica se existe uma lista de clientes. Se existir, exibe a tabela de clientes -->
 
@@ -55,12 +44,12 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
                     <td>{{ cliente.telefone }}</td>
                     <td>{{ cliente.email }}</td>
 
-                    <td>
+                    <td class="d-flex align-items-center justify-content-between">
                         <a href="{{ url_for('root.cliente.editar_cliente_get', id=cliente.id) }}"
                            class="btn btn-primary btn-sm">Editar</a>
                         <form action="{{ url_for('root.cliente.deletar_cliente', id=cliente.id) }}"
-                              method="post" id="delete_cliente_form">
-                            <button class="btn btn-danger btn-sm removerCliente" type="submit">Deletar</button>
+                              method="post" class="delete_cliente_form">
+                            <button class="btn btn-danger btn-sm removerCliente" type="button">Deletar</button>
                         </form>
                     </td>
                 </tr>
@@ -81,8 +70,5 @@ Além disso, usa a interpolação de variáveis do Jinja2 para exibir dados din�
 <!-- Fim do bloco 'body' -->
 
 {% block script %}
-    <script>
-        let listaRemoveButton = document.getElementById("delete_cliente_form");
-        listaRemoveButton.onsubmit = () => confirm("Tem certeza que deseja excluir esse cliente?")
-    </script>
+    <script src="/static/js/clientes/index.js"></script>
 {% endblock script %}

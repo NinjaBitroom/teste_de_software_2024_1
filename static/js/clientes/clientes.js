@@ -1,4 +1,3 @@
-let listaRemoveButton = document.querySelectorAll(".removerCliente");
 let buttonBuscarCep = document.querySelector("#buscaCepButton");
 let cepElement = document.getElementById("cep");
 
@@ -26,13 +25,6 @@ function buscarCep(cep) {
     });
 }
 
-listaRemoveButton.forEach(item => {
-    item.addEventListener("click", () => {
-        if (confirm("Tem certeza que deseja excluir esse cliente?")) {
-            window.location.href = item.getAttribute("href_to_confirm_first");
-        }
-    })
-})
 
 // Abaixo estou mudando o comportamento do input do cep pra aceitar apenas números
 cepElement.addEventListener("input", event => {
