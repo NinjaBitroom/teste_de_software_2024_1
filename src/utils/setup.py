@@ -21,7 +21,8 @@ def create_app() -> Flask:
     app = Flask(
         __name__,
         template_folder=os.path.abspath('templates'),
-        static_folder=os.path.abspath('static')
+        static_folder=os.path.abspath('static'),
+        instance_path=os.path.abspath(os.path.join('src', 'dao')),
     )
     """Cria a instância do aplicativo Flask."""
 

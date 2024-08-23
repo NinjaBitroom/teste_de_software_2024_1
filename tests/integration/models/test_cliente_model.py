@@ -103,6 +103,8 @@ class TestClienteModel(TestCase):
         fake_data_2 = self.FAKE_DATA.copy()
         fake_data_1['nome'] = 'Teste 1'
         fake_data_2['nome'] = 'Teste 2'
+        fake_data_1['cpf'] = 'Teste 01'
+        fake_data_2['cpf'] = 'Teste 02'
         produto1 = ClienteModel(**fake_data_1)
         produto2 = ClienteModel(**fake_data_2)
         db.session.add(produto1)
