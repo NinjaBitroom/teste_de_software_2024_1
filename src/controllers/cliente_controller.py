@@ -35,6 +35,8 @@ class ClienteController:
             )
             cls.__cliente_dao.add_one(novo_cliente)
         except Exception as error:
+            if str(error.__cause__) == 'UNIQUE constraint failed: clientes.cpf':
+                error = Exception("CPF já utilizado por outro usuário")
             return error
 
     @classmethod
