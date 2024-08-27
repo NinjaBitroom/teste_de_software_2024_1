@@ -1,38 +1,13 @@
-import os
 import unittest
-from flask import Flask
+
 from flask_testing import TestCase
+
 from src.models.produto_model import ProdutoModel
 from src.services.database import db
+from tests.mixins.flask_app_mixin import FlaskAppMixin
 
 
-class TestProdutoModel(TestCase):
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
-    TESTING = True
-
-    def create_app(self):
-        app = Flask(
-            __name__,
-            template_folder=os.path.abspath('templates'),
-            static_folder=os.path.abspath('static')
-        )
-        app.config['SQLALCHEMY_DATABASE_URI'] = self.SQLALCHEMY_DATABASE_URI
-        app.config['TESTING'] = self.TESTING
-        app.secret_key = 'test'
-        db.init_app(app)
-        return app
-
-    def setUp(self):
-        self.app = self.create_app()
-        self.app_context = self.app.app_context()
-        self.app_context.push()
-        db.create_all()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-        self.app_context.pop()
-
+class TestProdutoModel(FlaskAppMixin, TestCase):
     def test_create_produto(self):
         produto = ProdutoModel(descricao='Teste 1', preco=10.0)
         db.session.add(produto)
