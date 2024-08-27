@@ -4,6 +4,7 @@ from flask import Flask
 
 from src.services.database import db
 from src.utils.setup import create_tables
+from src.views.root_view import root_blueprint
 
 
 class FlaskAppMixin:
@@ -18,6 +19,7 @@ class FlaskAppMixin:
         )
         app.config['SQLALCHEMY_DATABASE_URI'] = self.SQLALCHEMY_DATABASE_URI
         app.config['TESTING'] = self.TESTING
+        app.register_blueprint(root_blueprint)
         app.secret_key = 'test'
         db.init_app(app)
         return app

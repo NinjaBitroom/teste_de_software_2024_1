@@ -12,9 +12,10 @@ from src.models.produto_model import ProdutoModel
 from src.services.database import db
 from src.utils.setup import create_tables
 from src.views.root_view import root_blueprint
+from tests.mixins.flask_app_mixin import FlaskAppMixin
 
 
-class TestProdutoRoutes(TestCase):
+class TestProdutoRoutes(FlaskAppMixin, TestCase):
     SQLALCHEMY_DATABASE_URI = "sqlite://"
     TESTING = True
 
