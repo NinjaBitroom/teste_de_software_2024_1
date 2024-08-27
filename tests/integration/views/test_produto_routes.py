@@ -12,8 +12,6 @@ from tests.mixins.flask_app_mixin import FlaskAppMixin
 
 
 class TestProdutoRoutes(FlaskAppMixin, TestCase):
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
-    TESTING = True
 
     def test_index_route(self):
         response = self.client.get('/')
