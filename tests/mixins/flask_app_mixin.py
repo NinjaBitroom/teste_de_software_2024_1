@@ -11,7 +11,9 @@ class FlaskAppMixin:
     SQLALCHEMY_DATABASE_URI = "sqlite://"
     TESTING = True
 
-    def create_app(self):
+    app: Flask
+
+    def create_app(self) -> Flask:
         app = Flask(
             __name__,
             template_folder=os.path.abspath('templates'),
@@ -24,9 +26,9 @@ class FlaskAppMixin:
         db.init_app(app)
         return app
 
-    def setUp(self):
+    def setUp(self) -> None:
         create_tables(self.app)
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         db.session.remove()
         db.drop_all()
