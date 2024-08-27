@@ -1,5 +1,3 @@
-import unittest
-
 from flask_testing import TestCase
 
 from src.models.produto_model import ProdutoModel
@@ -49,7 +47,3 @@ class TestProdutoModel(FlaskAppMixin, TestCase):
         self.assertEqual(len(todos_produtos), 2)
         self.assertEqual(todos_produtos[0].descricao, 'Teste 1')
         self.assertEqual(todos_produtos[1].descricao, 'Teste 2')
-
-
-if __name__ == '__main__':
-    unittest.main()
