@@ -3,21 +3,17 @@ Claudinei de Oliveira - pt-BR, UTF-8 - 15-08-2024
 Manipulando o banco de dados sqlite3 
 # test_models.py
 """
-import os
 
-from flask import Flask
 from flask_testing import TestCase
 
 from src.dao.flask_sqlalchemy_dao import FlaskSQLAlchemyDAO
 from src.models.cliente_model import ClienteModel
 from src.services.database import db
-from src.utils.setup import create_tables
+from tests.mixins.flask_app_mixin import FlaskAppMixin
 
 
-class TestClienteModel(TestCase):
+class TestClienteModel(FlaskAppMixin, TestCase):
     __cliente_dao = FlaskSQLAlchemyDAO(ClienteModel)
-    SQLALCHEMY_DATABASE_URI = "sqlite://"
-    TESTING = True
     FAKE_DATA = {
         'nome': 'Valid Value',
         'cpf': '00000000000',
@@ -31,34 +27,6 @@ class TestClienteModel(TestCase):
         'telefone': '00000000000',
         'email': 'valid_value@mail.test',
     }
-
-    def create_app(self):
-        """Configurações do app para testes."""
-        app = Flask(
-            __name__,
-            template_folder=os.path.abspath('templates'),
-            static_folder=os.path.abspath('static')
-        )
-        app.config['SQLALCHEMY_DATABASE_URI'] = self.SQLALCHEMY_DATABASE_URI
-        app.config['TESTING'] = self.TESTING
-        app.secret_key = 'test'
-        db.init_app(app)
-        return app
-
-    def setUp(self):
-        """Será chamado antes de cada teste.
-        
-        Configura o banco de dados para testes.
-        """
-        create_tables(self.app)
-
-    def tearDown(self):
-        """Será chamado após cada teste.
-
-        Limpa o banco de dados após os testes.
-        """
-        db.session.remove()
-        db.drop_all()
 
     def test_create_cliente(self):
         """Teste: criar produto."""
